@@ -21,7 +21,7 @@ class App extends Component {
       <div className="App">
         <input type="text" onChange={(event) => this.textChangeHandler(event)} />
         <Validation length={this.state.length} />
-        { this.state.chars.map((c, index) => <Char mychar={c} clicked={() => this.charClickedHandler(index)} /> ) }
+        { this.state.chars.map((c, index) => <Char mychar={c} key={index} clicked={() => this.charClickedHandler(index)} /> ) }
       </div>
     );
   }
