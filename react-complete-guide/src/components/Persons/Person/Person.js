@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
-import Aux from '../../../hoc/Aux';
+import Aux from '../../../hoc/Auxiliary';
 import classes from './Person.css';
 
 class Person extends PureComponent {
