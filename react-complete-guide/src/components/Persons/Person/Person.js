@@ -1,7 +1,20 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classes from './Person.css';
 
-class Person extends Component {
+class Person extends PureComponent {
+
+    // shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('[Person.js] shouldComponentUpdate');
+    //     if ( nextProps.persons !== this.props.persons
+    //         || nextProps.onClick !== this.props.click
+    //         || nextProps.onChange !== this.props.changed) {
+    //             return true;
+    //         } else {
+    //             return false;
+    //         }
+
+    // }
+
     render() {
         console.log('[Person.js] rendering...');
         // const rnd = Math.random();
