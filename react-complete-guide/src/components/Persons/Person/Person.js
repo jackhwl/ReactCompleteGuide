@@ -22,12 +22,13 @@ class Person extends PureComponent {
         // if (rnd > 0.7) {
         //     throw new Error( 'Something went wrong' );
         // }
-        return (
-            <div className={classes.Person}>
-                <p onClick={this.props.click} onChange={this.props.changed}>I'm {this.props.name} and I am {this.props.age} years old!</p>
-                <p>{this.props.children}</p>
-                <input type="text" onChange={this.props.changed} value={this.props.name} />
-            </div>
+        return ( [
+            //<div className={classes.Person}>
+                <p key="i1" onClick={this.props.click} onChange={this.props.changed}>I'm {this.props.name} and I am {this.props.age} years old!</p>,
+                <p key="i2" >{this.props.children}</p>,
+                <input key="i3" type="text" onChange={this.props.changed} value={this.props.name} />
+            //</div>
+            ]
         )
     }
 }
