@@ -1,6 +1,8 @@
 import React, { PureComponent, Fragment } from 'react';
 import Aux from '../../../hoc/Auxiliary';
 import classes from './Person.css';
+import wrapperWithClass from '../../../hoc/wrapperWithClass';
+
 
 class Person extends PureComponent {
 
@@ -37,4 +39,4 @@ class Person extends PureComponent {
     }
 }
 
-export default Person;
+export default wrapperWithClass(Person, classes.Person);
