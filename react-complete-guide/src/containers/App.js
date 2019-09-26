@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-import WithClass from '../hoc/WithClass';
+//import WithClass from '../hoc/WithClass';
+import Aux from '../hoc/Auxiliary';
+import wrapperWithClass from '../hoc/wrapperWithClass';
+
 //import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
@@ -86,17 +89,18 @@ class App extends Component {
     }
 
     return (
-      <WithClass classes={classes.App}>
+      <Aux>
         <button onClick={() => this.setState({showCockpit: false})}>Remove Cockpit</button>
         { this.state.showCockpit ? (
         <Cockpit personsLength={this.state.persons.length} showPersons={this.state.showPersons} 
         title={this.props.appTitle} clicked={this.togglePersonsHandler} />
         ) : null}
         { persons}
-      </WithClass>
+      </Aux>
     );
     // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Hi, I\'m a React App!!!'));
   }
 }
 
-export default App;
+export default wrapperWithClass(App, classes.App);
+//export default App;
