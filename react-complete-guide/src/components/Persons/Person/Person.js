@@ -1,11 +1,20 @@
 import React, { PureComponent, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import Aux from '../../../hoc/Auxiliary';
 import classes from './Person.css';
 import wrapperWithClass from '../../../hoc/wrapperWithClass';
 
 
 class Person extends PureComponent {
-
+    constructor(props) {
+        super(props);
+        this.inputElementRef = React.createRef();
+    }
+    componentDidMount() {
+        //document.querySelector('input').focus();
+        //this.inputElement.focus();
+        this.inputElementRef.current.focus();
+    }
     // shouldComponentUpdate(nextProps, nextState) {
     //     console.log('[Person.js] shouldComponentUpdate');
     //     if ( nextProps.persons !== this.props.persons
@@ -31,12 +40,22 @@ class Person extends PureComponent {
             <Aux>
                 <p onClick={this.props.click} onChange={this.props.changed}>I'm {this.props.name} and I am {this.props.age} years old!</p>
                 <p>{this.props.children}</p>
-                <input type="text" onChange={this.props.changed} value={this.props.name} />
+                <input 
+                    //ref={(inputEl) => { this.inputElement = inputEl}}
+                    ref={this.inputElementRef}
+                type="text" onChange={this.props.changed} value={this.props.name} />
             </Aux>
             //</Fragment>
             //</div>
         )
     }
 }
+
+Person.propTypes = {
+    click: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number,
+    chaned: PropTypes.func
+};
 
 export default wrapperWithClass(Person, classes.Person);
