@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Aux from '../../../hoc/Auxiliary';
 import classes from './Person.css';
 import wrapperWithClass from '../../../hoc/wrapperWithClass';
-
+import AuthContext from '../../../context/auth-context';
 
 class Person extends PureComponent {
     constructor(props) {
@@ -38,7 +38,9 @@ class Person extends PureComponent {
             //<div className={classes.Person}>
             //<Fragment>
             <Aux>
-                {this.props.isAuth ? <p>Authenticated!</p> : <p>Please log in</p>}
+                <AuthContext.Consumer>
+                    {context => context.authenticated ? <p>Authenticated!</p> : <p>Please log in</p>}
+                </AuthContext.Consumer>
                 <p onClick={this.props.click} onChange={this.props.changed}>I'm {this.props.name} and I am {this.props.age} years old!</p>
                 <p>{this.props.children}</p>
                 <input 
