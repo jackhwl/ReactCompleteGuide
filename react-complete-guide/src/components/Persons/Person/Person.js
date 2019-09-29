@@ -10,10 +10,14 @@ class Person extends PureComponent {
         super(props);
         this.inputElementRef = React.createRef();
     }
+
+    static contextType = AuthContext;
+
     componentDidMount() {
         //document.querySelector('input').focus();
         //this.inputElement.focus();
         this.inputElementRef.current.focus();
+        console.log('this.context.authenticated=',this.context.authenticated);
     }
     // shouldComponentUpdate(nextProps, nextState) {
     //     console.log('[Person.js] shouldComponentUpdate');
@@ -38,9 +42,10 @@ class Person extends PureComponent {
             //<div className={classes.Person}>
             //<Fragment>
             <Aux>
-                <AuthContext.Consumer>
+                {/* <AuthContext.Consumer>
                     {context => context.authenticated ? <p>Authenticated!</p> : <p>Please log in</p>}
-                </AuthContext.Consumer>
+                </AuthContext.Consumer> */}
+                 {this.context.authenticated ? <p>Authenticated!</p> : <p>Please log in</p>}
                 <p onClick={this.props.click} onChange={this.props.changed}>I'm {this.props.name} and I am {this.props.age} years old!</p>
                 <p>{this.props.children}</p>
                 <input 
