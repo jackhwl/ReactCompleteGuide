@@ -1,3 +1,5 @@
+create-react-app burger
+
 #ReactCompleteGuide
 
 person.js
