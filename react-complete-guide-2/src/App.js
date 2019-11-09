@@ -1,30 +1,31 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
-class App extends Component {
-  state = {
+const App = props =>  {
+  const [personState, setPersonState] = useState({
     persons: [
       {name: 'Max', age: 27},
       {name: 'Jim', age: 22},
       {name: 'Jone', age: 33}
     ]
+  })
+
+  const switchNameHandler = () => {
+    setPersonState({
+      persons:[
+        {name: 'Maximilian', age: 29},
+        {name: 'Jim2', age: 22},
+        {name: 'Jone', age: 33}
+      ]})
   }
-  switchNameHandler = () => {
-    this.setState({persons:[
-      {name: 'Maximilian', age: 29},
-      {name: 'Jim2', age: 22},
-      {name: 'Jone', age: 33}
-    ]})
-  }
-  render() {
-    return (
+
+  return (
       <div className="App">
-        <h1>Hi, I'm react app</h1>
-        <button onClick={this.switchNameHandler}>Switch Name</button>
+        <h1>Hi, I'm react app this is {props.name}</h1>
+        <button onClick={switchNameHandler}>Switch Name</button>
         { 
-          this.state.persons.map(p => 
+          personState.persons.map(p => 
             <Person name={p.name} age={p.age} />
           )
         }
@@ -36,6 +37,5 @@ class App extends Component {
   }
   // return React.createElement('div', {className: 'App'}, 
   //           React.createElement('h1', null, 'Hi, i\'m react app'))
-}
 
 export default App;
