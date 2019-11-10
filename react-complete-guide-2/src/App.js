@@ -25,10 +25,17 @@ class App extends Component {
     })
   }
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      border: '1px solid lue',
+      padding: '8px',
+      cursor: 'pointer'
+    }
     return (
       <div className="App">
         <h1>Hi, I'm react app</h1>
-        <button onClick={this.switchNameHandler}>Switch Name</button>
+        <button style={style} onClick={this.switchNameHandler}>Switch Name</button>
         { 
           this.state.persons.map(p => 
             <Person name={p.name} age={p.age} key={p.name} />
