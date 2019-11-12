@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Person from './Person/Person';
+import UserInput from './UserInput/UserInput';
+import UserOutput from './UserOutput/UserOutput';
 
 class App extends Component {
   state = {
@@ -10,7 +12,8 @@ class App extends Component {
       {name: 'Jim', age: 22},
       {name: 'Jone', age: 33}
     ],
-    me: {name: 'Jack', age: 42}
+    me: {name: 'Jack', age: 42},
+    username: 'Tom'
   }
   switchNameHandler = () => {
     this.setState({persons:[
@@ -24,6 +27,10 @@ class App extends Component {
     this.setState({me: {name: event.target.value, age: 33}
     })
   }
+
+  usernameChangeHandler = (event) => {
+    this.setState({username: event.target.value})
+  }
   render() {
     const style = {
       backgroundColor: 'white',
@@ -34,7 +41,10 @@ class App extends Component {
     }
     return (
       <div className="App">
-        <h1>Hi, I'm react app</h1>
+        <UserInput nameChange={this.usernameChangeHandler} username={this.state.username}></UserInput>
+        <UserOutput username={this.state.username}></UserOutput>
+        <UserOutput username={this.state.username}></UserOutput>
+        
         <button style={style} onClick={this.switchNameHandler}>Switch Name</button>
         { 
           this.state.persons.map(p => 
