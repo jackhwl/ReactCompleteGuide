@@ -13,7 +13,8 @@ class App extends Component {
       {name: 'Jone', age: 33}
     ],
     me: {name: 'Jack', age: 42},
-    username: 'Tom'
+    username: 'Tom',
+    showPersons: false
   }
   switchNameHandler = () => {
     this.setState({persons:[
@@ -31,6 +32,12 @@ class App extends Component {
   usernameChangeHandler = (event) => {
     this.setState({username: event.target.value})
   }
+
+  togglePersonsHandler = () => {
+    var newState = !this.state.showPersons;
+    this.setState({showPersons: newState})
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -45,11 +52,12 @@ class App extends Component {
         <UserOutput username={this.state.username}></UserOutput>
         <UserOutput username={this.state.username}></UserOutput>
         
-        <button style={style} onClick={this.switchNameHandler}>Switch Name</button>
-        { 
-          this.state.persons.map(p => 
-            <Person name={p.name} age={p.age} key={p.name} />
-          )
+        <button style={style} onClick={this.togglePersonsHandler}>toggle persons</button>
+        { this.state.showPersons ? 
+            this.state.persons.map(p => 
+              <Person name={p.name} age={p.age} key={p.name} />
+            )
+          : null
         }
 
         <Person name={this.state.me.name} age={this.state.me.age} 
