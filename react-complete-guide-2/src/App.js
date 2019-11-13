@@ -4,6 +4,8 @@ import './App.css';
 import Person from './Person/Person';
 import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
+import Validation from './Validation/Validation'
+import Char from './Char/Char'
 
 class App extends Component {
   state = {
@@ -14,8 +16,10 @@ class App extends Component {
     ],
     me: {name: 'Jack', age: 42},
     username: 'Tom',
-    showPersons: false
+    showPersons: false,
+    a2text: ''
   }
+
   switchNameHandler = () => {
     this.setState({persons:[
       {id: '1', name: 'Maximilian', age: 29},
@@ -54,6 +58,17 @@ class App extends Component {
     this.setState({persons})
   }
 
+  lengthChangeHandler = (event) => {
+    this.setState({a2text: event.target.value})
+  }
+
+  charClickHandler = (index) => {
+    let a2text = this.state.a2text.split('')
+    a2text.splice(index,1)
+    a2text = a2text.join('')
+    this.setState({a2text})
+  }
+
   render() {
     const style = {
       backgroundColor: 'white',
@@ -78,6 +93,26 @@ class App extends Component {
     }
     return (
       <div className="App">
+        <ol>
+          <li>Create an input field (in App component) with a change listener which outputs the length of the entered text below it (e.g. in a paragraph).</li>
+          <li>Create a new component (=> ValidationComponent) which receives the text length as a prop</li>
+          <li>Inside the ValidationComponent, either output "Text too short" or "Text long enough" depending on the text length (e.g. take 5 as a minimum length)</li>
+          <li>Create another component (=> CharComponent) and style it as an inline box (=> display: inline-block, padding: 16px, text-align: center, margin: 16px, border: 1px solid black).</li>
+          <li>Render a list of CharComponents where each CharComponent receives a different letter of the entered text (in the initial input field) as a prop.</li>
+          <li>When you click a CharComponent, it should be removed from the entered text.</li>
+        </ol>
+        <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
+
+        <input type="text" onChange={this.lengthChangeHandler} value={this.state.a2text} />
+        <p></p>{this.state.a2text.length}
+        <Validation length={this.state.a2text.length}></Validation>
+        {
+          this.state.a2text.split('').map((c, index) =>
+            <Char char={c} key={index} click={() => this.charClickHandler(index)}></Char>
+            )
+        }
+        
+
         <UserInput nameChange={this.usernameChangeHandler} username={this.state.username}></UserInput>
         <UserOutput username={this.state.username}></UserOutput>
         <UserOutput username={this.state.username}></UserOutput>
