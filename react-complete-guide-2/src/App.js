@@ -8,9 +8,9 @@ import UserOutput from './UserOutput/UserOutput';
 class App extends Component {
   state = {
     persons: [
-      {name: 'Max', age: 27},
-      {name: 'Jim', age: 22},
-      {name: 'Jone', age: 33}
+      {id: '1', name: 'Max', age: 27},
+      {id: '2', name: 'Jim', age: 22},
+      {id: '3', name: 'Jone', age: 33}
     ],
     me: {name: 'Jack', age: 42},
     username: 'Tom',
@@ -18,15 +18,25 @@ class App extends Component {
   }
   switchNameHandler = () => {
     this.setState({persons:[
-      {name: 'Maximilian', age: 29},
-      {name: 'Jim2', age: 22},
-      {name: 'Jone', age: 33}
+      {id: '1', name: 'Maximilian', age: 29},
+      {id: '2', name: 'Jim2', age: 22},
+      {id: '3', name: 'Jone', age: 33}
     ]})
   }
 
   nameChangedHandler = (event) => {
     this.setState({me: {name: event.target.value, age: 33}
     })
+  }
+  pNameChangeHandler = (event, id) => {
+    const pIndex = this.state.persons.findIndex(p => p.id===id);
+    const person = {...this.state.persons[pIndex]}
+    person.name = event.target.value
+
+    const persons = [...this.state.persons]
+    persons[pIndex] = person
+
+    this.setState({ persons })
   }
 
   usernameChangeHandler = (event) => {
@@ -39,7 +49,7 @@ class App extends Component {
   }
 
   deletePersonHandler = (personIndex) => {
-    let persons = this.state.persons
+    let persons = [...this.state.persons]
     persons.splice(personIndex, 1)
     this.setState({persons})
   }
@@ -56,9 +66,11 @@ class App extends Component {
     if (this.state.showPersons){
       persons = (<div>
           {this.state.persons.map((p, index) => 
-            <Person name={p.name} age={p.age} key={index} click={()=>this.deletePersonHandler(index)} />
+            <Person name={p.name} age={p.age} key={p.id} 
+            changed={(event) => this.pNameChangeHandler(event, p.id)}
+            click={()=>this.deletePersonHandler(index)} />
           )}
-          <Person name={this.state.me.name} age={this.state.me.age} 
+          <Person name={this.state.me.name} age={this.state.me.age} key="4"
             changed={this.nameChangedHandler} 
             click={this.switchNameHandler}>My Hobbies: Racing</Person>
 
