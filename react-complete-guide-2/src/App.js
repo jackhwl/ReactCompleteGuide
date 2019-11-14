@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components'
 import logo from './logo.svg';
 import './App.css';
 import Person from './Person/Person';
@@ -6,6 +7,18 @@ import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
 import Validation from './Validation/Validation'
 import Char from './Char/Char'
+
+const StyledButton = styled.button`
+  background-color: green;
+  font: inherit;
+  border: 1px solid lue;
+  padding: 8px;
+  cursor: pointer;
+  &:hover {
+    background-color: lightgreen;
+    color: black;
+  }
+`
 
 class App extends Component {
   state = {
@@ -70,17 +83,6 @@ class App extends Component {
   }
 
   render() {
-    const style = {
-      backgroundColor: 'white',
-      font: 'inherit',
-      border: '1px solid lue',
-      padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-        backgroundColor: 'lightgreen',
-        color: 'black'
-      }
-    }
     let persons = null
     if (this.state.showPersons){
       persons = (<div>
@@ -94,11 +96,6 @@ class App extends Component {
             click={this.switchNameHandler}>My Hobbies: Racing</Person>
 
       </div>) 
-      style.backgroundColor = 'red'
-      style[':hover'] = {
-        backgroundColor: 'salmon',
-        color: 'black'
-      }
     }
 
     const classes = []
@@ -138,7 +135,7 @@ class App extends Component {
         <UserOutput username={this.state.username}></UserOutput>
         <UserOutput username={this.state.username}></UserOutput>
         
-        <button style={style} onClick={this.togglePersonsHandler}>toggle persons</button>
+        <StyledButton onClick={this.togglePersonsHandler}>toggle persons</StyledButton>
         { persons }
       </div>
 
