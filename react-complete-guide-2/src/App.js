@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import styled from 'styled-components'
 import logo from './logo.svg';
-import './App.css';
+import classes from './App.module.css';
 import Person from './Person/Person';
 import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
@@ -72,6 +72,7 @@ class App extends Component {
 
   render() {
     let persons = null
+    let btnClass = [classes.Button];
     if (this.state.showPersons){
       persons = (<div>
           {this.state.persons.map((p, index) => 
@@ -84,18 +85,19 @@ class App extends Component {
             click={this.switchNameHandler}>My Hobbies: Racing</Person>
 
       </div>) 
+      btnClass.push(classes.Red)
     }
 
-    const classes = []
+    const assignedClasses = []
     if (this.state.persons.length <=2){
-      classes.push('red')
+      assignedClasses.push(classes.red)
     }
     if (this.state.persons.length <=1){
-      classes.push('bold')
+      assignedClasses.push(classes.bold)
     }
     
     return (
-      <div className="App">
+      <div className={classes.App}>
         {/* <ol>
           <li>Assignment 2</li>
           <li>Create an input field (in App component) with a change listener which outputs the length of the entered text below it (e.g. in a paragraph).</li>
@@ -107,7 +109,7 @@ class App extends Component {
         </ol>
         <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p> */}
 
-        <p className={classes.join(' ')}>This is really working!</p>
+        <p className={assignedClasses.join(' ')}>This is really working!</p>
 
         <input type="text" onChange={this.lengthChangeHandler} value={this.state.a2text} />
         <p></p>{this.state.a2text.length}
@@ -118,12 +120,11 @@ class App extends Component {
             )
         }
         
-
         <UserInput nameChange={this.usernameChangeHandler} username={this.state.username}></UserInput>
         <UserOutput username={this.state.username}></UserOutput>
         <UserOutput username={this.state.username}></UserOutput>
         
-        <button className="button" onClick={this.togglePersonsHandler}>toggle persons</button>
+        <button className={btnClass.join(' ')} onClick={this.togglePersonsHandler}>toggle persons</button>
         { persons }
       </div>
 
