@@ -6,7 +6,7 @@ import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
 import Validation from './Validation/Validation'
 import Char from './Char/Char'
-import Radium from 'radium'
+import Radium, { StyleRoot } from 'radium'
 
 class App extends Component {
   state = {
@@ -111,6 +111,7 @@ class App extends Component {
     }
     
     return (
+      <StyleRoot>
       <div className="App">
         {/* <ol>
           <li>Assignment 2</li>
@@ -142,6 +143,7 @@ class App extends Component {
         <button style={style} onClick={this.togglePersonsHandler}>toggle persons</button>
         { persons }
       </div>
+      </StyleRoot>
     );
   }
   // return React.createElement('div', {className: 'App'}, 
