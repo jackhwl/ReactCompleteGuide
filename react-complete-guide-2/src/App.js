@@ -72,7 +72,7 @@ class App extends Component {
 
   render() {
     let persons = null
-    let btnClass = [classes.Button];
+    let btnClass = '';
     if (this.state.showPersons){
       persons = (<div>
           {this.state.persons.map((p, index) => 
@@ -85,7 +85,7 @@ class App extends Component {
             click={this.switchNameHandler}>My Hobbies: Racing</Person>
 
       </div>) 
-      btnClass.push(classes.Red)
+      btnClass = classes.Red
     }
 
     const assignedClasses = []
@@ -124,7 +124,7 @@ class App extends Component {
         <UserOutput username={this.state.username}></UserOutput>
         <UserOutput username={this.state.username}></UserOutput>
         
-        <button className={btnClass.join(' ')} onClick={this.togglePersonsHandler}>toggle persons</button>
+        <button className={btnClass} onClick={this.togglePersonsHandler}>toggle persons</button>
         { persons }
       </div>
 
