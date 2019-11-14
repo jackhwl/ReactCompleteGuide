@@ -9,13 +9,13 @@ import Validation from './Validation/Validation'
 import Char from './Char/Char'
 
 const StyledButton = styled.button`
-  background-color: green;
+  background-color: ${props => props.alt ? 'red': 'green'};
   font: inherit;
   border: 1px solid lue;
   padding: 8px;
   cursor: pointer;
   &:hover {
-    background-color: lightgreen;
+    background-color: ${props => props.alt ? 'salmon': 'lightgreen'};
     color: black;
   }
 `
@@ -135,7 +135,7 @@ class App extends Component {
         <UserOutput username={this.state.username}></UserOutput>
         <UserOutput username={this.state.username}></UserOutput>
         
-        <StyledButton onClick={this.togglePersonsHandler}>toggle persons</StyledButton>
+        <StyledButton alt={this.state.showPersons} onClick={this.togglePersonsHandler}>toggle persons</StyledButton>
         { persons }
       </div>
 
