@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components'
+// import styled from 'styled-components'
 import logo from './logo.svg';
 import './App.css';
 import Person from './Person/Person';
@@ -7,18 +7,6 @@ import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
 import Validation from './Validation/Validation'
 import Char from './Char/Char'
-
-const StyledButton = styled.button`
-  background-color: ${props => props.alt ? 'red': 'green'};
-  font: inherit;
-  border: 1px solid lue;
-  padding: 8px;
-  cursor: pointer;
-  &:hover {
-    background-color: ${props => props.alt ? 'salmon': 'lightgreen'};
-    color: black;
-  }
-`
 
 class App extends Component {
   state = {
@@ -135,7 +123,7 @@ class App extends Component {
         <UserOutput username={this.state.username}></UserOutput>
         <UserOutput username={this.state.username}></UserOutput>
         
-        <StyledButton alt={this.state.showPersons} onClick={this.togglePersonsHandler}>toggle persons</StyledButton>
+        <button className="button" onClick={this.togglePersonsHandler}>toggle persons</button>
         { persons }
       </div>
 
