@@ -90,10 +90,21 @@ class App extends Component {
             click={this.switchNameHandler}>My Hobbies: Racing</Person>
 
       </div>) 
+      style.backgroundColor = 'Grey'
     }
+
+    const classes = []
+    if (this.state.persons.length <=2){
+      classes.push('red')
+    }
+    if (this.state.persons.length <=1){
+      classes.push('bold')
+    }
+    
     return (
       <div className="App">
-        <ol>
+        {/* <ol>
+          <li>Assignment 2</li>
           <li>Create an input field (in App component) with a change listener which outputs the length of the entered text below it (e.g. in a paragraph).</li>
           <li>Create a new component (=> ValidationComponent) which receives the text length as a prop</li>
           <li>Inside the ValidationComponent, either output "Text too short" or "Text long enough" depending on the text length (e.g. take 5 as a minimum length)</li>
@@ -101,7 +112,9 @@ class App extends Component {
           <li>Render a list of CharComponents where each CharComponent receives a different letter of the entered text (in the initial input field) as a prop.</li>
           <li>When you click a CharComponent, it should be removed from the entered text.</li>
         </ol>
-        <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p>
+        <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p> */}
+
+        <p className={classes.join(' ')}>This is really working!</p>
 
         <input type="text" onChange={this.lengthChangeHandler} value={this.state.a2text} />
         <p></p>{this.state.a2text.length}
