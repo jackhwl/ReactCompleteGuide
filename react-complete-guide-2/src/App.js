@@ -6,6 +6,7 @@ import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
 import Validation from './Validation/Validation'
 import Char from './Char/Char'
+import Radium from 'radium'
 
 class App extends Component {
   state = {
@@ -75,7 +76,11 @@ class App extends Component {
       font: 'inherit',
       border: '1px solid lue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     }
     let persons = null
     if (this.state.showPersons){
@@ -90,7 +95,11 @@ class App extends Component {
             click={this.switchNameHandler}>My Hobbies: Racing</Person>
 
       </div>) 
-      style.backgroundColor = 'Grey'
+      style.backgroundColor = 'red'
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
     }
 
     const classes = []
@@ -139,4 +148,4 @@ class App extends Component {
   //           React.createElement('h1', null, 'Hi, i\'m react app'))
 }
 
-export default App;
+export default Radium(App);
