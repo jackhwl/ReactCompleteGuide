@@ -7,6 +7,7 @@ import UserInput from './UserInput/UserInput';
 import UserOutput from './UserOutput/UserOutput';
 import Validation from './Validation/Validation'
 import Char from './Char/Char'
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 
 class App extends Component {
   state = {
@@ -76,9 +77,11 @@ class App extends Component {
     if (this.state.showPersons){
       persons = (<div>
           {this.state.persons.map((p, index) => 
-            <Person name={p.name} age={p.age} key={p.id} 
-            changed={(event) => this.pNameChangeHandler(event, p.id)}
-            click={()=>this.deletePersonHandler(index)} />
+            <ErrorBoundary key={p.id} >
+              <Person name={p.name} age={p.age} 
+                changed={(event) => this.pNameChangeHandler(event, p.id)}
+                click={()=>this.deletePersonHandler(index)} />
+            </ErrorBoundary>
           )}
           <Person name={this.state.me.name} age={this.state.me.age} key="4"
             changed={this.nameChangedHandler} 
