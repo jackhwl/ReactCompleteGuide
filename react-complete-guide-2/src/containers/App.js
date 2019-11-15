@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 // import styled from 'styled-components'
-import logo from './logo.svg';
+// import logo from '.logo.svg';
 import classes from './App.module.css';
-import Person from './Person/Person';
-import UserInput from './UserInput/UserInput';
-import UserOutput from './UserOutput/UserOutput';
-import Validation from './Validation/Validation'
-import Char from './Char/Char'
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
+import Person from '../components/Persons/Person/Person';
+import UserInput from '../components/UserInput/UserInput';
+import UserOutput from '../components/UserOutput/UserOutput';
+import Validation from '../components/Validation/Validation'
+import Char from '../Char/Char'
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
 
 class App extends Component {
   state = {
@@ -77,11 +77,9 @@ class App extends Component {
     if (this.state.showPersons){
       persons = (<div>
           {this.state.persons.map((p, index) => 
-            <ErrorBoundary key={p.id} >
-              <Person name={p.name} age={p.age} 
+              <Person name={p.name} age={p.age}  key={p.id}
                 changed={(event) => this.pNameChangeHandler(event, p.id)}
                 click={()=>this.deletePersonHandler(index)} />
-            </ErrorBoundary>
           )}
           <Person name={this.state.me.name} age={this.state.me.age} key="4"
             changed={this.nameChangedHandler} 
