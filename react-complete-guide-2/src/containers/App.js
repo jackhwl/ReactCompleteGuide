@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
-// import styled from 'styled-components'
-// import logo from '.logo.svg';
 import classes from './App.module.css';
-import Person from '../components/Persons/Person/Person';
-import UserInput from '../components/UserInput/UserInput';
-import UserOutput from '../components/UserOutput/UserOutput';
-import Validation from '../components/Validation/Validation'
-import Char from '../Char/Char'
+import Persons from '../components/Persons/Persons';
 import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
+import Cockpit from '../components/Cockpit/Cockpit'
+import Assignment2 from '../components/Assignment2/Assignment2'
 
 class App extends Component {
   state = {
@@ -30,10 +26,6 @@ class App extends Component {
     ]})
   }
 
-  nameChangedHandler = (event) => {
-    this.setState({me: {name: event.target.value, age: 33}
-    })
-  }
   pNameChangeHandler = (event, id) => {
     const pIndex = this.state.persons.findIndex(p => p.id===id);
     const person = {...this.state.persons[pIndex]}
@@ -73,62 +65,26 @@ class App extends Component {
 
   render() {
     let persons = null
-    let btnClass = '';
+
     if (this.state.showPersons){
-      persons = (<div>
-          {this.state.persons.map((p, index) => 
-              <Person name={p.name} age={p.age}  key={p.id}
-                changed={(event) => this.pNameChangeHandler(event, p.id)}
-                click={()=>this.deletePersonHandler(index)} />
-          )}
-          <Person name={this.state.me.name} age={this.state.me.age} key="4"
-            changed={this.nameChangedHandler} 
-            click={this.switchNameHandler}>My Hobbies: Racing</Person>
-
-      </div>) 
-      btnClass = classes.Red
+      persons = <Persons 
+        persons={this.state.persons} 
+        clicked={this.deletePersonHandler} 
+        changed={this.pNameChangeHandler} />
     }
 
-    const assignedClasses = []
-    if (this.state.persons.length <=2){
-      assignedClasses.push(classes.red)
-    }
-    if (this.state.persons.length <=1){
-      assignedClasses.push(classes.bold)
-    }
-    
     return (
       <div className={classes.App}>
-        {/* <ol>
-          <li>Assignment 2</li>
-          <li>Create an input field (in App component) with a change listener which outputs the length of the entered text below it (e.g. in a paragraph).</li>
-          <li>Create a new component (=> ValidationComponent) which receives the text length as a prop</li>
-          <li>Inside the ValidationComponent, either output "Text too short" or "Text long enough" depending on the text length (e.g. take 5 as a minimum length)</li>
-          <li>Create another component (=> CharComponent) and style it as an inline box (=> display: inline-block, padding: 16px, text-align: center, margin: 16px, border: 1px solid black).</li>
-          <li>Render a list of CharComponents where each CharComponent receives a different letter of the entered text (in the initial input field) as a prop.</li>
-          <li>When you click a CharComponent, it should be removed from the entered text.</li>
-        </ol>
-        <p>Hint: Keep in mind that JavaScript strings are basically arrays!</p> */}
-
-        <p className={assignedClasses.join(' ')}>This is really working!</p>
-
-        <input type="text" onChange={this.lengthChangeHandler} value={this.state.a2text} />
-        <p></p>{this.state.a2text.length}
-        <Validation length={this.state.a2text.length}></Validation>
-        {
-          this.state.a2text.split('').map((c, index) =>
-            <Char char={c} key={index} click={() => this.charClickHandler(index)}></Char>
-            )
-        }
-        
-        <UserInput nameChange={this.usernameChangeHandler} username={this.state.username}></UserInput>
-        <UserOutput username={this.state.username}></UserOutput>
-        <UserOutput username={this.state.username}></UserOutput>
-        
-        <button className={btnClass} onClick={this.togglePersonsHandler}>toggle persons</button>
-        { persons }
+        <Assignment2 username={this.state.username} 
+          clicked={this.charClickHandler}
+          changed={this.lengthChangeHandler}
+          nameChange={this.usernameChangeHandler}
+          a2text={this.state.a2text}/>
+        <Cockpit showPersons={this.state.showPersons}
+          persons={this.state.persons} 
+          clicked={this.togglePersonsHandler} />
+        {persons}      
       </div>
-
     );
   }
   // return React.createElement('div', {className: 'App'}, 
