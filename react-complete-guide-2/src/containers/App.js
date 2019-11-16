@@ -81,6 +81,7 @@ class App extends Component {
           nameChange={this.usernameChangeHandler}
           a2text={this.state.a2text}/>
         <Cockpit showPersons={this.state.showPersons}
+          title = {this.props.name}
           persons={this.state.persons} 
           clicked={this.togglePersonsHandler} />
         {persons}      
