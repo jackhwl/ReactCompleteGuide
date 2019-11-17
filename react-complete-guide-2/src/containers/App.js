@@ -19,6 +19,7 @@ class App extends Component {
     me: {name: 'Jack', age: 42},
     username: 'Tom',
     showPersons: false,
+    showCockpit: true,
     a2text: ''
   }
 
@@ -105,10 +106,12 @@ class App extends Component {
           changed={this.lengthChangeHandler}
           nameChange={this.usernameChangeHandler}
           a2text={this.state.a2text}/> */}
-        <Cockpit showPersons={this.state.showPersons}
+        <button onClick={()=> this.setState({showCockpit: false})}>Remove Cockpit</button>
+        {this.state.showCockpit ? (<Cockpit showPersons={this.state.showPersons}
           title = {this.props.name}
           persons={this.state.persons} 
-          clicked={this.togglePersonsHandler} />
+        clicked={this.togglePersonsHandler} />) : null
+          }
         {persons}      
       </div>
     );

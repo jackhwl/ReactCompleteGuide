@@ -8,7 +8,16 @@ const Cockpit = (props) => {
       setTimeout(() => {
         alert('Saved data to cloud')
       }, 1000)
+      return () => {
+        console.log('[Cockpit.js] cleanup work in useEffect')
+      }
     }, [])  // [] only run first time, [props.persons] run whenever persons changes
+    useEffect(() => {
+      console.log('[Cockpit.js] 2nd useEffect');
+      return () => {
+        console.log('[Cockpit.js] cleanup work in 2nd useEffect')
+      }
+    })  // without [], it'll clean everytime after update
 
     const assignedClasses = []
     let btnClass = ''
