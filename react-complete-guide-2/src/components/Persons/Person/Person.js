@@ -6,13 +6,19 @@ import PropTypes from 'prop-types'
 
 
 class Person extends Component {
+    componentDidMount() {
+        this.inputElement.focus();
+    }
+    
     render() {
         console.log('[Person.js] rendering...')
         return (
             <Aux>
                 <p onClick={this.props.click}>I'm a Person! I'm {this.props.name}, {this.props.age} years old.</p>
                 <p>{this.props.children}</p>
-                <input type="text" onChange={this.props.changed} value={this.props.name} />
+                <input type="text" 
+                ref={(inputEl)=>{this.inputElement = inputEl}}
+                onChange={this.props.changed} value={this.props.name} />
             </Aux>
         )
     }
