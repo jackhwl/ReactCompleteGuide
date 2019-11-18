@@ -21,6 +21,7 @@ class App extends Component {
     username: 'Tom',
     showPersons: false,
     showCockpit: true,
+    changeCounter: 0,
     a2text: ''
   }
 
@@ -60,7 +61,12 @@ class App extends Component {
     const persons = [...this.state.persons]
     persons[pIndex] = person
 
-    this.setState({ persons })
+    this.setState((prevState, props) => {
+      return { 
+        persons,
+        changeCounter: prevState.changeCounter + 1 
+      }
+    })
   }
 
   usernameChangeHandler = (event) => {
