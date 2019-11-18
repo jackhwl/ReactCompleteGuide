@@ -4,6 +4,7 @@ import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit'
 // import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
 // import Assignment2 from '../components/Assignment2/Assignment2'
+import WithClass from '../hoc/WithClass'
 
 class App extends Component {
   constructor(props){
@@ -100,7 +101,7 @@ class App extends Component {
     }
 
     return (
-      <div className={classes.App}>
+      <WithClass classes={classes.App}>
         {/* <Assignment2 username={this.state.username} 
           clicked={this.charClickHandler}
           changed={this.lengthChangeHandler}
@@ -113,7 +114,7 @@ class App extends Component {
         clicked={this.togglePersonsHandler} />) : null
           }
         {persons}      
-      </div>
+      </WithClass>
     );
   }
   // return React.createElement('div', {className: 'App'}, 
