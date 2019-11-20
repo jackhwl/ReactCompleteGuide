@@ -31,7 +31,6 @@ class Persons extends Component {
                     key={p.id}
                     changed={(event) => this.props.changed(event, p.id)}
                     click={()=>this.props.clicked(index)} 
-                    isAuth={this.props.isAuthenticated}
                 />
             )
             }    

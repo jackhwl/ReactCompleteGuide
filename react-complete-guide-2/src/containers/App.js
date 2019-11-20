@@ -5,6 +5,7 @@ import Cockpit from '../components/Cockpit/Cockpit'
 // import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary'
 // import Assignment2 from '../components/Assignment2/Assignment2'
 import WithClass from '../hoc/WithClass'
+import AuthContext from '../context/auth-context'
 
 class App extends Component {
   constructor(props){
@@ -110,7 +111,6 @@ class App extends Component {
         persons={this.state.persons} 
         clicked={this.deletePersonHandler} 
         changed={this.pNameChangeHandler} 
-        isAuthenticated={this.state.authenticated}
       />
     }
 
@@ -122,17 +122,22 @@ class App extends Component {
           nameChange={this.usernameChangeHandler}
           a2text={this.state.a2text}/> */}
         <button onClick={()=> this.setState({showCockpit: false})}>Remove Cockpit</button>
-        {this.state.showCockpit ? (
-          <Cockpit 
-            showPersons={this.state.showPersons}
-            title = {this.props.name}
-            personsLength={this.state.persons.length} 
-            clicked={this.togglePersonsHandler} 
-            login={this.loginHandler}
-          />
-          ) : null
-        }
-        {persons}      
+        <AuthContext.Provider 
+          value={{
+            authenticated: this.state.authenticated,
+            login: this.loginHandler}}
+        >
+          {this.state.showCockpit ? (
+            <Cockpit 
+              showPersons={this.state.showPersons}
+              title = {this.props.name}
+              personsLength={this.state.persons.length} 
+              clicked={this.togglePersonsHandler} 
+            />
+            ) : null
+          }
+          {persons}   
+        </AuthContext.Provider>   
       </WithClass>
     );
   }
