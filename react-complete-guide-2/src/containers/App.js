@@ -22,6 +22,7 @@ class App extends Component {
     showPersons: false,
     showCockpit: true,
     changeCounter: 0,
+    authenticated: false,
     a2text: ''
   }
 
@@ -95,15 +96,22 @@ class App extends Component {
     this.setState({a2text})
   }
 
+  loginHandler = () => {
+    this.setState({authenticated: true})
+  }
+  
   render() {
     console.log('[App.js] render')
     let persons = null
 
     if (this.state.showPersons){
-      persons = <Persons 
+      persons = 
+      <Persons 
         persons={this.state.persons} 
         clicked={this.deletePersonHandler} 
-        changed={this.pNameChangeHandler} />
+        changed={this.pNameChangeHandler} 
+        isAuthenticated={this.state.authenticated}
+      />
     }
 
     return (
@@ -114,11 +122,16 @@ class App extends Component {
           nameChange={this.usernameChangeHandler}
           a2text={this.state.a2text}/> */}
         <button onClick={()=> this.setState({showCockpit: false})}>Remove Cockpit</button>
-        {this.state.showCockpit ? (<Cockpit showPersons={this.state.showPersons}
-          title = {this.props.name}
-          personsLength={this.state.persons.length} 
-        clicked={this.togglePersonsHandler} />) : null
-          }
+        {this.state.showCockpit ? (
+          <Cockpit 
+            showPersons={this.state.showPersons}
+            title = {this.props.name}
+            personsLength={this.state.persons.length} 
+            clicked={this.togglePersonsHandler} 
+            login={this.loginHandler}
+          />
+          ) : null
+        }
         {persons}      
       </WithClass>
     );

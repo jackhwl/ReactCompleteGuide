@@ -24,13 +24,16 @@ class Persons extends Component {
     render(){
         console.log('[Persons.js] rendering...')
         return this.props.persons.map((p, index) => {
-            return <Person 
-                name={p.name} 
-                age={p.age}  
-                key={p.id}
-                changed={(event) => this.props.changed(event, p.id)}
-                click={()=>this.props.clicked(index)} />
-
+            return (
+                <Person 
+                    name={p.name} 
+                    age={p.age}  
+                    key={p.id}
+                    changed={(event) => this.props.changed(event, p.id)}
+                    click={()=>this.props.clicked(index)} 
+                    isAuth={this.props.isAuthenticated}
+                />
+            )
             }    
         )}
     }
