@@ -9,7 +9,8 @@ import './Blog.css';
 class Blog extends Component {
     state = {
         posts: [],
-        selectedPostId: null
+        selectedPostId: null,
+        error: false
     }
     componentDidMount(){
         console.log('blog')
@@ -25,6 +26,7 @@ class Blog extends Component {
                 this.setState({posts: updatedPosts})
                 // console.log(response)
             }))
+            .catch(error => this.setState({error: true}))
     }
 
     postSelectedHandler = (id) => {
