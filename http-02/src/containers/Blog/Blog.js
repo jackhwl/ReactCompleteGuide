@@ -1,46 +1,12 @@
 import React, { Component } from 'react';
 //import axios from 'axios'
-import axios from '../../axios'
+import Posts from './Posts/Posts'
 
 import './Blog.css';
 
 class Blog extends Component {
-    state = {
-        posts: [],
-        selectedPostId: null,
-        error: false
-    }
-    componentDidMount(){
-        console.log('blog')
-        axios.get('/posts')
-            .then((response => {
-                const posts = response.data.slice(0,4)
-                const updatedPosts = posts.map(post => {
-                    return {
-                        ...post,
-                        author: 'Jack'
-                    }
-                })
-                this.setState({posts: updatedPosts})
-                // console.log(response)
-            }))
-            .catch(error => this.setState({error: true}))
-    }
-
-    postSelectedHandler = (id) => {
-        console.log('blog id changed', id)
-        this.setState({selectedPostId: id})
-    }
-
     render () {
-        const posts = this.state.posts.map(post=> 
-            <Post 
-                key={post.id} 
-                title={post.title} 
-                author={post.author} 
-                clicked={() => this.postSelectedHandler(post.id)}
-            />
-        )
+
         return (
             <div className="Blog">
                 <header>
@@ -51,9 +17,7 @@ class Blog extends Component {
                         </ul>
                     </nav>
                 </header>
-                <section className="Posts">
-                    {posts}
-                </section>
+                <Posts />
             </div>
         );
     }
