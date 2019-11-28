@@ -25,6 +25,73 @@
 }
 
 .Blog a:hover,
-.Blog a:active {
+.Blog a:active,
+.Blog a.active {
     color: #fa923f;
 }
+
+.hamburger {
+    width: 60px;
+    height: 45px;
+    position: relative;
+  }
+  
+  /* 
+  https://mp.weixin.qq.com/s/MogLCS3oEScaPc5vaQ4GiQ
+
+  .hamburger span {
+    width: 100%;
+    height: 9px;
+  
+    background-color: #d3531a;
+    border-radius: 9px;
+  
+    position: absolute;
+    left: 0;
+  }
+  
+  .hamburger span:nth-child(1) {
+    top: 0;
+  }
+  
+  .hamburger span:nth-child(2) {
+    top: 18px;
+  }
+  
+  .hamburger span:nth-child(3) {
+    top: 36px;
+  } */
+  
+  .hamburger::before,
+  .hamburger::after,
+  .hamburger__text::before {
+    content: "";
+    width: 100%;
+    height: 9px;
+  
+    background-color: #d3531a;
+    border-radius: 9px;
+  
+    position: absolute;
+    left: 0;
+  }
+  
+  .hamburger::before {
+    top: 0;
+  }
+  
+  .hamburger::after {
+    top: 18px;
+  }
+  
+  .hamburger__text::before {
+    top: 36px;
+  }
+  
+  .visually-hidden {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    width: 1px !important; 
+    height: 1px !important; 
+    overflow: hidden;
+  }
