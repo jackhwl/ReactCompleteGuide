@@ -12,6 +12,7 @@ class NewPost extends Component {
         submitted: false
     }
     componentDidMount(){
+        // if noauth this.props.history.replace("/posts")
         console.log(this.props)
     }    
     
