@@ -51,11 +51,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onPersonAdded: () => dispatch({type: actionTypes.ADD, newPerson: {
-            id: Math.random(), // not really unique but good enough here!
-            name: 'Max',
-            age: Math.floor( Math.random() * 40 )
-        }}),
+        onPersonAdded: (name, age) => dispatch({type: actionTypes.ADD, person: {name, age}}),
         onPersonDeleted: (id) => dispatch({type: actionTypes.DELETE, personId: id})
     }
 }
