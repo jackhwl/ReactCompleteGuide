@@ -31,14 +31,21 @@ export const subtract = (value) => {
     }
 }
 
-export const store_result = (result) => {
+export const saveResult = (result) => {
     return {
         type: STORE_RESULT,
         result
     }
 }
+export const storeResult = (result) => {
+    return dispatch => {
+        setTimeout( () => {
+            dispatch(saveResult(result))
+        }, 2000)
+    }
+}
 
-export const delete_result = (resultId) => {
+export const deleteResult = (resultId) => {
     return {
         type: DELETE_RESULT,
         resultId
