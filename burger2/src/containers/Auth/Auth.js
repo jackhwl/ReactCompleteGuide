@@ -5,6 +5,7 @@ import Button from '../../components/UI/Button/Button'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import classes from './Auth.module.css'
 import * as actions from '../../store/actions'
+import { Redirect } from 'react-router-dom'
 
 class Auth extends Component {
     state = {
@@ -115,8 +116,14 @@ class Auth extends Component {
             )
         }
 
+        let authRedirect = null
+        if (this.props.isAuth){
+            authRedirect = <Redirect to="/" />
+        }
+
         return (
             <div className={classes.Auth}>
+                {authRedirect}
                 {errorMessage}
                 <form onSubmit={this.submitHandler}>
                     {form}
@@ -132,7 +139,8 @@ class Auth extends Component {
 const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
-        error: state.auth.error
+        error: state.auth.error,
+        isAuth: state.auth.token !== null
     }
 }
 
