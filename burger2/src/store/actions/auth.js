@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as actionTypes from './actionTypes'
+import firebaseConfig from '../../firebase.auth'
 
 export const authStart = () => {
     return {
@@ -44,7 +45,7 @@ export const auth = (email, password, isSignup) => {
             password,
             returnSecureToken: true
         }
-        let api_key = 'AIzaSyC7TlFEBVh4GvRfelvTgjisnCW1HAXrY=M';
+        let api_key = firebaseConfig.apiKey;
         let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' + api_key;
         if (!isSignup) {
             url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=' + api_key;

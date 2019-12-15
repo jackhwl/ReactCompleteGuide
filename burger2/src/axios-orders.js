@@ -1,7 +1,7 @@
 import axios from 'axios'
-
+import firebaseConfig from './firebase.auth'
 const instance = axios.create({
-    baseURL: 'https://react-my-burger-66316.firebaseio.com/'
+    baseURL: firebaseConfig.databaseURL
 })
 
 //instance.defaults.headers.common['Authorization']='AUTH TOKEN FROM INSTANCE'
