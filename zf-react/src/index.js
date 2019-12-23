@@ -27,36 +27,38 @@ import ReactDOM from 'react-dom'
 
 
 // 3
-let element = (
-    <div>
-        <span>1</span>
-        <span>2</span>
-        <span>3</span>
-    </div>
-)
-let map2element = (
-    <div>
-        <div><span>1</span></div>
-        <div><span>2</span></div>
-        <div><span>3</span></div>
-    </div>
-)
-// turn element => element1
+// let element = (
+//     <div>
+//         <span>1</span>
+//         <span>2</span>
+//         <span>3</span>
+//     </div>
+// )
+// let map2element = (
+//     <div>
+//         <div><span>1</span></div>
+//         <div><span>2</span></div>
+//         <div><span>3</span></div>
+//     </div>
+// )
+// // turn element => element1
 
-let spans = [
-    <span>1</span>,
-    <span>2</span>,
-    <span>3</span>
-]
-//let divs = spans.map(item => <div>{item}</div>)
-let divs = React.Children.map(spans, (item, index) => <div key={index}>{item}</div>)
-function map(children, fn) {
-    return children.map(fn)
-}
+// let spans = [
+//     <span>1</span>,
+//     <span>2</span>,
+//     <span>3</span>
+// ]
+// //let divs = spans.map(item => <div>{item}</div>)
+// let divs = React.Children.map(spans, (item, index) => <div key={index}>{item}</div>)
+// function map(children, fn) {
+//     return children.map(fn)
+// }
 
-let element1 = <div>{divs}</div>
+// let element1 = <div>{divs}</div>
 
 
 // 4
-
-ReactDOM.render(element1, document.getElementById('root')) 
+setInterval(() => {
+    let element1 = <div>{new Date().toLocaleString()}</div>
+    ReactDOM.render(element1, document.getElementById('root')) 
+}, 1000)
