@@ -23,6 +23,9 @@ const Ingredients = () => {
       })
   }, [])
   
+  useEffect(() => {
+    console.log('RENDERING INGREDIENTS', ingredients)
+  }, [ingredients])
 
   const addIngredientHandler = ingredient => {
     fetch('https://react-hoos-update.firebaseio.com/ingredients.json', {
