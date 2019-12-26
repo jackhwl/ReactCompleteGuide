@@ -47,9 +47,14 @@ const Ingredients = () => {
   }
 
   const removeIngredientHandler = id => {
-    setIngredients(prevIngredients => 
-      prevIngredients.filter(ig => ig.id !== id )
-    )
+    fetch(`https://react-hoos-update.firebaseio.com/ingredients/${id}.json`, {
+      method: 'DELETE'
+    }).then(response => {
+        setIngredients(prevIngredients => 
+        prevIngredients.filter(ig => ig.id !== id )
+      )
+    })
+
   }
 
   return (
