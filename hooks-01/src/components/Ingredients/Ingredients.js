@@ -1,12 +1,26 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useReducer, useState, useEffect, useCallback } from 'react'
 
 import IngredientForm from './IngredientForm'
 import IngredientList from './IngredientList'
 import ErrorModal from '../UI/ErrorModal'
 import Search from './Search';
 
+const ingredientReducer = (currentIngredients, action) => {
+  switch (action.type) {
+    case 'SET':
+      return action.ingredients
+    case 'ADD':
+      return [...currentIngredients, action.ingredient]
+    case 'DELETE':
+      return currentIngredients.filter(ig => ig.id !== action.id)
+    default:
+      throw new Error('Should not get there!')
+  }
+}
+
 const Ingredients = () => {
-  const [ingredients, setIngredients] = useState([])
+  const [ingredients, dispatch] = useReducer(ingredientReducer, [])
+  // const [ingredients, setIngredients] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState()
 
@@ -15,7 +29,8 @@ const Ingredients = () => {
   }, [ingredients])
 
   const filteredIngredientsHandler = useCallback(filteredIngredients => {
-    setIngredients(filteredIngredients)
+    dispatch({type: 'SET', ingredients: filteredIngredients})
+    // setIngredients(filteredIngredients)
   }, [])
 
   const addIngredientHandler = ingredient => {
@@ -29,23 +44,28 @@ const Ingredients = () => {
       return response.json()
     })
     .then(responseData => {
-      setIngredients(prevIngredients => [
-        ...prevIngredients, 
-        {id: responseData.name, ...ingredient}
-      ])
+      dispatch({
+        type: 'ADD', 
+        ingredient: {id: responseData.name, ...ingredient}
+      })
+      // setIngredients(prevIngredients => [
+      //   ...prevIngredients, 
+      //   {id: responseData.name, ...ingredient}
+      // ])
     })
     
   }
 
   const removeIngredientHandler = id => {
     setIsLoading(true)
-    fetch(`https://react-hoos-update.firebaseio.com/ingredients/${id}.son`, {
+    fetch(`https://react-hoos-update.firebaseio.com/ingredients/${id}.json`, {
       method: 'DELETE'
     }).then(response => {
         setIsLoading(false)
-        setIngredients(prevIngredients => 
-        prevIngredients.filter(ig => ig.id !== id )
-      )
+        dispatch({type: 'DELETE', id})
+        // setIngredients(prevIngredients => 
+        //   prevIngredients.filter(ig => ig.id !== id )
+        // )
     }).catch(error => {
       setError('something went wrong:' + error.message)
       setIsLoading(false)
