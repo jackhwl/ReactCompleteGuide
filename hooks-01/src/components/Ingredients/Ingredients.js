@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useEffect, useCallback } from 'react'
+import React, { useReducer, useEffect, useCallback } from 'react'
 
 import IngredientForm from './IngredientForm'
 import IngredientList from './IngredientList'
@@ -18,11 +18,27 @@ const ingredientReducer = (currentIngredients, action) => {
   }
 }
 
+const httpReducer = (currentHttpState, action) => {
+  switch(action.type) {
+    case 'SEND':
+      return { loading: true, error: null }
+    case 'RESPONSE':
+      return { ...currentHttpState, loading: false }
+    case 'ERROR':
+      return { loading: false, error: action.errorMessage }
+    case 'CLEAR':
+      return { ...currentHttpState, error: null }
+    default:
+      throw new Error('Should not be reached!')
+  }
+}
+
 const Ingredients = () => {
   const [ingredients, dispatch] = useReducer(ingredientReducer, [])
   // const [ingredients, setIngredients] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState()
+  const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null })
+  // const [isLoading, setIsLoading] = useState(false)
+  // const [error, setError] = useState()
 
   useEffect(() => {
     console.log('RENDERING INGREDIENTS', ingredients)
@@ -34,13 +50,15 @@ const Ingredients = () => {
   }, [])
 
   const addIngredientHandler = ingredient => {
-    setIsLoading(true)
+    dispatchHttp({type: 'SEND'})
+    //setIsLoading(true)
     fetch('https://react-hoos-update.firebaseio.com/ingredients.json', {
       method: 'POST',
       body: JSON.stringify(ingredient),
       headers: {'Content-Type': 'application/json'}
     }).then(response => {
-      setIsLoading(false)
+      dispatchHttp({type: 'RESPONSE'})
+      //setIsLoading(false)
       return response.json()
     })
     .then(responseData => {
@@ -57,30 +75,34 @@ const Ingredients = () => {
   }
 
   const removeIngredientHandler = id => {
-    setIsLoading(true)
+    dispatchHttp({type: 'SEND'})
+    //setIsLoading(true)
     fetch(`https://react-hoos-update.firebaseio.com/ingredients/${id}.json`, {
       method: 'DELETE'
     }).then(response => {
-        setIsLoading(false)
-        dispatch({type: 'DELETE', id})
-        // setIngredients(prevIngredients => 
-        //   prevIngredients.filter(ig => ig.id !== id )
-        // )
+      dispatchHttp({type: 'RESPONSE'})  
+      //setIsLoading(false)
+      dispatch({type: 'DELETE', id})
+      // setIngredients(prevIngredients => 
+      //   prevIngredients.filter(ig => ig.id !== id )
+      // )
     }).catch(error => {
-      setError('something went wrong:' + error.message)
-      setIsLoading(false)
+      dispatchHttp({type: 'ERROR', errorMessage: 'something went wrong:' + error.message})
+      // setError('something went wrong:' + error.message)
+      // setIsLoading(false)
     })
   }
 
   const clearError = () => {
-    setError(null)
+    dispatchHttp({type: 'CLEAR'})
+    //setError(null)
   }
 
   return (
     <div className="App">
-      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
+      {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
       <IngredientForm 
-        loading={isLoading}
+        loading={httpState.loading}
         onAddIngredient={addIngredientHandler} />
 
       <section>
