@@ -4,6 +4,7 @@ import IngredientForm from './IngredientForm'
 import IngredientList from './IngredientList'
 import ErrorModal from '../UI/ErrorModal'
 import Search from './Search';
+import useHttp from '../../hooks/http'
 
 const ingredientReducer = (currentIngredients, action) => {
   switch (action.type) {
@@ -18,25 +19,12 @@ const ingredientReducer = (currentIngredients, action) => {
   }
 }
 
-const httpReducer = (currentHttpState, action) => {
-  switch(action.type) {
-    case 'SEND':
-      return { loading: true, error: null }
-    case 'RESPONSE':
-      return { ...currentHttpState, loading: false }
-    case 'ERROR':
-      return { loading: false, error: action.errorMessage }
-    case 'CLEAR':
-      return { ...currentHttpState, error: null }
-    default:
-      throw new Error('Should not be reached!')
-  }
-}
 
 const Ingredients = () => {
   const [ingredients, dispatch] = useReducer(ingredientReducer, [])
+  const { isLoading, error, data, sendRequest } = useHttp();
   // const [ingredients, setIngredients] = useState([])
-  const [httpState, dispatchHttp] = useReducer(httpReducer, { loading: false, error: null })
+
   // const [isLoading, setIsLoading] = useState(false)
   // const [error, setError] = useState()
 
@@ -75,23 +63,11 @@ const Ingredients = () => {
   }, [])
 
   const removeIngredientHandler = useCallback(id => {
-    dispatchHttp({type: 'SEND'})
-    //setIsLoading(true)
-    fetch(`https://react-hoos-update.firebaseio.com/ingredients/${id}.json`, {
-      method: 'DELETE'
-    }).then(response => {
-      dispatchHttp({type: 'RESPONSE'})  
-      //setIsLoading(false)
-      dispatch({type: 'DELETE', id})
-      // setIngredients(prevIngredients => 
-      //   prevIngredients.filter(ig => ig.id !== id )
-      // )
-    }).catch(error => {
-      dispatchHttp({type: 'ERROR', errorMessage: 'something went wrong:' + error.message})
-      // setError('something went wrong:' + error.message)
-      // setIsLoading(false)
-    })
-  }, [])
+    sendRequest(
+      `https://react-hoos-update.firebaseio.com/ingredients/${id}.json`, 
+      'DELETE'
+    )
+  }, [sendRequest])
 
   const clearError = useCallback(() => {
     dispatchHttp({type: 'CLEAR'})
@@ -106,9 +82,9 @@ const Ingredients = () => {
 
   return (
     <div className="App">
-      {httpState.error && <ErrorModal onClose={clearError}>{httpState.error}</ErrorModal>}
+      {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
       <IngredientForm 
-        loading={httpState.loading}
+        loading={isLoading}
         onAddIngredient={addIngredientHandler} />
 
       <section>
