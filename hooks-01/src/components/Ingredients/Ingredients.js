@@ -22,15 +22,22 @@ const ingredientReducer = (currentIngredients, action) => {
 
 const Ingredients = () => {
   const [ingredients, dispatch] = useReducer(ingredientReducer, [])
-  const { isLoading, error, data, sendRequest } = useHttp();
+  const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer } = useHttp();
   // const [ingredients, setIngredients] = useState([])
 
   // const [isLoading, setIsLoading] = useState(false)
   // const [error, setError] = useState()
 
   useEffect(() => {
-    console.log('RENDERING INGREDIENTS', ingredients)
-  }, [ingredients])
+    if (!isLoading && !error && reqIdentifer === 'REMOVE_INGREDIENT') {
+      dispatch({ type: 'DELETE', id: reqExtra })
+    } else if (!isLoading && !error && data && reqIdentifer === 'ADD_INGREDIENT') {
+      dispatch({
+        type: 'ADD', 
+        ingredient: {id: data.name, ...reqExtra}
+      })
+    }
+  }, [data, reqExtra, reqIdentifer, isLoading, error])
 
   const filteredIngredientsHandler = useCallback(filteredIngredients => {
     dispatch({type: 'SET', ingredients: filteredIngredients})
@@ -38,34 +45,44 @@ const Ingredients = () => {
   }, [])
 
   const addIngredientHandler = useCallback(ingredient => {
-    dispatchHttp({type: 'SEND'})
-    //setIsLoading(true)
-    fetch('https://react-hoos-update.firebaseio.com/ingredients.json', {
-      method: 'POST',
-      body: JSON.stringify(ingredient),
-      headers: {'Content-Type': 'application/json'}
-    }).then(response => {
-      dispatchHttp({type: 'RESPONSE'})
-      //setIsLoading(false)
-      return response.json()
-    })
-    .then(responseData => {
-      dispatch({
-        type: 'ADD', 
-        ingredient: {id: responseData.name, ...ingredient}
-      })
-      // setIngredients(prevIngredients => [
-      //   ...prevIngredients, 
-      //   {id: responseData.name, ...ingredient}
-      // ])
-    })
+    sendRequest(
+      `https://react-hoos-update.firebaseio.com/ingredients.json`, 
+      'POST',
+      JSON.stringify(ingredient),
+      ingredient,
+      'ADD_INGREDIENT'
+    )
+    // dispatchHttp({type: 'SEND'})
+    // //setIsLoading(true)
+    // fetch('https://react-hoos-update.firebaseio.com/ingredients.json', {
+    //   method: 'POST',
+    //   body: JSON.stringify(ingredient),
+    //   headers: {'Content-Type': 'application/json'}
+    // }).then(response => {
+    //   dispatchHttp({type: 'RESPONSE'})
+    //   //setIsLoading(false)
+    //   return response.json()
+    // })
+    // .then(responseData => {
+    //   dispatch({
+    //     type: 'ADD', 
+    //     ingredient: {id: responseData.name, ...ingredient}
+    //   })
+    //   // setIngredients(prevIngredients => [
+    //   //   ...prevIngredients, 
+    //   //   {id: responseData.name, ...ingredient}
+    //   // ])
+    // })
     
   }, [])
 
   const removeIngredientHandler = useCallback(id => {
     sendRequest(
       `https://react-hoos-update.firebaseio.com/ingredients/${id}.json`, 
-      'DELETE'
+      'DELETE',
+      null,
+      id,
+      'REMOVE_INGREDIENT'
     )
   }, [sendRequest])
 
