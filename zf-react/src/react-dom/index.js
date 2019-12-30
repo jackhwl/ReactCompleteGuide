@@ -10,6 +10,12 @@ function render(node, parent) {
     let type, props
     type = node.type //h1 / Function / ClassComponent
     props = node.props
+    if (typeof type === 'function') {
+        let element = type(props)
+        //console.log('element=', element)
+        type = element.type
+        props = element.props
+    }
     let domElement = document.createElement(type)
     for(let propName in props){
         if (propName === 'children') {
