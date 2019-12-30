@@ -58,12 +58,15 @@ import ReactDOM from 'react-dom'
 
 
 // 4
-setInterval(() => {
-    let element1 = <div>{new Date().toLocaleString()}</div>
-    /**
-     *  Object.freeze(element.props);
-        Object.freeze(element);
-     */
+// setInterval(() => {
+//     let element1 = <div>{new Date().toLocaleString()}</div>
+//     /**
+//      *  Object.freeze(element.props);
+//         Object.freeze(element);
+//      */
 
-    ReactDOM.render(element1, document.getElementById('root')) 
-}, 1000)
+//     ReactDOM.render(element1, document.getElementById('root')) 
+// }, 1000)
+
+let element2 = React.createElement("h1", null, "heloo")
+ReactDOM.render(element2, document.getElementById('root')) 

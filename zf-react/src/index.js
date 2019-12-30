@@ -26,7 +26,10 @@ import PropTypes from 'prop-types'
 
 // propeTypes
 
-class Person extends Component {
+class person extends Component {
+    static defaultProps = {
+        gender: 'male'
+    }
     static propTypes = {
         //age: PropTypes.number.isRequired,
         gender: PropTypes.oneOf(['male', 'female']).isRequired,
@@ -61,4 +64,7 @@ let personProps = {
     friends: [{name: 'jone', age: 10}, {name: 'john', age: -20}]
 }
 
-ReactDOM.render(<Person {...personProps} />, document.getElementById('root')) 
+// ReactDOM.render(<Person {...personProps} />, document.getElementById('root')) 
+
+let element2 = React.createElement(person, personProps )
+ReactDOM.render(element2, document.getElementById('root')) 
