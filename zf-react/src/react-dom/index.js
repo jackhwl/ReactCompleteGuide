@@ -10,6 +10,11 @@ function render(node, parent) {
     let type, props
     type = node.type //h1 / Function / ClassComponent
     props = node.props
+    if (type.isReactComponent) {
+        let element = new type(props).render()
+        type = element.type
+        props = element.props
+    }
     if (typeof type === 'function') {
         let element = type(props)
         //console.log('element=', element)

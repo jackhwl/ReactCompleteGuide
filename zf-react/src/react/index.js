@@ -2,7 +2,14 @@ const hasSymbol = typeof Symbol === 'function' && Symbol.for;
 export const REACT_ELEMENT_TYPE = hasSymbol
     ? Symbol.for('react.element')
     : 0xeac7;
-    
+
+class Component {
+    constructor(props) {
+        this.props = props
+    }
+    static isReactComponent = true
+}
+
 function createElement(type, config, children) {
     const props = {}
     for(let key in config) {
@@ -19,4 +26,4 @@ function createElement(type, config, children) {
     return {$$typeof: REACT_ELEMENT_TYPE, type, props}
 }
 
-export default { createElement }
+export default { createElement, Component }
