@@ -7,12 +7,22 @@ class Counter extends React.Component {
         super(props)
         this.state = { number: 0}
     }
+
+    add = (event) => {
+        console.log(event)
+        this.setState({number: this.state.number + 1})
+    }
+    add1() {
+        this.setState({number: this.state.number + 1})
+    }
     render() {
         console.log('render')
         return (
             <div>
                 <p>{this.state.number}</p>
-                <button onClick={()=> this.setState({number: this.state.number + 1})}>+++</button>
+                <button onClick={this.add}>+++ anonymous function</button>
+                <button onClick={(event) => this.add1(event)}>+++111 arrow function</button>
+                <button onClick={this.add1.bind(this)}>+++ bind</button>
             </div>
         )
     }
