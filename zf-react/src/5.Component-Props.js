@@ -22,9 +22,9 @@ import PropTypes from 'prop-types'
 
 // ReactDOM.render(<Welcome name="jack" />, document.getElementById('root'))
 
-//7 pure function
+//5.5 pure function
 
-// propeTypes
+//5.6 propeTypes
 
 class person extends Component {
     static defaultProps = {
