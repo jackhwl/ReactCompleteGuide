@@ -1,67 +1,49 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-/**
- * 7.2 this
- */
-// class Counter extends React.Component {
-//     //state = { number: 0 }
-//     constructor(props) {
-//         super(props)
-//         this.state = { number: 0}
-//     }
 
-//     add = (event) => {
-//         console.log(event)
-//         this.setState({number: this.state.number + 1})
-//     }
-//     add1() {
-//         this.setState({number: this.state.number + 1})
-//     }
-//     render() {
-//         console.log('render')
-//         return (
-//             <div>
-//                 <p>{this.state.number}</p>
-//                 <button onClick={this.add}>+++ anonymous function</button>
-//                 <button onClick={(event) => this.add1(event)}>+++111 arrow function</button>
-//                 <button onClick={this.add1.bind(this)}>+++ bind</button>
-//             </div>
-//         )
-//     }
-// }
-// // let counter = new Counter({name: 'jack'})
-// // console.log(counter.state, counter.__proto__.state)
+class Counter extends React.Component {
+    static defaultProps = {
+        name: 'jack'
+    }
+    constructor(props){
+        super(props)
+        this.state = { count: 0}
+        console.log('1. run constructor, set initial state')
+    }
 
-/**
- * 7.4 Ref in class component
- */
-class Username extends React.Component {
-    constructor(){
-        super()
-        this.inputRef = React.createRef()
+    componentWillMount() {
+        console.log('2.componentWillMount')
     }
+
+    addHandler = (event) => {
+        this.setState({count: this.state.count + 1 })
+    }
+
+    // run componentDidMount after v-dom mounted  to real-som, then can get real-dom element
+    componentDidMount() {
+        console.log('4.componentDidMount')
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('5.shouldComponentUpdate')
+        return nextState.count % 3 === 0
+    }
+    componentWillUpdate() {
+        console.log('6.componentWillUpdate')
+    }
+    componentDidUpdate() {
+        console.log('7.componentDidUpdate')
+    }
+    //render return virtual-dom
     render() {
-        return (
-            <input ref={this.inputRef} />
-        )
-    }
-}
-class Form extends React.Component {
-    constructor(){
-        super();
-        this.username = React.createRef()
-    }
-    getFocus = (event) => {
-        this.username.current.inputRef.current.focus()
-    }
-    render() {
+        console.log('3. render determine the v-dom going to display')
         return (
             <div>
-                <Username ref={this.username} />
-                <button onClick={this.getFocus}>username get focus</button>
+                <p>{this.state.name}</p>
+                <p>{this.state.count}</p>
+                <button onClick={this.addHandler}>+</button>
             </div>
         )
     }
 }
 
-ReactDOM.render(<Form />, document.getElementById('root'))
+ReactDOM.render(<Counter />, document.getElementById('root'))
