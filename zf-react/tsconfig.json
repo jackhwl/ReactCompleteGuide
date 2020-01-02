@@ -20,6 +20,6 @@
     "jsx": "react"
   },
   "include": [
-    "src", "lesson/8.2.2.2.multi-layer-hoc.js"
+    "src", "lesson/8.2.2.2.multi-layer-hoc.js", "lesson/8.2.3.react-props.js"
   ]
 }
