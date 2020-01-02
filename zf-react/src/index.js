@@ -1,55 +1,34 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-function loadFromLocalStore(OldComponent, name) {
-    return class extends React.Component {
-        state = { value: null}
-        componentDidMount() {
-            let value = localStorage.getItem(name)
-            console.log('local value=', value)
-            this.setState({value})
-        } 
-        render() {
-            console.log('local render state value', this.state.value)
-            return (
-                <OldComponent value={this.state.value} />
-            )
-        }
+
+class MouseTracker extends React.Component {
+    state = {
+        x: 0, y: 0
+    }
+    mouseMoveHandler = (event) => {
+        this.setState({
+            x: event.clientX,
+            y: event.clientY
+        })
+    }
+    render() {
+        return (
+            <div onMouseMove={this.mouseMoveHandler}>
+                {this.props.render(this.state)}
+            </div>
+        )
     }
 
 }
-function loadFromAjax(OldComponent) {
-    return class extends React.Component {
-        state = { value: null}
-        componentDidMount() {
-            let value = this.props.value
-            console.log('ajax value=', value)
-            fetch('/dict.json')
-            .then(response => response.json())
-            .then(data => {
-                console.log('ajax value2=', value)
-                console.log('ajax this.props.value=', this.props.value)
-                this.setState({value: data[this.props.value]})
-            })
-        }
-        render() {
-            console.log('ajax render state value', this.state.value)
-            return <OldComponent value={this.state.value} />
-        }
-    }
-}
-const UserName = (props) => {
-    return <input defaultValue={props.value} />
-}
-// const Password = (props) => {
-//     return <input defaultValue={props.value} />
-// }
-const AjaxUserName = loadFromAjax(UserName)
-//console.log(<AjaxUserName />)
-let LocalUserName = loadFromLocalStore(AjaxUserName, 'username')
-//let LocalPassword = loadFromLocalStore(Password, 'password')
 
 ReactDOM.render(
-<div>
-    <LocalUserName />
-    {/* <AjaxUserName /> */}
-</div>, document.getElementById('root'))
+    <div>
+        <MouseTracker render={
+                props => (
+                    <>
+                        <h1>please move your mouse</h1>
+                        <p>current mouse position: x={props.x} y={props.y}</p>
+                    </>
+                )
+            } />
+    </div>, document.getElementById('root'))

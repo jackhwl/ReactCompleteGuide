@@ -20,6 +20,6 @@
     "jsx": "react"
   },
   "include": [
-    "src"
+    "src", "lesson/8.2.2.2.multi-layer-hoc.js"
   ]
 }
