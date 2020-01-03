@@ -1,9 +1,10 @@
 import React from 'react'
 import RouterContext from './RouterContext'
-
+import pathToRegexp from 'path-to-regexp'
+console.log(pathToRegexp)
 /**
  * Route represent one route rule
- * path: rule's path
+ * path: rule's path 
  * component: the component need render 
  */
 export default class Route extends React.Component {
@@ -11,7 +12,10 @@ export default class Route extends React.Component {
     render() {
         let {path, component: RouteComponent, exact} = this.props
         let pathname = this.context.location.pathname
-        if ((exact && pathname === path) || (!exact && pathname.startsWith(path))) {
+        let paramNames = []
+        let regexp = pathToRegexp(path, paramNames, { end: exact })
+        //if ((exact && pathname === path) || (!exact && pathname.startsWith(path))) {
+        if (regexp.test(pathname)) {
             return <RouteComponent />
         }
         return null
