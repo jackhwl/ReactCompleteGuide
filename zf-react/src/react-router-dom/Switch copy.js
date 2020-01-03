@@ -14,7 +14,7 @@ export default function (props) {
     let pathname = routerContext.location.pathname
     for (let i = 0; i < children.length; i++){
         let child = children[i]
-        let {path = "/", component, exact=false} = child.props
+        let {path = "/", component, exact} = child.props
         let regexp = pathToRegexp(path, [], { end: exact})
         let matched = pathname.match(regexp)
         if (matched) {

@@ -32,7 +32,7 @@ ReactDOM.render(
                         <Route path="/user" component={User} />
                         <Route path="/user" component={User} />
                         <Route path="/profile" component={Profile} />
-                        <Redirect to="/" />
+                        <Redirect from="/home" to="/" />
                     </Switch>
                 </div>
             </div>
