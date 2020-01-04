@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HashRouter as Router, Route, Link, Switch, Redirect } from './react-router-dom'
+import { HashRouter as Router, Route, Link, Switch, Redirect, NavLink } from './react-router-dom'
 import Home from './components/Home'
 import User from './components/User'
 import Profile from './components/Profile'
@@ -20,10 +20,10 @@ ReactDOM.render(
                     <div className="navbar-brand">Jack</div>
                 </div>
                 <ul className="nav navbar-nav">
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/user">User</Link></li>
-                    <li><Link to="/profile">Profile</Link></li>
-                    <li><Link to="/login">Login</Link></li>
+                    <li><NavLink exact={true} to="/">Home</NavLink></li>
+                    <li><NavLink to="/user">User</NavLink></li>
+                    <li><NavLink to="/profile">Profile</NavLink></li>
+                    <li><NavLink to="/login">Login</NavLink></li>
                 </ul>
                 <div>{localStorage.getItem('login')}</div>
             </div>

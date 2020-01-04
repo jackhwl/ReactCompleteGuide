@@ -11,12 +11,17 @@ export default class Route extends React.Component {
     static contextType = RouterContext
     render() {
         console.log('jack', this.props)
-        let {path='/', component: RouteComponent, exact=false, render} = this.props
+        let {path='/', component: RouteComponent, exact=false, render, children} = this.props
+        path = typeof path==='string' ? path : path.pathname
         let pathname = this.context.location.pathname
         let paramNames = []
         let regexp = pathToRegexp(path, paramNames, { end: exact })
         paramNames = paramNames.map(item => item.name) //["id", "age "]
         let matched = pathname.match(regexp) //['/user/detail/myid/10', 'myid',10]
+        let routeProps = {
+            location: this.context.location,
+            history: this.context.history
+        }
         if(matched){
             let [url, ...values] = matched // url='/user/detail/myid/10' values=['myid',10]
             let params=values.reduce((memo, value, index) => {
@@ -29,21 +34,24 @@ export default class Route extends React.Component {
                 isExact: pathname===url,
                 params
             }
-            let routeProps = {
-                location: this.context.location,
-                history: this.context.history,
-                match
-            }
+            routeProps.match = match
             if (RouteComponent){
                 console.log('rc=', RouteComponent)
                 return <RouteComponent {...routeProps} /> 
             } else if(render) {
                 return render(routeProps)
+            } else if(children) {
+                return children(routeProps)
+            } else {
+                return null
+            }
+        } else {
+            if(children) {
+                return children(routeProps)
             } else {
                 return null
             }
         }
-        return null
     }
 }
 
