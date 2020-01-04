@@ -19,7 +19,7 @@ ReactDOM.render(
                 </div>
                 <ul className="nav navbar-nav">
                     <li><Link to="/">Home</Link></li>
-                    <li><Link to="/user">User</Link></li>
+                    <li><Link exact={false} to="/user">User</Link></li>
                     <li><Link to="/profile">Profile</Link></li>
                 </ul>
             </div>
@@ -29,8 +29,8 @@ ReactDOM.render(
                 <div className="col-md-12">
                     <Switch>
                         <Route path="/" exact component={Home} />
-                        <Route path="/user" component={User} />
-                        <Route path="/user" component={User} />
+                        <Route exact={false} path="/user" component={User} />
+                        <Route exact={false} path="/user" component={User} />
                         <Route path="/profile" component={Profile} />
                         <Redirect from="/home" to="/" />
                     </Switch>

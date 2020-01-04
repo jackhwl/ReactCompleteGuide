@@ -16,7 +16,7 @@ export default class Route extends React.Component {
         let regexp = pathToRegexp(path, paramNames, { end: exact })
         //if ((exact && pathname === path) || (!exact && pathname.startsWith(path))) {
         if (regexp.test(pathname)) {
-            return <RouteComponent />
+            return <RouteComponent history={this.context.history} />
         }
         return null
     }
