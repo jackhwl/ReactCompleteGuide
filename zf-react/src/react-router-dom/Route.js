@@ -10,7 +10,8 @@ console.log(pathToRegexp)
 export default class Route extends React.Component {
     static contextType = RouterContext
     render() {
-        let {path='/', component: RouteComponent, exact=false} = this.props
+        console.log('jack', this.props)
+        let {path='/', component: RouteComponent, exact=false, render} = this.props
         let pathname = this.context.location.pathname
         let paramNames = []
         let regexp = pathToRegexp(path, paramNames, { end: exact })
@@ -33,7 +34,14 @@ export default class Route extends React.Component {
                 history: this.context.history,
                 match
             }
-            return <RouteComponent {...routeProps} />
+            if (RouteComponent){
+                console.log('rc=', RouteComponent)
+                return <RouteComponent {...routeProps} /> 
+            } else if(render) {
+                return render(routeProps)
+            } else {
+                return null
+            }
         }
         return null
     }

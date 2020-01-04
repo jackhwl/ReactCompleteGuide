@@ -4,6 +4,8 @@ import { HashRouter as Router, Route, Link, Switch, Redirect } from './react-rou
 import Home from './components/Home'
 import User from './components/User'
 import Profile from './components/Profile'
+import Login from './components/Login'
+import Private from './components/Private'
 import 'bootstrap/dist/css/bootstrap.css'
 /**
  * Router is container
@@ -21,7 +23,9 @@ ReactDOM.render(
                     <li><Link to="/">Home</Link></li>
                     <li><Link to="/user">User</Link></li>
                     <li><Link to="/profile">Profile</Link></li>
+                    <li><Link to="/login">Login</Link></li>
                 </ul>
+                <div>{localStorage.getItem('login')}</div>
             </div>
         </div>
         <div className="container">
@@ -31,7 +35,8 @@ ReactDOM.render(
                         <Route path="/" exact component={Home} />
                         <Route path="/user" component={User} />
                         <Route path="/user" component={User} />
-                        <Route path="/profile" component={Profile} />
+                        <Private path="/profile" component={Profile} />
+                        <Route path="/login" component={Login} />
                         <Redirect from="/home" to="/" />
                     </Switch>
                 </div>
