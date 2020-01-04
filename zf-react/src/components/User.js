@@ -2,6 +2,7 @@ import React from 'react'
 import {Link, Route} from '../react-router-dom'
 import UserAdd from './UserAdd'
 import UserList from './UserList'
+import UserDetail from './UserDetail'
 
 export default function(props) {
     console.log(props)
@@ -14,8 +15,9 @@ export default function(props) {
                 </ul>
             </div>
             <div className="col-md-10">
-                <Route exact={false} path="/user/list" component={UserList} />
-                <Route exact={false} path="/user/add" component={UserAdd} />
+                <Route path="/user/list" component={UserList} />
+                <Route path="/user/add" component={UserAdd} />
+                <Route path="/user/detail/:id" component={UserDetail} />
             </div>
         </div>
     )

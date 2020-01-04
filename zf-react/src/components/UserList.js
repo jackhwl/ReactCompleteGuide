@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-
+import {Link} from '../react-router-dom'
 export default function(props) {
     let [users, setUsers] = useState([])
     useEffect(() => {
@@ -13,7 +13,7 @@ export default function(props) {
                 users.map(user => 
                     (
                     <li className="list-group-item" key={user.id}>
-                        {user.username}
+                        <Link to={{pathname:`/user/detail/${user.id}`, state: user}}>{user.username}</Link>
                     </li>
                     )
                 )
