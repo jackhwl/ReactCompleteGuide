@@ -6,6 +6,7 @@ import Redirect from './Redirect'
 import NavLink from './NavLink'
 import withRouter from './withRouter'
 import Prompt from './Prompt'
+import BrowserRouter from './BrowserRouter'
 export {
     HashRouter,
     Route,
@@ -14,5 +15,6 @@ export {
     Redirect,
     NavLink,
     withRouter,
-    Prompt
+    Prompt,
+    BrowserRouter
 }
