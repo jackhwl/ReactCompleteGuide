@@ -29,6 +29,11 @@ export default class HashRouter extends React.Component {
         let history = {
             location: this.state.location,
             push(to) {
+                if(history.prompt){
+                    let target = typeof to === 'string' ? { pathname: to } : to
+                    let yes = window.confirm(history.prompt(target))
+                    if(!yes) return
+                }
                 if(typeof to === 'object') {
                     let {pathname, state} = to
                     that.locationState = state
@@ -36,6 +41,12 @@ export default class HashRouter extends React.Component {
                 } else {
                     window.location.hash = to
                 }
+            },
+            block(prompt){
+                history.prompt = prompt
+            },
+            unblock(){
+                history.prompt = null
             }
         }
         let routerValue = {

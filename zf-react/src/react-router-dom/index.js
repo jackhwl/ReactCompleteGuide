@@ -5,6 +5,7 @@ import Switch from './Switch'
 import Redirect from './Redirect'
 import NavLink from './NavLink'
 import withRouter from './withRouter'
+import Prompt from './Prompt'
 export {
     HashRouter,
     Route,
@@ -12,5 +13,6 @@ export {
     Switch,
     Redirect,
     NavLink,
-    withRouter
+    withRouter,
+    Prompt
 }
