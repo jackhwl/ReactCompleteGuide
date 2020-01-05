@@ -6,6 +6,7 @@ import User from './components/User'
 import Profile from './components/Profile'
 import Login from './components/Login'
 import Private from './components/Private'
+import NavHeader from './components/NavHeader'
 import 'bootstrap/dist/css/bootstrap.css'
 /**
  * Router is container
@@ -16,9 +17,7 @@ ReactDOM.render(
     <>
         <div className="navbar nvabar-inverse">
             <div className="container-fluid">
-                <div className="navbar-heading">
-                    <div className="navbar-brand">Jack</div>
-                </div>
+                <NavHeader title="Wenlin" />
                 <ul className="nav navbar-nav">
                     <li><NavLink exact={true} to="/">Home</NavLink></li>
                     <li><NavLink to="/user">User</NavLink></li>

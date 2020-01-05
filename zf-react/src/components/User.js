@@ -1,5 +1,5 @@
 import React from 'react'
-import {NavLink, Route} from '../react-router-dom'
+import {NavLink, Route, Switch, Redirect} from '../react-router-dom'
 import UserAdd from './UserAdd'
 import UserList from './UserList'
 import UserDetail from './UserDetail'
@@ -15,9 +15,12 @@ export default function(props) {
                 </ul>
             </div>
             <div className="col-md-10">
-                <Route path="/user/list" component={UserList} />
-                <Route path="/user/add" component={UserAdd} />
-                <Route path="/user/detail/:id" component={UserDetail} />
+                <Switch>
+                    <Route path="/user/list" component={UserList} />
+                    <Route path="/user/add" component={UserAdd} />
+                    <Route path="/user/detail/:id" component={UserDetail} />
+                    <Redirect to="/user/list" />
+                </Switch>
             </div>
         </div>
     )

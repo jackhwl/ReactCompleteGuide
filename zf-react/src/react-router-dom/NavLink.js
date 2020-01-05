@@ -8,8 +8,9 @@ export default function(props) {
     return (
         <Route 
             path={to}
+            exact={exact}
             children={
-                routerProps => <Link className={routerProps.match && (!exact || (exact && routerProps.match.isExact)) ? 'active'  : ''} to={to}>{children}</Link>
+                routerProps => <Link className={routerProps.match ? 'active'  : ''} to={to}>{children}</Link>
             } />
     )
 }
