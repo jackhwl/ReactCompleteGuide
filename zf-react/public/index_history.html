@@ -16,7 +16,16 @@
   </head>
   <body>
     <div id="root"></div>
-    <button id="increment-btn">+</button>
-    <button id="decrement-btn">-</button>
+    <script>
+      !(function (history) {
+        let pushState = history.pushState
+        history.pushState = function (state, title, url) {
+          if (typeof window.onpushstate === 'function') {
+            window.onpushstate(state, url)
+          }
+          return pushState.apply(history, arguments  )
+        }
+      })(window.history)
+    </script>
   </body>
 </html>
