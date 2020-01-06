@@ -1,45 +1,49 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { BrowserRouter as Router, Route, Link, Switch, Redirect, NavLink } from './react-router-dom'
-import Home from './components/Home'
-import User from './components/User'
-import Profile from './components/Profile'
-import Login from './components/Login'
-import Private from './components/Private'
-import NavHeader from './components/NavHeader'
-import 'bootstrap/dist/css/bootstrap.css'
 /**
- * Router is container
- * Route is rule
+ * 
+ * @param {*} state old state 
+ * @param {*} action object with type property
+ * return new state
  */
-ReactDOM.render(
-<Router>
-    <>
-        <div className="navbar nvabar-inverse">
-            <div className="container-fluid">
-                <NavHeader title="Wenlin" />
-                <ul className="nav navbar-nav">
-                    <li><NavLink exact={true} to="/">Home</NavLink></li>
-                    <li><NavLink to="/user">User</NavLink></li>
-                    <li><NavLink to="/profile">Profile</NavLink></li>
-                    <li><NavLink to="/login">Login</NavLink></li>
-                </ul>
-                <div>{localStorage.getItem('login')}</div>
-            </div>
-        </div>
-        <div className="container">
-            <div className="row">
-                <div className="col-md-12">
-                    <Switch>
-                        <Route path="/" exact component={Home} />
-                        <Route path="/user" component={User} />
-                        <Route path="/user" component={User} />
-                        <Private path="/profile" component={Profile} />
-                        <Route path="/login" component={Login} />
-                        <Redirect from="/home" to="/" />
-                    </Switch>
-                </div>
-            </div>
-        </div>
-    </>
-</Router>, document.getElementById('root'))
+const CHANGE_COLOR = 'CHANGE_COLOR'
+let initialState = {color: 'red', updateCount: 0}
+function reducer(state = initialState, action) { // {type: CHANGE_COLOR, payload: 'green'}
+    if (action.type === CHANGE_COLOR) {
+        return { ...state, color: action.payload, updateCount: state.updateCount + 1 }
+    }
+    return state
+}
+
+function createStore(reducer, initialState) {
+    let state = initialState
+    let listensers = []
+    function getState() {
+        return state
+    }
+    function dispatch(action){
+        state = reducer(state, action)
+        listensers.forEach(listenser => listenser())
+    }
+    dispatch({type: '@@REDUX_INIT'})
+    function subscribe(listenser){
+        listensers.push(listenser)
+        return function(){
+              let index = listensers.indexOf(listenser)
+              listensers.splice(index,1)
+              //listensers = listensers.filter(item !== listenser)
+        }
+    }
+    return {
+        getState,
+        dispatch,
+        subscribe
+    }
+}
+let store = createStore(reducer, initialState)
+console.log(store.getState())
+store.subscribe(() => {
+     console.log(store.getState())
+})
+store.dispatch({type: CHANGE_COLOR, payload: 'yellow'})
+store.dispatch({type: CHANGE_COLOR, payload: 'green'})
+store.dispatch({type: CHANGE_COLOR, payload: 'black'})
+//console.log(store.getState())
