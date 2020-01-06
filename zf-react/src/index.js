@@ -1,4 +1,5 @@
 import { createStore } from './redux'
+
 const INCREMENT = 'INCREMENT'
 const DECREMENT = 'DECREMENT'
 let initialState = { number: 0}
@@ -16,7 +17,7 @@ let store = createStore(reducer)
 let root = document.getElementById('root')
 let incrementBtn = document.getElementById('increment-btn')
 let decrementBtn = document.getElementById('decrement-btn')
-console.log(store)
+
 const render = () => {
     root.innerHTML = store.getState().number
 }

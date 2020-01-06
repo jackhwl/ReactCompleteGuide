@@ -1,4 +1,4 @@
-export default function createStore(reducer, initialState) {
+export default function (reducer, initialState) {
     let state = initialState
     let listensers = []
     function getState() {
