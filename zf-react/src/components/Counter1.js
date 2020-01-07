@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react'
-import { bindActionCreators } from '../redux'
-import store from '../store'
-import * as actions from '../store/actions/counter1'
+import React, {useState, useEffect, useContext} from 'react'
+import ReactReduxContext from '../react-redux/Context'
+import { connect } from '../react-redux'
+//import { bindActionCreators } from '../redux'
+//import store from '../store'
+//import * as actions from '../store/actions/counter1'
 
 // class Counter extends React.Component {
 //     state = { number: store.getState().number }
@@ -23,21 +25,26 @@ import * as actions from '../store/actions/counter1'
 //         )
 //     }
 // }
-let boundActions = bindActionCreators(actions, store.dispatch)
+//let boundActions = bindActionCreators(actions, store.dispatch)
+
 function Counter(props){
-    let [number, setNumber] = useState(store.getState().counter1.number)
+    //let {store} = useContext(ReactReduxContext)
+    let [number, setNumber] = useState(props.number)
     useEffect(()=>{
         return store.subscribe(()=>{
-            setNumber(store.getState().counter1.number)
+            setNumber(props.number)
         })
     },[])
     return (
         <div>
-            <p>{number}</p>
-            <button onClick={boundActions.add}>+</button>
-            <button onClick={boundActions.minus}>-</button>
+            <p>{props.number}</p>
+            <button onClick={props.add}>+</button>
+            <button onClick={props.minus}>-</button>
         </div>
     )
 }
-
-export default Counter
+let mapStateToProps = state => state.counter1
+let mapDispatchToProps = actions
+export default connect(
+    mapStateToProps, mapDispatchToProps
+)(Counter)
