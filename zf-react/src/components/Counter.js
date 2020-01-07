@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import * as ActionTypes from '../store/actionType'
+import { bindActionCreators } from '../redux'
 import store from '../store'
+import * as actions from '../store/actions'
 
 // class Counter extends React.Component {
 //     state = { number: store.getState().number }
@@ -22,7 +23,7 @@ import store from '../store'
 //         )
 //     }
 // }
-
+let boundActions = bindActionCreators(actions, store.dispatch)
 function Counter(props){
     let [number, setNumber] = useState(store.getState().number)
     useEffect(()=>{
@@ -33,8 +34,8 @@ function Counter(props){
     return (
         <div>
             <p>{number}</p>
-            <button onClick={()=>store.dispatch({type: ActionTypes.ADD})}>+</button>
-            <button onClick={()=>store.dispatch({type: ActionTypes.MINUS})}>-</button>
+            <button onClick={boundActions.add}>+</button>
+            <button onClick={boundActions.minus}>-</button>
         </div>
     )
 }

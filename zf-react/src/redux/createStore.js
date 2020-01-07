@@ -7,6 +7,7 @@ export default function (reducer, initialState) {
     function dispatch(action){
         state = reducer(state, action)
         listensers.forEach(listenser => listenser())
+        return action
     }
     dispatch({type: '@@REDUX_INIT'})
     function subscribe(listenser){
