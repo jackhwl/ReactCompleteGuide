@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { bindActionCreators } from '../redux'
 import store from '../store'
-import * as actions from '../store/actions'
+import * as actions from '../store/actions/counter1'
 
 // class Counter extends React.Component {
 //     state = { number: store.getState().number }
@@ -25,10 +25,10 @@ import * as actions from '../store/actions'
 // }
 let boundActions = bindActionCreators(actions, store.dispatch)
 function Counter(props){
-    let [number, setNumber] = useState(store.getState().number)
+    let [number, setNumber] = useState(store.getState().counter1.number)
     useEffect(()=>{
         return store.subscribe(()=>{
-            setNumber(store.getState().number)
+            setNumber(store.getState().counter1.number)
         })
     },[])
     return (
