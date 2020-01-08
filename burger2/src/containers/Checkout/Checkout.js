@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary'
 import ContactData from './ContactData/ContactData'
 import { connect } from 'react-redux'
 //import * as actions from '../../store/actions'
 
-class Checkout extends Component {
+const Checkout = props => {
     // state = {
     //     ingredients: null,
     //     totalPrice: 0
@@ -26,27 +26,27 @@ class Checkout extends Component {
     //     console.log(ingredients) 
     //     this.setState({ingredients, totalPrice: price})
     // }
-    checkoutCancelHandler = () => {
-        this.props.history.goBack()
+    const checkoutCancelHandler = () => {
+        props.history.goBack()
     }    
 
-    checkoutContinueHandler = () => {
-        this.props.history.replace('/checkout/contact-data')
+    const checkoutContinueHandler = () => {
+        props.history.replace('/checkout/contact-data')
     }    
 
-    render() {
+
         let summary = <Redirect to="/" />
-        if (this.props.ingredients) {
-            const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null
+        if (props.ingredients) {
+            const purchasedRedirect = props.purchased ? <Redirect to="/" /> : null
             summary = (
                 <div>
                     {purchasedRedirect}
                     <CheckoutSummary 
-                        checkoutCancelled={this.checkoutCancelHandler}
-                        checkoutContinued={this.checkoutContinueHandler}
-                        ingredients={this.props.ingredients} />
+                        checkoutCancelled={checkoutCancelHandler}
+                        checkoutContinued={checkoutContinueHandler}
+                        ingredients={props.ingredients} />
                     <Route 
-                        path={this.props.match.path + '/contact-data'} 
+                        path={props.match.path + '/contact-data'} 
                         component={ContactData}
                         // render={ (props) => <ContactData ingredients={this.props.ingredients} price={this.props.totalPrice} {...props} />}
                         />
@@ -54,7 +54,6 @@ class Checkout extends Component {
             )
         }
         return summary
-    }
 }
 
 const mapStateToProps = state => {
