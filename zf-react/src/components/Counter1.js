@@ -1,9 +1,9 @@
 import React, {useState, useEffect, useContext} from 'react'
 import ReactReduxContext from '../react-redux/Context'
 import { connect } from '../react-redux'
-//import { bindActionCreators } from '../redux'
+import { bindActionCreators } from '../redux'
 //import store from '../store'
-//import * as actions from '../store/actions/counter1'
+import * as actions from '../store/actions/counter1'
 
 // class Counter extends React.Component {
 //     state = { number: store.getState().number }
@@ -28,13 +28,13 @@ import { connect } from '../react-redux'
 //let boundActions = bindActionCreators(actions, store.dispatch)
 
 function Counter(props){
-    //let {store} = useContext(ReactReduxContext)
-    let [number, setNumber] = useState(props.number)
-    useEffect(()=>{
-        return store.subscribe(()=>{
-            setNumber(props.number)
-        })
-    },[])
+    // let {store} = useContext(ReactReduxContext)
+    // let [number, setNumber] = useState(props.number)
+    // useEffect(()=>{
+    //     return store.subscribe(()=>{
+    //         setNumber(props.number)
+    //     })
+    // },[])
     return (
         <div>
             <p>{props.number}</p>
@@ -44,7 +44,7 @@ function Counter(props){
     )
 }
 let mapStateToProps = state => state.counter1
-let mapDispatchToProps = actions
+//let mapDispatchToProps = actions
 export default connect(
-    mapStateToProps, mapDispatchToProps
+    mapStateToProps, actions
 )(Counter)
