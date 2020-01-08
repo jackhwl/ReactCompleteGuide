@@ -1,6 +1,8 @@
 import { createStore } from '../redux'
 import reducer from './reducers/counter'
-
+/**
+ * essential of middleware is rewrite dispatch
+ */
 const store = createStore(reducer);
 console.log(store)
 let dispatch = store.dispatch
