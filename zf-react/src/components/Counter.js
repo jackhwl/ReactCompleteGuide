@@ -41,6 +41,7 @@ function Counter(props){
             <p>{props.number}</p>
             <button onClick={props.add}>+</button>
             <button onClick={props.thunkAdd}>thunk+</button>
+            <button onClick={props.promiseAdd}>promise+</button>
             <button onClick={props.minus}>-</button>
         </div>
     )

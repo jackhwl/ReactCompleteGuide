@@ -21,6 +21,18 @@ function thunk({dispatch, getState}) {
         }
     }
 }
+function promise({dispatch, getState}) {
+    return function (next){
+        return function (action) { // store.dispatch this is rewrite dispatch method
+            if (typeof action.then  === 'function') {
+                action.then(dispatch)
+                //action.then(result => dispatch(dispatch))
+            } else {
+                next(action)
+            }
+        }
+    }
+}
 function applyMiddleware(middleware) {
     return function(createStore) {
         return function(reducer) {
@@ -39,7 +51,7 @@ function applyMiddleware(middleware) {
     }
 }
 
-let store = applyMiddleware(thunk)(createStore)(counter)
+let store = applyMiddleware(promise)(createStore)(counter)
 export default store
 /**
  * essential of middleware is rewrite dispatch

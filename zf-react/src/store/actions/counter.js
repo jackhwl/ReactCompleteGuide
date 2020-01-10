@@ -16,8 +16,16 @@ export function thunkAdd() {
         }, 1000)
     }
 }
+export function promiseAdd() {
+    return new Promise(function (resolve){
+        setTimeout(function() {
+            resolve({type: ActionType.ADD})
+        }, 1000)
+    })
+}
 export default {
     add,
     minus,
-    thunkAdd
+    thunkAdd,
+    promiseAdd
 }
