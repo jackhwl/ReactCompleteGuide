@@ -1,4 +1,4 @@
-import { createStore } from '../redux'
+import { createStore, applyMiddleware } from '../redux'
 import counter from './reducers/counter'
 
 function logger({dispatch, getState}) {
@@ -33,25 +33,8 @@ function promise({dispatch, getState}) {
         }
     }
 }
-function applyMiddleware(middleware) {
-    return function(createStore) {
-        return function(reducer) {
-            let store = createStore(reducer)
-            let dispatch
-            middleware = middleware({
-                getState: store.getState,
-                dispatch: action => dispatch(action)
-            })
-            dispatch = middleware(store.dispatch)
-            return {
-                ...store, 
-                dispatch
-            }
-        }
-    }
-}
 
-let store = applyMiddleware(promise)(createStore)(counter)
+let store = applyMiddleware(promise, thunk, logger)(createStore)(counter)
 export default store
 /**
  * essential of middleware is rewrite dispatch
