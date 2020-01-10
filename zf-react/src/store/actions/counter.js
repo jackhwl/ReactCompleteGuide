@@ -9,8 +9,15 @@ export function minus() {
     //return store.dispatch({type: ActionType.MINUS}) 
     return {type: ActionType.MINUS}
 }
-
+export function thunkAdd() {
+    return function(dispatch, getState){
+        setTimeout(function() {
+            dispatch({type: ActionType.ADD})
+        }, 1000)
+    }
+}
 export default {
     add,
-    minus
+    minus,
+    thunkAdd
 }

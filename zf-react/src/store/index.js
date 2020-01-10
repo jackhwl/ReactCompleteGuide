@@ -10,6 +10,17 @@ function logger({dispatch, getState}) {
         }
     }
 }
+function thunk({dispatch, getState}) {
+    return function (next){
+        return function (action) { // store.dispatch this is rewrite dispatch method
+            if (typeof action === 'function') {
+                action(dispatch, getState)
+            } else {
+                next(action)
+            }
+        }
+    }
+}
 function applyMiddleware(middleware) {
     return function(createStore) {
         return function(reducer) {
@@ -28,7 +39,7 @@ function applyMiddleware(middleware) {
     }
 }
 
-let store = applyMiddleware(logger)(createStore)(counter)
+let store = applyMiddleware(thunk)(createStore)(counter)
 export default store
 /**
  * essential of middleware is rewrite dispatch

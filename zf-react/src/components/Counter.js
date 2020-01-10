@@ -40,6 +40,7 @@ function Counter(props){
         <div>
             <p>{props.number}</p>
             <button onClick={props.add}>+</button>
+            <button onClick={props.thunkAdd}>thunk+</button>
             <button onClick={props.minus}>-</button>
         </div>
     )
