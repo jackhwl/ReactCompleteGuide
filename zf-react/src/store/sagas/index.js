@@ -1,12 +1,11 @@
-import { takeEvery, delay, put  } from 'redux-saga/effects'
-import * as types from '../actionType'
+import counter from './counter'
+import { all  } from 'redux-saga/effects'
 
-function* delayAdd() {
-    yield delay(1000)
-    yield put({type: types.ADD})
-}
 export default function* rootSaga() {
-    yield takeEvery(types.DELAY_ADD, delayAdd)
+    //Promise.all
+    yield all([
+        counter()
+    ])
 }
 
 /**
