@@ -1,9 +1,14 @@
 import { createStore, applyMiddleware } from 'redux'
 import reducers from './reducers/index'
-import { routerMiddleware } from '../connected-react-router'
-import history from '../history'
-// let middleware = routerMiddleware(history)
-// let store = createStore(reducers)
-let store = applyMiddleware(routerMiddleware(history))(createStore)(reducers)
-window._store = store
+import createSagaMiddleware from 'redux-saga'
+import rootSaga from './sagas'
+let sagaMiddleware = createSagaMiddleware()
+let store = applyMiddleware(sagaMiddleware)(createStore)(reducers)
+
+sagaMiddleware.run(rootSaga)
+// run(rootSaga)
+// function run(rootSaga){
+//     let it = rootSaga()
+//     it.next()
+// }
 export default store

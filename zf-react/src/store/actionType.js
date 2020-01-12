@@ -1,4 +1,4 @@
-
+export const DELAY_ADD = 'DELAY_ADD'
 export const ADD = 'ADD'
 export const MINUS = 'MINUS'
 

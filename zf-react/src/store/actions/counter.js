@@ -5,6 +5,10 @@ export function add() {
     //return store.dispatch({type: ActionType.ADD}) 
     return {type: ActionType.ADD}
 }
+export function delayAdd() {
+    //return store.dispatch({type: ActionType.ADD}) 
+    return {type: ActionType.DELAY_ADD}
+}
 export function minus() {
     //return store.dispatch({type: ActionType.MINUS}) 
     return {type: ActionType.MINUS}
@@ -27,5 +31,6 @@ export default {
     add,
     minus,
     thunkAdd,
-    promiseAdd
+    promiseAdd,
+    delayAdd
 }
