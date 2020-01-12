@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router'
+import { push } from '../../connected-react-router'
 // push return an action
 export default {
     go(to) {
