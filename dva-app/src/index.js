@@ -3,6 +3,11 @@ import React from 'react'
 import { Router, Route} from 'dva/router'
 
 let app = dva()
+const delay = ms => new Promise(function(resolve){
+    setTimeout(()=>{
+        resolve()
+    }, ms)
+})
 app.model({
     namespace: 'counter1',
     state: { number: 0},
@@ -12,6 +17,28 @@ app.model({
         },
         minus(state){
             return { number: state.number - 1}
+        },
+        log(state){
+            console.log('reducers log')
+            return { number: 100}
+        }
+    },
+    effects: {
+        *asyncAdd(action, {put, call}) {
+            yield call(delay, 1000)
+            yield put({type: 'add'})
+        },
+        *log(action, {select}){
+            let state = yield select(state=>state.counter1 )
+            console.log('effects log', state)
+        }
+    },
+    subscriptions: {
+        changeTitle({history}){
+             history.listen((location)=> {
+                 console.log(location)
+                 document.title = location.pathname
+             })
         }
     }
 })
@@ -33,6 +60,7 @@ function Counter1(props){
         <div>
             <p>{props.number}</p>
             <button onClick={()=>props.dispatch({type: 'counter1/add'})}>+</button>
+            <button onClick={()=>props.dispatch({type: 'counter1/asyncAdd'})}>async+</button>
             <button onClick={()=>props.dispatch({type: 'counter1/minus'})}>-</button>
         </div>
     )
