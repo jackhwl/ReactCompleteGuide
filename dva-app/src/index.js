@@ -1,8 +1,11 @@
 import dva, { connect } from 'dva'
 import React from 'react'
 import { Router, Route} from 'dva/router'
-
-let app = dva()
+import keymaster from 'keymaster'
+import createLogger from 'redux-logger'
+let app = dva({
+    onAction: createLogger
+})
 const delay = ms => new Promise(function(resolve){
     setTimeout(()=>{
         resolve()
@@ -39,6 +42,11 @@ app.model({
                  console.log(location)
                  document.title = location.pathname
              })
+        },
+        keyboard({dispatch}) {
+            keymaster('space', ()=>{
+                dispatch({type: 'add'})
+            })
         }
     }
 })
@@ -61,6 +69,7 @@ function Counter1(props){
             <p>{props.number}</p>
             <button onClick={()=>props.dispatch({type: 'counter1/add'})}>+</button>
             <button onClick={()=>props.dispatch({type: 'counter1/asyncAdd'})}>async+</button>
+            <button onClick={()=>props.dispatch({type: 'counter1/log'})}>log</button>
             <button onClick={()=>props.dispatch({type: 'counter1/minus'})}>-</button>
         </div>
     )
