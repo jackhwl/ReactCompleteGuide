@@ -26,5 +26,6 @@ app.model({
         }
     }
 })
-ReactDOM.render(<App />, document.getElementById('root'));
 
+app.router(()=> <div>component</div>)
+app.start('#root')
