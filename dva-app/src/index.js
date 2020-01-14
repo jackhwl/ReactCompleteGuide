@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import dva, { connect } from 'dva'
+import dva, { connect } from './dva'
 import { Router, Route} from 'dva/router'
 import {createBrowserHistory} from 'history'
 
@@ -12,7 +12,7 @@ app.model({
     namespace: 'counter',
     state: { number: 0},
     reducers: {
-        add(state){
+        ['counter/add'](state){
             return { number: state.number + 1}
         }
     }
