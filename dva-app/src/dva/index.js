@@ -1,9 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {createStore, combineReducers} from 'redux'
-import {Provider, connect} from 'react-redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { Provider, connect} from 'react-redux'
 import { createHashHistory } from 'history'
 import {  NAMESPACE_SEP } from './constant'
+import createSagaMiddleware from 'redux-saga'
+import * as sagaEffects from 'redux-saga/effects'
 export { connect }
 export default function(opts={}){
     let history = opts.history || createHashHistory()
@@ -24,7 +26,11 @@ export default function(opts={}){
     }
     function start(container){
         let reducers = getReducers(app)
-        app._store = createStore(reducers)
+        let sagas = getSagas(app)
+        //app._store = createStore(reducers)
+        let sagaMiddleware = createSagaMiddleware()
+        app._store = applyMiddleware(sagaMiddleware)(createStore)(reducers)
+        sagas.forEach(sagaMiddleware.run)
         ReactDOM.render(
             <Provider store={app._store}>
                 {app._router()}
@@ -34,6 +40,16 @@ export default function(opts={}){
     return app
 }
 
+// turn reducer in model to a reducer in state
+// function reducer(state={number: 0}, action){
+//     if (action.type==='counter/add'){
+//         return add(state, action)
+//     } else if (action.type==='counter/minus'){
+//         return minus(state, action)
+//     } else {
+//         return state
+//     }
+// }
 function getReducers(app){
     let reducers = {}
     for (const model of app._models){
@@ -50,12 +66,48 @@ function getReducers(app){
     return combineReducers(reducers)
 }
 
-function prefixNamespace(model){
-    let reducers = model.reducers
-    model.reducers = Object.keys(reducers).reduce((memo, key)=>{
-        let newKey = `${model.namespace}${NAMESPACE_SEP}${key}`
-        memo[newKey] = reducers[key]
+function prefix(obj, namespace){
+    return Object.keys(obj).reduce((memo, key)=>{
+        let newKey = `${namespace}${NAMESPACE_SEP}${key}`
+        memo[newKey] = obj[key]
         return memo
     },{})
+}
+function prefixNamespace(model){
+    if (model.reducers){
+        model.reducers = prefix(model.reducers, model.namespace)
+    }
+    if (model.effects){
+        model.effects = prefix(model.effects, model.namespace)
+    }
     return model
+}
+
+function getSagas(app){
+    let sagas = []
+    for (const model of app._models){
+        sagas.push(function*(){
+            for(const key in model.effects){
+                const watcher =  getWatcher(key, model.effects[key], model)
+                yield sagaEffects.fork(watcher)
+            }
+        })
+    }
+    return sagas
+}
+function prefixType(type, model){
+    if(type.indexOf('/')==-1){
+        return `${model.namespace}${NAMESPACE_SEP}${type}`
+    }
+    return type    
+}
+function getWatcher(key, effect, model){
+    function put(action){
+        return sagaEffects.put({...action, type: prefixType(action.type, model)})
+    }
+    return function*(){
+        yield sagaEffects.takeEvery(key, function*(...args){
+            yield effect(...args, {...sagaEffects, put})
+        })
+    }
 }

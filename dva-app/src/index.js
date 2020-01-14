@@ -14,6 +14,19 @@ app.model({
     reducers: {
         add(state){
             return { number: state.number + 1}
+        },
+        minus(state){
+            return { number: state.number - 1}
+        }
+    },
+    effects: {
+        *asyncAdd(action, {put}){
+            yield delay(1000)
+            yield put({ type: 'add'})
+        },
+        *asyncMinus(action, {put}){
+            yield delay(1000)
+            yield put({ type: 'minus'})
         }
     }
 })
@@ -23,6 +36,8 @@ function Counter(props){
         <div>
             <p>{props.number}</p>
             <button onClick={()=>props.dispatch({type: 'counter/add'})}>+</button> 
+            <button onClick={()=>props.dispatch({type: 'counter/asyncAdd'})}>async+</button> 
+            <button onClick={()=>props.dispatch({type: 'counter/asyncMinus'})}>async-</button> 
         </div>
     )
 }
@@ -35,3 +50,11 @@ app.router(()=> <ConnectedCounter />)
 //         </>
 //     </Router>)
 app.start('#root')
+
+function delay(ms){
+    return new Promise(function(resolve){
+        setTimeout(()=>{
+            resolve()
+        },ms)
+    })
+}
