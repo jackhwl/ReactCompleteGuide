@@ -12,7 +12,7 @@ app.model({
     namespace: 'counter',
     state: { number: 0},
     reducers: {
-        ['counter/add'](state){
+        add(state){
             return { number: state.number + 1}
         }
     }

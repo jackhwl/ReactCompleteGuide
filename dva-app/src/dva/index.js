@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import {createStore, combineReducers} from 'redux'
 import {Provider, connect} from 'react-redux'
 import { createHashHistory } from 'history'
+import {  NAMESPACE_SEP } from './constant'
 export { connect }
 export default function(opts={}){
     let history = opts.history || createHashHistory()
@@ -15,7 +16,8 @@ export default function(opts={}){
         start
     }
     function model(m){
-        app._models.push(m)
+        const prefixedModel = prefixNamespace(m)
+        app._models.push(prefixedModel)
     }
     function router(router){
         app._router = router
@@ -46,4 +48,14 @@ function getReducers(app){
     }
 
     return combineReducers(reducers)
+}
+
+function prefixNamespace(model){
+    let reducers = model.reducers
+    model.reducers = Object.keys(reducers).reduce((memo, key)=>{
+        let newKey = `${model.namespace}${NAMESPACE_SEP}${key}`
+        memo[newKey] = reducers[key]
+        return memo
+    },{})
+    return model
 }
