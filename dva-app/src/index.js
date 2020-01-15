@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import dva, { connect } from './dva'
+import dva, { connect } from 'dva'
 import { Router, Route} from 'dva/router'
 import {createBrowserHistory} from 'history'
-
+ 
 let app = dva({
     history: createBrowserHistory
 })
@@ -22,7 +22,7 @@ app.model({
     effects: {
         *asyncAdd(action, {put}){
             yield delay(1000)
-            yield put({ type: 'add'})
+            yield put({ type: 'counter/add'})
         },
         *asyncMinus(action, {put}){
             yield delay(1000)
@@ -42,15 +42,16 @@ function Counter(props){
     )
 }
 const ConnectedCounter = connect(state => state.counter)(Counter)
-app.router(()=> <ConnectedCounter />)
-// app.router(({history})=> 
-//     <Router history={history}>
-//         <>
-//             <Route path="/counter" component={ConnectedCounter} />
-//         </>
-//     </Router>)
+//app.router(()=> <ConnectedCounter />)
+app.router(({history, app})=> 
+    <Router history={history}>
+        <>
+            <Route path="/counter" component={ConnectedCounter} />
+        </>
+    </Router>)
 app.start('#root')
 
+window.app = app
 function delay(ms){
     return new Promise(function(resolve){
         setTimeout(()=>{

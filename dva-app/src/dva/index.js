@@ -13,7 +13,7 @@ export default function(opts={}){
     let app = { 
         _models: [],
         model,
-        _router: null,
+        _router: null, 
         router,
         start
     }
@@ -98,6 +98,10 @@ function getSagas(app){
 function prefixType(type, model){
     if(type.indexOf('/')==-1){
         return `${model.namespace}${NAMESPACE_SEP}${type}`
+    } else {
+        if (type.startsWith(model.namespace)){
+            console.error(`Warning: [sageEffects.put] ${type} should not be prefixed with namespace ${model.namespace}`)
+        }
     }
     return type    
 }
