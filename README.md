@@ -1,5 +1,5 @@
 create-react-app burger
-
+# npm i enzyme enzyme-adapter-react-16
 #ReactCompleteGuide
 
 person.js
