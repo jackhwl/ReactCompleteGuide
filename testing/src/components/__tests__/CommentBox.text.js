@@ -24,7 +24,7 @@ describe('the text area', () => {
         })
         wrapped.update() 
     })
-    
+
     it('should has a text area that users can type in', () => {
         expect(wrapped.find('textarea').prop('value')).toEqual('new comment')
     });
@@ -34,5 +34,4 @@ describe('the text area', () => {
         wrapped.update()
         expect(wrapped.find('textarea').prop('value')).toEqual('')
     });
-    
 });
