@@ -19,6 +19,7 @@
     "eslint-plugin-import": "^2.15.0",
     "eslint-plugin-jsx-a11y": "^6.2.0",
     "eslint-plugin-react": "^7.12.4",
+    "eslint-plugin-react-hooks": "^1.6.0",
     "parcel-bundler": "^1.12.1",
     "prettier": "^1.16.1"
   },
