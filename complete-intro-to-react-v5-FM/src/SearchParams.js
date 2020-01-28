@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import pet, { ANIMALS } from "@frontendmasters/pet"
 import useDropdown from "./useDropdown"
+
 const SearchParams = () => {
   const [location, setLocation] = useState("Seattle, WA")
   const [breeds, setBreeds] = useState([])
