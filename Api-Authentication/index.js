@@ -1,4 +1,5 @@
 // Main starting point of the application
+//"C:\Program Files\MongoDB\Server\4.2\bin\mongod.exe" --dbpath="c:\data\db"
 const express = require('express')
 const http = require('http')
 const bodyParser = require('body-parser')
