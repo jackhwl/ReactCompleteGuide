@@ -7,7 +7,7 @@ const LocalStrategy = require('passport-local')
 
 // Create local strategy
 const localOption = {usernameField: 'email'}
-const LocalStrategy = new LocalStrategy(localOption, function(email, password, done){
+const localLogin = new LocalStrategy(localOption, function(email, password, done){
     // Verify this email and password, call done with the user
     // if it is the correct email and password
     // otherwise, call done with false
