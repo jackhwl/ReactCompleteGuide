@@ -1,6 +1,7 @@
 # webpack academy - Workshop 2018
 Learning resources for the webpack academy workshop series for 2018 
 
+
 ## Project Setup
 
 This project assumes you have [NodeJS v8](http://nodejs.org/) or greater installed. You should
