@@ -9,6 +9,7 @@
     "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
     "prod": "npm run webpack -- --env.mode production",
     "dev": "npm run webpack-dev-server -- --env.mode development --hot",
+    "prod:typescript": "npm run prod -- --env.presets typescript",
     "prod:debug": "npm run debug -- --env.mode production",
     "dev:debug": "npm run debug -- --env.mode development",
     "debugthis": "node --inspect --inspect-brk ./src/index.js"
@@ -34,8 +35,8 @@
     "mini-css-extract-plugin": "^0.8.0",
     "postcss-loader": "^3.0.0",
     "style-loader": "^0.23.1",
-    "ts-loader": "^6.0.4",
-    "typescript": "^3.5.3",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.8.0-dev.20200207",
     "url-loader": "^3.0.0",
     "webpack": "^4.39.1",
     "webpack-bundle-analyzer": "^3.4.1",
