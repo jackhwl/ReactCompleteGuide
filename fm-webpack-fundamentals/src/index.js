@@ -14,6 +14,6 @@ button.style = makeColorStyle("red")
 document.body.appendChild(button)
 document.body.appendChild(image)
 document.body.appendChild(footer)
-// console.log(nav(), top, bottom, 
-//     makeButton("My first button!"),
-//     makeColorStyle("cyan"))
+//  console.log(nav(), top, bottom, 
+//      makeButton("My first button!"),
+//      makeColorStyle("cyan"))

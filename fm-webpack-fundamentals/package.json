@@ -10,6 +10,7 @@
     "prod": "npm run webpack -- --env.mode production",
     "dev": "npm run webpack-dev-server -- --env.mode development --hot",
     "prod:typescript": "npm run prod -- --env.presets typescript",
+    "prod:analyze": "npm run prod -- --env.presets analyze",
     "prod:debug": "npm run debug -- --env.mode production",
     "dev:debug": "npm run debug -- --env.mode development",
     "debugthis": "node --inspect --inspect-brk ./src/index.js"
@@ -39,7 +40,7 @@
     "typescript": "^3.8.0-dev.20200207",
     "url-loader": "^3.0.0",
     "webpack": "^4.39.1",
-    "webpack-bundle-analyzer": "^3.4.1",
+    "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.10.2",
     "webpack-merge": "^4.2.2",
