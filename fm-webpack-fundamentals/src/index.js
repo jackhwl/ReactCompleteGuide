@@ -11,6 +11,7 @@ import makeImage from './image'
 import imageUrl from './webpack-logo.jpg'
 //import Foo from './foo.ts'
 
+const setButtonStyle = (color) => import(`./button-styles/${color}`)
 const image = makeImage(imageUrl, 150, 150)
 const button = makeButton("Yay! A Button!")
 button.style = makeColorStyle("red")
@@ -21,8 +22,14 @@ button.addEventListener("click", e => {
     getFooter().then(footerModule => {
         document.body.appendChild(footerModule.footer)
     })
+
     getGSAP().then(gsap => {
         console.log(gsap)
+    })
+
+    setButtonStyle("blue").then(styleStr => {
+        console.log(styleStr)
+        button.style = styleStr.default
     })
 })
 
