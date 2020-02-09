@@ -24,7 +24,8 @@ module.exports = ({mode, presets} = { mode: "production", presets: []}) => {
                 ]
             },
             output: {
-                filename: "bundle.js"
+                filename: "bundle.js",
+                chunkFilename: "[name].lazy-chunk.js"
             },
             plugins: [
                 new HtmlWebpackPlugin(), 
