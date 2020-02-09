@@ -1,4 +1,6 @@
 import nav from './nav'
+//import * as GSAP from 'gsap'
+const getGSAP = () => import('gsap')
 //import { footer } from './footer'
 const getFooter = () => import('./footer')
 import makeButton from './button'
@@ -19,7 +21,9 @@ button.addEventListener("click", e => {
     getFooter().then(footerModule => {
         document.body.appendChild(footerModule.footer)
     })
-    document.body.appendChild(footer)
+    getGSAP().then(gsap => {
+        console.log(gsap)
+    })
 })
 
 document.body.appendChild(image)
