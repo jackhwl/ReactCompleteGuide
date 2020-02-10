@@ -33,6 +33,6 @@ module.exports = ({mode, presets} = { mode: "production", presets: []}) => {
             ]
         },
         modeConfig(mode),
-        presetConfig({mode, presets})
+        presets?presetConfig({mode, presets}):null
     )
 }
