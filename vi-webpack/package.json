@@ -1,0 +1,58 @@
+{
+  "name": "vi-webpack",
+  "version": "1.0.0",
+  "description": "Learning resources for the webpack academy workshop series for 2018",
+  "main": "index.js",
+  "scripts": {
+    "webpack-dev-server": "webpack-dev-server",
+    "webpack": "webpack",
+    "debug": "node --inspect --inspect-brk ./node_modules/webpack/bin/webpack.js",
+    "prod": "npm run webpack -- --env.mode production",
+    "prodd": "npm run webpack -- --env.mode development",
+    "dev": "npm run webpack-dev-server -- --env.mode development --hot",
+    "prod:typescript": "npm run prod -- --env.presets typescript",
+    "prod:compress": "npm run prod -- --env.presets compress",
+    "prod:analyze": "npm run prod -- --env.presets analyze",
+    "prod:debug": "npm run debug -- --env.mode production",
+    "dev:debug": "npm run debug -- --env.mode development",
+    "debugthis": "node --inspect --inspect-brk ./src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheLarkInn/webpack-workshop-2018.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "homepage": "https://github.com/TheLarkInn/webpack-workshop-2018#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "compression-webpack-plugin": "^3.1.0",
+    "css-loader": "^3.1.0",
+    "file-loader": "^5.0.2",
+    "fork-ts-checker-webpack-plugin": "^1.5.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "http-server": "^0.11.1",
+    "mini-css-extract-plugin": "^0.8.0",
+    "postcss-loader": "^3.0.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.8.0-dev.20200207",
+    "url-loader": "^3.0.0",
+    "webpack": "^4.39.1",
+    "webpack-bundle-analyzer": "^3.6.0",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.10.2",
+    "webpack-merge": "^4.2.2",
+    "webpack-node-externals": "^1.7.2",
+    "workbox-webpack-plugin": "^4.3.1"
+  },
+  "dependencies": {
+    "d3": "^5.9.7",
+    "gsap": "^3.1.1",
+    "lodash-es": "^4.17.15"
+  }
+}
