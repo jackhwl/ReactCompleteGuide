@@ -7,7 +7,9 @@ import * as actions from '../../actions'
 
 class Signup extends Component {
     onSubmit = formProps => {
-        this.props.signup(formProps)
+        this.props.signup(formProps, () => {
+            this.props.history.push('/feature')
+        })
     }
     render() {
         const { handleSubmit } = this.props
@@ -20,7 +22,8 @@ class Signup extends Component {
                 <fieldset>
                     <label>Password</label>
                     <Field name="password" type="password" component="input" autoComplete="none" />
-                </fieldset>
+                </fieldset> 
+                <div>{this.props.errorMessage}</div>
                 <button>Sign Up!</button>
             </form>
         )
