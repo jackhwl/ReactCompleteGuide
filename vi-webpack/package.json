@@ -53,6 +53,8 @@
   "dependencies": {
     "d3": "^5.9.7",
     "gsap": "^3.1.1",
-    "lodash-es": "^4.17.15"
+    "jquery": "3.4.1",
+    "lodash-es": "^4.17.15",
+    "masonry-layout": "4.2.1"
   }
 }

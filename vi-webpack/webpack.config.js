@@ -5,7 +5,8 @@ module.exports = [
 	{
 		name: "vendor",
 		mode: "production",
-		entry: ["./vendor", "./vendor2"],
+		entry: {app: ['./index.js'], vendor:['jquery']},//vendor: []
+		
 		output: {
 			path: path.resolve(__dirname, "dist"),
 			filename: "vendor_[chunkhash].js",
@@ -15,7 +16,8 @@ module.exports = [
 			new webpack.DllPlugin({
 				name: "vendor_[chunkhash]",
 				path: path.resolve(__dirname, "dist/manifest.json")
-			})
+			}),
+			new webpack.ProvidePlugin({ $: "jquery", jQuery: "jquery", "window.jQuery": "jquery" })
 		]
 	}
 
