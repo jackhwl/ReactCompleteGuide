@@ -1,0 +1,27 @@
+{
+  "name": "vi-global-portal",
+  "version": "0.0.1",
+  "description": "VI GLOBAL DESKTOP ",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "VI",
+    "BI"
+  ],
+  "authors": [
+    "Wenlin Huang"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "3.4.1",
+    "masonry-layout": "4.2.1"
+  }
+}

@@ -1,0 +1,613 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MainV2.master.cs" Inherits="viDesktop.MainV2" %>
+<!doctype html>
+<html>
+<head runat="server">
+	<title>viDesktop</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="shortcut icon" href="~/images/favicon.ico">
+    <link rel="stylesheet" href="~/css/bootstrap-datetimepicker-4.17.47.css"/>
+    <link rel="stylesheet" href="~/css/ripple.min.css"/>
+	<link rel="stylesheet" href="~/css/toastr.min.css" />
+    <link rel="stylesheet" href="~/css/select2.min.css"/>
+    <link rel="stylesheet" href="~/css/responsive.dataTables.css"/>
+	<link rel="stylesheet" href="~/css/jquery-ui-1.12.1.min.css">
+	<link rel="stylesheet" href="~/css/tooltipster.bundle.min.css">
+	<link rel="stylesheet" href="~/css/tooltipster-sideTip-shadow.min.css">
+    <link rel="stylesheet" href="~/css/scrollBar.css" />
+    <link rel="stylesheet" href="~/css/slick.css">
+    <link rel="stylesheet" href="~/css/slick-theme.css">
+	<link rel="stylesheet" href="~/css/jstree-style.css" />
+    <link rel="stylesheet" href="~/css/videsktop.css">
+	<link rel="stylesheet" href="~/fonts/styles.css" />
+
+    <script src="../js/libs/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <script src="https://www.gstatic.com/charts/loader.js" type="text/javascript"></script>
+    <script src="../js/libs/masonry.min.js" type="text/javascript"></script>
+</head>
+<body id="bodyMaster" class='layout layout-desktop <%=Request.Cookies["LeftSidebarToggleState"] != null && Request.Cookies["LeftSidebarToggleState"].Value != "0"? "layout-left-sidebar-collapsed": ""%> <%=textBoxDisableSiteNav.Text == "1" && textBoxDisableLeftNav.Text == "1"? "print-mode" :""%> <%=textBoxDisableSiteNav.Text == "1"? "no-site-nav" :""%> <%=textBoxDisableLeftNav.Text == "1"? "no-left-nav" :""%>'>
+    <style type="text/css">
+		<%=textBoxLogoUrl.Text != ""? ".logo-image {background-image: url(" + textBoxLogoUrl.Text + "); background-blend-mode: " + textBoxLogoBgBlendMode.Text + "; padding: " + textBoxLogoPadding.Text + "px;}": "#logo {visibility: hidden;}"%>
+        <%=textBoxDisableSiteNav.Text == "1"? " .layout {padding-top: 0px;} .site-content {margin-left: 0px; padding: 0px;} .site-footer {margin-left: 0px;}": ""%>
+        <%=textBoxDisableLeftNav.Text == "1"? " .site-content {margin-left: 15px; margin-right: 15px;} .layout-left-sidebar-collapsed .site-content {margin-left: 0px; padding: 0px;}": ""%>
+        <%=textBoxDisableLeftNav.Text == "1"? " .site-footer {margin-left: 0px; margin-right: 0px; padding: 0px;} .layout-left-sidebar-collapsed .site-footer {margin-left: 0px; padding: 0px;}": ""%>
+		<%=Request["Dialog"] == "1"? "body {overflow-y: hidden;}": ""%>
+		
+		.navbar-header {
+            background-color: <%=textBoxFunctionalAreaColor.Text%>;
+        }
+
+        @media (min-width: 768px) {
+            .layout-left-sidebar-collapsed .navbar-header {
+                background-color: <%=textBoxFunctionalAreaColor.Text%>;
+            }
+        }
+
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 2px solid #1d87e4;
+            width: 15px;
+            height: 15px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+            display: inline-block;
+            margin-top: 20px;
+			margin-left: 20px;
+        }
+
+        /* Safari */
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+		@media print {
+			a[href]:after {
+				content: none;
+			}
+		}
+
+    	#divSideMap >li > div.tooltip {
+			display: none !important;
+    	}
+
+    	.layout-left-sidebar-collapsed #divSideMap > li > div.tooltip {
+			display: block !important;
+    	}
+    </style>
+    <div id="divSiteTopNav" runat="server" class="site-header">
+        <nav class="navbar navbar-default">
+            <div class="navbar-header">
+                <button class="navbar-toggler left-sidebar-toggle pull-left visible-xs" type="button">
+                    <i class="vi vi-menu vi-hc-fw"></i>
+                </button>
+                <div class="navbar-brand">
+                    <img src="../images/logo-vi.png" height="22" width="22" alt="" />
+                    <asp:Label CssClass="brand-text" ID="labelFunctionalAreaName" runat="server" Text=""></asp:Label>
+                    <div class="brand-abbr-text"></div>
+                </div>
+                <button id="buttonApplicationsXS" runat="server" class="navbar-toggler right-sidebar-toggle pull-right visible-xs-block" type="button">
+                    <i class="vi vi vi-apps"></i>
+                </button>
+                <button class="navbar-toggler pull-right visible-xs-block collapsed" type="button" data-toggle="collapse" data-target="#navbar">
+                    <span class="nav-cell">
+                        <img width="32" height="32" class="img-circle" alt="" src="../images/placeholder-profile.jpg">
+                    </span>
+                </button>
+            </div>
+            <div class="navbar-collapsible">
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-left">
+                        <li>
+                            <div class="navbar-company">
+								<span id="logo">
+									<asp:Label ID="labelCompanyName" runat="server" Text=""></asp:Label>
+								</span>
+                                <span class="insert"></span>
+                                <span class="navbar-functional-area">
+                                    <%=labelFunctionalAreaName.Text%>
+                                </span>
+                                <div id="loader" class="loader hidden"></div>
+                            </div>
+                        </li>
+                    </ul>
+                    <button id="buttonApplicationsSM" runat="server" class="navbar-toggler right-sidebar-toggle pull-right hidden-xs" type="button">
+                        <i class="vi vi vi-apps"></i>
+                    </button>
+                    <ul class="nav navbar-nav navbar-right">
+
+						<li id="liNotifications" class="nav-table dropdown dropdown-notifications <%=labelMessagesCount.Text == "0"? "hidden": ""%> <%=notificationLabel.Text%>">
+                            <asp:Label ID="notificationLabel" runat="server" Visible="false" ></asp:Label>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+								<span class="nav-cell nav-icon">
+									<i class="vi vi-notifications-active"></i>
+								</span>
+								<span class="hidden-md-up m-l-15"><asp:Label ID="labelMessagesCount2" runat="server" Text="0"></asp:Label></span>
+								<span runat="server" id="spanMsgCountContainer" class="label label-black"><asp:Label ID="labelMessagesCount" runat="server" Text="0"></asp:Label></span>
+							</a>
+							<div class="dropdown-menu custom-dropdown dropdown-messages dropdown-menu-right">
+								<div class="dropdown-header">
+									<span>Messages</span>
+								</div>
+								<div class="m-items">
+									<asp:Label ID="labelMessage0" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage1" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage2" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage3" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage4" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage5" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage6" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage7" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage8" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage9" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage10" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage11" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage12" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage13" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage14" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage15" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage16" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage17" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage18" runat="server"></asp:Label>
+									<asp:Label ID="labelMessage19" runat="server"></asp:Label>
+								</div>
+							</div>
+						</li>
+                        <li class="nav-table dropdown visible-xs-block open">
+                            <ul class="profile-dropdown-menu dropdown-menu">
+				                <li>
+									<a id="aChgPwdXS" href="#" onclick="$('#aChgPwdXS').openDialog(); return false;" 
+										data-toggle="tooltip" data-placement="auto" title="Change Password" class='<%=textBoxAllowChangePassword.Text=="1"?"":"hidden"%>'
+										dialog-url='../Common/CfgChangePwd.aspx?CompanyID=<%=textBoxCompanyID.Text%>&UserRef=<%=textBoxUserRef.Text%>' 
+										dialog-additional-css="dialog-sm"><i class="vi vi-key"></i>Change Password</a>									
+				                </li>
+				                <li><asp:HyperLink id="hyperLinkSavePwdOnXS" runat="server"><i class="vi vi-lock"></i>Turn Save Password Off</asp:HyperLink></li>
+				                <li><asp:HyperLink id="hyperLinkSavePwdOffXS" runat="server"><i class="vi vi-lock-open"></i>Turn Save Password On</asp:HyperLink></li>
+				                <li><asp:HyperLink id="hyperLinkSupportXS" runat="server" Target=_blank><i class="vi vi-help"></i>Online Help</asp:HyperLink></li>
+                                <li class="divider" role="separator"></li>
+                                <li><asp:HyperLink id="hyperLinkSignOffXS" runat="server" CssClass="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false" title="Sign Off"><i class="vi vi-log-out"></i>Sign Off</asp:HyperLink></li>
+                            </ul>
+                        </li>
+                        <li class="nav-table dropdown hidden-sm-down profile-dropdown">
+                            <a class="dropdown-toggle" role="button" aria-expanded="false" aria-haspopup="true" href="#" data-toggle="dropdown">
+                                <span class="nav-cell p-r-10">
+                                    <img width="32" height="32" class="img-circle" alt="" src="../images/placeholder-profile.jpg">
+                                </span>
+                                <span class="nav-cell">&nbsp;
+                                    <asp:label id="labelUserName" runat="server">user name</asp:label>
+                                    <span class="caret"></span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu profile-dropdown-menu">
+				                <li>
+									<a id="aChgPwdSM" href="#" onclick="$('#aChgPwdSM').openDialog(); return false;" 
+										data-toggle="tooltip" data-placement="auto" title="Change Password" class='<%=textBoxAllowChangePassword.Text=="1"?"":"hidden"%>'
+										dialog-url='../Common/CfgChangePwd.aspx?CompanyID=<%=textBoxCompanyID.Text%>&UserRef=<%=textBoxUserRef.Text%>' 
+										dialog-additional-css="dialog-sm"><i class="vi vi-key"></i>Change Password</a>
+				                </li>
+				                <li><asp:HyperLink id="hyperLinkSavePwdOnSM" runat="server"><i class="vi vi-lock"></i>Turn Save Password Off</asp:HyperLink></li>
+				                <li><asp:HyperLink id="hyperLinkSavePwdOffSM" runat="server"><i class="vi vi-lock-open"></i>Turn Save Password On</asp:HyperLink></li>
+				                <li><asp:HyperLink id="hyperLinkSupportSM" runat="server" Target=_blank><i class="vi vi-help"></i>Online Help</asp:HyperLink></li>
+                                <li class="divider" role="separator"></li>
+                                <li><asp:HyperLink id="hyperLinkSignOffSM" runat="server" role="button" aria-haspopup="true" aria-expanded="false" title="Sign Off"><i class="vi vi-log-out"></i>Sign Off</asp:HyperLink></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div id="divSiteMain" class="site-main">
+        <form id="Form1" name="Form1" runat="server" encType="multipart/form-data">
+		<asp:ScriptManager ID="ScriptManager1" runat="server" EnablePartialRendering="true"></asp:ScriptManager>
+        <!-- Left sidebar -->
+        <div id="divSiteLeftSidebar" runat="server" class="site-left-sidebar">
+            <asp:Repeater ID="repeaterMain" runat="server" EnableViewState="false">
+                <HeaderTemplate>
+                    <ul class="sidebar-menu" id="divSideMap" aria-expanded="false">
+                        <li>
+                            <a href="#" class="left-sidebar-collapse hidden-xs" onclick="SaveLeftSidebarToggleState();">
+                                <i class="vi vi-skip-next vi-hc-fw"></i>
+                            </a>
+                        </li>
+                </HeaderTemplate>
+                <FooterTemplate>
+                    </ul>
+                </FooterTemplate>
+                <ItemTemplate>
+                    <asp:Literal ID="literalLine" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalSection" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalGroupTop" runat="server"></asp:Literal>
+                    <asp:HyperLink ID="hyperLinkItem" runat="server">
+                        <span class="menu-badge">
+                            <asp:Label CssClass="menu-icon" ID="labelIcon" runat="server" Text=""><i class="vi vi-circle-o"></i></asp:Label>
+                            <asp:Label CssClass="menu-text" ID="labelHeader" runat="server" Text=""></asp:Label>
+                            <asp:Label CssClass="badge-circle badge-warning hidden" ID="labelAlert" runat="server" Text="" Visible="true"></asp:Label>
+                        </span>
+                    </asp:HyperLink>
+                    <ul id="ulItems" runat="server" class="sidebar-submenu level2 hide" aria-expanded="false">
+                    </ul>
+                    <asp:Literal ID="literalGroupBtm" runat="server"></asp:Literal>
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
+
+        <!-- Content -->
+        <div id="divSiteContent" class="site-content">
+            <asp:Panel ID="panelBreadcrumbs" runat="server" CssClass="breadcrumb-container" Visible="false">
+				<div id="bc1" class="btn-group btn-breadcrumb">
+                    <asp:Literal ID="literalBreadcrumbA" runat="server"></asp:Literal>
+					<asp:Literal ID="literalBreadcrumbB" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumbP" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumbM" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb0" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb1" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb2" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb3" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb4" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb5" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb6" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb7" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb8" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb9" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb10" runat="server"></asp:Literal>
+                    <asp:Literal ID="literalBreadcrumb11" runat="server"></asp:Literal>
+                </div>
+            </asp:Panel>
+			<div id="divWait" class="hidden" style="font-size: 12px;">
+				<div style="display: inline-block; position: fixed; top: 0; bottom: 0; left: 0; right: 0; width: 70px; height: 70px; margin: auto; text-align: center !important; z-index: 99999;">
+					<img alt="" src="../images/loading.gif" style=" height: 64px; width: 64px;" />
+				</div>
+			</div>
+            <asp:Panel ID="panelSpaceTop" runat="server" CssClass="spaceXL page-top" Visible=false>
+	        </asp:Panel>
+	        <asp:ContentPlaceHolder ID="contentPlaceHolder" runat="server">
+	        </asp:ContentPlaceHolder>
+	        <asp:Panel ID="panelSpaceBtm" runat="server" CssClass="spaceXL" Visible=false>
+	        </asp:Panel>
+        </div>
+	    <asp:TextBox id="textBoxCompanyID" runat="server" Width="10px" Visible="False"></asp:TextBox>
+	    <asp:TextBox id="textBoxUserRef" runat="server" Width="10px" Visible="False"></asp:TextBox>
+	    <asp:TextBox id="textBoxLogoHeight" runat="server" Visible="False" Width="10px" Text="-1"></asp:TextBox>
+	    <asp:TextBox id="textBoxLogoWidth" runat="server" Visible="False" Width="10px" Text="-1"></asp:TextBox>
+	    <asp:TextBox id="textBoxUserType" runat="server" Visible="False" Width="10px" Text="Undefined"></asp:TextBox>
+        <asp:TextBox id="textBoxModuleName" runat="server" Visible="False" Width="10px" Text="Undefined"></asp:TextBox>
+        <asp:TextBox id="textBoxProcessID" runat="server" Visible="false" Width="10px" Text="-1"></asp:TextBox>
+        <asp:TextBox id="textBoxProcessName" runat="server" Visible="false" Width="10px" Text=""></asp:TextBox>
+        <asp:TextBox id="textBoxFunctionalAreaID" runat="server" Visible="False" Width="10px" Text="Undefined"></asp:TextBox>
+        <asp:TextBox id="textBoxFunctionalAreaColor" runat="server" Visible="False" Width="10px" Text="#333333"></asp:TextBox>
+        <asp:TextBox id="textBoxFunctionalAreaIcon" runat="server" Visible="False" Width="10px" Text="vi vi-triangle-down vi-hc-fw"></asp:TextBox>
+	    <asp:TextBox id="textBoxSavePasswordIsOn" runat="server" Visible="False" Width="10px" Text="0"></asp:TextBox>
+	    <asp:TextBox id="textBoxDisableSiteNav" runat="server" Visible="False" Width="10px" Text="0"></asp:TextBox>
+        <asp:TextBox id="textBoxDisableLeftNav" runat="server" Visible="False" Width="10px" Text="0"></asp:TextBox>
+        <asp:TextBox id="textBoxLeftNavItemCount" runat="server" Visible="False" Width="10px" Text="0"></asp:TextBox>
+        <asp:TextBox id="textBoxLeftNavElementTop" runat="server" Visible="false" Width="10px" Text=""></asp:TextBox>
+        <asp:TextBox id="textBoxLeftNavElementBtm" runat="server" Visible="false" Width="10px" Text=""></asp:TextBox>
+        <asp:TextBox id="textBoxLeftNavFile" runat="server" Visible="false" Width="10px" Text=""></asp:TextBox>
+        <asp:TextBox id="textBoxLeftNavRecentPrc" runat="server" Visible="false" Width="10px" Text=""></asp:TextBox>
+		<asp:TextBox id="textBoxLeftNavVariables" runat="server" Visible="false" Width="10px" Text=""></asp:TextBox>
+        <asp:TextBox id="textBoxProccessAliases" runat="server" Visible="false" Width="10px" Text=""></asp:TextBox>
+        <asp:TextBox id="textBoxLeftNavUserAccessList" runat="server" Visible="false" Width="10px" Text="*"></asp:TextBox>
+        <asp:TextBox id="textBoxFocusObjClientID" runat="server" Visible="false" Width="10px" Text="" EnableViewState="false"></asp:TextBox>
+		<asp:TextBox id="textBoxBackUrl" runat="server" Visible="false" Width="10px" Text=""></asp:TextBox>
+		<asp:TextBox id="textBoxAllowChangePassword" runat="server" Visible="false" Width="10px" Text=""></asp:TextBox>
+		<asp:TextBox id="textBoxLogoUrl" runat="server" Visible="false" Text=""></asp:TextBox>
+		<asp:TextBox id="textBoxLogoBgBlendMode" runat="server" Visible="false" Text=""></asp:TextBox>
+		<asp:TextBox id="textBoxLogoPadding" runat="server" Visible="false" Text=""></asp:TextBox>
+	    <script type="text/javascript">
+	        //<![CDATA[
+            function hackEventWithinDoPostBack() {
+                var originalEventDescriptor = Object.getOwnPropertyDescriptor(Window.prototype, "event");
+                var hackEventVariable = false;
+                var eventPropertyHolder;
+                Object.defineProperty(window, "event", {
+                    configurable: true,
+                    get: function get() {
+                        var result = originalEventDescriptor ? originalEventDescriptor.get.apply(this, arguments) : eventPropertyHolder;
+                        if (result || !hackEventVariable)
+                            return result;
+                        return {};
+                    },
+                    set: function set(value) {
+                        if (originalEventDescriptor)
+                            originalEventDescriptor.set.apply(this, arguments);
+                        else
+                            eventPropertyHolder = value;
+                    }
+                });
+
+                var originalDoPostBack = window.__doPostBack;
+
+                window.__doPostBack = function hackedDoPostBack() {
+                    hackEventVariable = true;
+                    originalDoPostBack.apply(this, arguments);
+                    hackEventVariable = false;
+                };
+			}
+
+	        $(document).ready(function () {
+		        <%=Request["scrollTo"] != null? "if($('#" + Request["scrollTo"] + "') != undefined) { $('#" + Request["scrollTo"] + "').css('background-color', '#f5f5f5'); window.scrollTo(0, $('#" + Request["scrollTo"] + "').offset().top); }": ""%>
+
+				<%=textBoxLogoUrl.Text != ""? "/*": ""%>
+				$("#logo").textfill({
+					maxFontPixels: 20,
+					minFontPixels: 12,
+					success: function () {
+						$("#logo").css('visibility', 'visible');
+					}
+				});
+				<%=textBoxLogoUrl.Text != ""? "*/": ""%>
+
+	        	$.validate({
+	                validateOnBlur: false,
+	                inputParentClassOnSuccess: '',
+	                onError: function (callback) {
+	                	$("#divWait").addClass("hidden");
+	                	$("#divPopupWait").addClass("hidden");
+	                }
+	            });
+
+	            $(":input").inputmask();           
+
+	            addClassNameListener("bodyMaster", function () {
+	            	setTimeout(function () {
+	            		var eventResize = window.document.createEvent('UIEvents');
+	            		eventResize.initUIEvent('resize', true, false, window, 0);
+	            		window.dispatchEvent(eventResize);
+	            	}, 300);
+	            });
+
+	            $("#divSiteLeftSidebar a").on("click", ResizeLeftSidebar);
+
+	            $('[data-plugin="select2"]:not(".no-init")').select2({
+	                selectOnClose: false,
+	                width: '100%',
+	                placeholder: 'None Selected',
+	                allowClear: true
+	            });
+
+	            $(".sidebar-submenu").removeClass("hide");
+
+	            $(".hidden-on-load").removeClass("hidden-on-load");
+
+	            $(".alert-autohide").delay(2000).slideUp(500, function () {});
+
+	            if ($(".page-top-buttons").find(".btn").not(".hidden").length > 0)
+					$(".page-top-buttons").css("visibility", "initial");
+
+				$(".page-top-buttons").find(".btn").attr('data-container', 'body');
+
+				window.onbeforeunload = ShowLoader;
+
+	            $(".profile-dropdown-menu").width($(".navbar-right").width() == 0 ? "" : $(".navbar-right").width() - 10);
+
+	            $(window).on("load", function () {
+	                <%=GetFocusJavascript()%>
+
+	            	ResizeLeftSidebar();
+				});
+
+				if (<%=this.AlertsModule == null? 0: 1 %> == 1) {
+					$.ajax({
+						type: 'GET',
+						url: '../api/AlertMsg/<%=textBoxCompanyID.Text%>/<%=textBoxUserRef.Text%>/<%=this.AlertsModule%>',
+						data: { get_param: 'value' },
+						dataType: 'json',
+						success: function (data) {
+							if (data != null) {
+								$(data).each(function (i, val) {
+									AddMessage(val.Title, val.Text, val.Url, val.Time, val.Class)
+								});
+							}
+						}
+					});
+				}
+            });
+
+	    	$(window).resize(function () {
+	    		$(".profile-dropdown-menu").width($(".navbar-right").width() == 0 ? "" : $(".navbar-right").width() - 10);
+	    	});
+
+			ResizeLeftSidebar();
+
+	        setInterval(ResizeLeftSidebar, 2000);
+
+	        function ResizeLeftSidebar() {
+	        	$("#divSiteLeftSidebar").height(Math.max($(window).height() - 55, Math.max($("#divSideMap").height(), $("#divSiteContent").height()) + 20));
+	        }
+
+	        function ShowLoader() {
+	            $("#loader").removeClass("hidden");
+	            //$('html, body').css('opacity', '.9');
+	        }
+
+	        function addClassNameListener(elemId, callback) {
+	            var elem = document.getElementById(elemId);
+	            var lastClassName = elem.className;
+
+	            window.setInterval(function () {
+	                var className = elem.className;
+	                if (className !== lastClassName) {
+	                    callback();
+	                    lastClassName = className;
+	                }
+	            }, 10);
+	        }
+
+	        function SaveLeftSidebarToggleState()
+	        {
+	            if ($("body").hasClass("layout-left-sidebar-collapsed")) {
+	                CreateCookie("LeftSidebarToggleState", "0", 30);
+	            }
+	            else {
+	                CreateCookie("LeftSidebarToggleState", "1", 30);
+	            }
+	        }
+
+	        function AddMessage(title, text, navigateUrl, time, iconClass)
+            {
+	        	var count = $("#labelMessagesCount").html();
+	        	var message = $("#labelMessage" + count);
+
+	        	if (message != undefined)
+	        	{
+	        		var script = "";
+
+	        		script  = "";
+	        		script += "<div class=\"m-item\">";
+	        		script += "	<a href=\"" + navigateUrl + "\""+ (Number(count) % 2 == 0 ? " class='toggleBgColor'":"") +">";
+                    script += "		<div class=\"mi-icon " + iconClass.substr(iconClass.indexOf('text-')) + "\">";
+                    script += "		<span style=\"display: inline-block; height: 100%; vertical-align: middle; font-size: 0;\"></span>";
+                    script += "		<span>i</span>";
+                    script += "		<span style=\"display: inline-block; height: 100%; vertical-align: middle; font-size: 0;\"></span>";
+	        		script += "		</div>";
+	        		script += "		<div class=\"mi-time\">" + time + "</div>";
+	        		script += "		<div class=\"mi-title\">" + title + "</div>";
+	        		script += "		<div class=\"mi-text text-truncate\">" + text + "</div>";
+	        		script += "	</a>";
+	        		script += "</div>";
+
+	        		message.html(script);
+
+                    $("#labelMessagesCount").html(String(Number(count) + 1));
+                    $("#labelMessagesCount2").html(String(Number(count) + 1) + (Number(count) + 1 > 1 ? " Messages" : " Message"));
+
+	        		count = String(Number(count) + 1);
+				}
+
+                var warningCounter = $('div.mi-icon.text-warning').length;
+                var dangerCounter = $('div.mi-icon.text-danger').length;
+
+	        	$("#liNotifications").removeClass("hidden");
+	        	
+	        	if (count == "0") {
+	        		ClearAllMessages();
+	        		return;
+				}
+
+				var newClass = dangerCounter > 0 ? "label-danger" : (warningCounter > 0 ? "label-warning" : "label-info");
+
+				if (Math.max(dangerCounter, warningCounter) > 0) {
+                    $("#liNotifications").removeClass("label-danger");
+                    $("#liNotifications").removeClass("label-warning");
+                    $("#liNotifications").addClass(newClass);
+                }
+	        }
+
+	        function ClearAllMessages() {
+				$("#liNotifications").addClass("hidden");
+                $("#labelMessagesCount").html("0");
+                $("#labelMessagesCount2").html("0 Message");
+			}
+
+	        function CreateCookie(name, value, days) {
+	            var expires = "";
+	            if (days) {
+	                var date = new Date();
+	                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+	                expires = "; expires=" + date.toUTCString();
+	            }
+	            document.cookie = name + "=" + value + expires + "; path=/";
+	        }
+
+	        function ReadCookie(name) {
+	            var nameEQ = name + "=";
+	            var ca = document.cookie.split(';');
+	            for (var i = 0; i < ca.length; i++) {
+	                var c = ca[i];
+	                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+	                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+	            }
+	            return null;
+	        }
+
+	        function EraseCookie(name) {
+	            CreateCookie(name, "", -1);
+	        }
+	        //]]>
+	    </script>
+	    </form>
+    </div>
+    <div id="divSiteRightNav" class="site-right-sidebar">
+        <div class="close-btn right-sidebar-toggle">
+            <i class="vi vi-close"></i>
+        </div>
+        <div class="grid-container">
+            <a id="aPeople" runat="server" href="#" title="People">
+                <div class="ai-icon"><h3><i class="vi vi-accounts vi-hc-fw"></i></h3></div>
+                <div class="ai-title">People</div>
+            </a>
+            <a id="aConfiguration" runat="server" href="#" title="System Configuration">
+                <div class="ai-icon"><h3><i class="vi vi-wrench vi-hc-fw"></i></h3></div>
+                <div class="ai-title">System Configuration</div>
+            </a>
+            <a id="aApplication0" runat="server" href="#">
+            </a>
+            <a id="aApplication1" runat="server" href="#">
+            </a>
+            <a id="aApplication2" runat="server" href="#">
+            </a>
+            <a id="aApplication3" runat="server" href="#">
+            </a>
+            <a id="aApplication4" runat="server" href="#">
+            </a>
+            <a id="aApplication5" runat="server" href="#">
+            </a>
+            <a id="aApplication6" runat="server" href="#">
+            </a>
+            <a id="aApplication7" runat="server" href="#">
+            </a>
+            <a id="aApplication8" runat="server" href="#">
+            </a>
+            <a id="aApplication9" runat="server" href="#">
+            </a>
+            <a id="aApplication10" runat="server" href="#">
+            </a>
+            <a id="aApplication11" runat="server" href="#">
+            </a>
+        </div>
+        
+		<br /><br />
+    </div>
+	<script src="../js/libs/bootstrap-3.4.1.min.js" type="text/javascript"></script>
+    <script src="../js/libs/toastr.min.js" type="text/javascript"></script>
+    <script src="../js/libs/metisMenu.min.js" type="text/javascript"></script>
+    <script src="../js/libs/jquery.slimscroll.min.js" type="text/javascript"></script>
+	<script src="../js/application.js" type="text/javascript"></script>
+	<script src="../js/common.js" type="text/javascript"></script>
+	<script src="../js/libs/element-queries.js" type="text/javascript"></script>
+	<script src="../js/libs/moment.min.js" type="text/javascript"></script>
+	<script src="../js/libs/bootstrap-datetimepicker-4.17.47.min.js" type="text/javascript"></script>
+	<script src="../js/libs/select2.min.js" type="text/javascript"></script>
+	<script src="../js/libs/jquery.inputmask.bundle.min.js" type="text/javascript"></script>
+	<script src="../js/libs/jquery.form-validator-numeral.min.js" type="text/javascript"></script>
+	<script src="../js/libs/jquery.form-validator.min.js" type="text/javascript"></script>
+	<script src="../js/libs/jquery.validate.min.js" type="text/javascript"></script>
+	<script src="../js/libs/additional-methods.min.js" type="text/javascript"></script>
+	<script src="../js/libs/scrollBar.js" type="text/javascript"></script>
+	<script src="../js/libs/jquery.dataTables.min.js" type="text/javascript"></script>
+	<script src="../js/libs/dataTables.responsive.min.js" type="text/javascript"></script>
+	<script src="../js/libs/jquery.mark.min.js" type="text/javascript"></script>
+	<script src="../js/libs/datatables.mark.min.js" type="text/javascript"></script>
+    <script src="../js/libs/dataTables.rowGroup.min.js" type="text/javascript"></script>
+	<script src="../js/libs/jstree.min.js"></script>
+	<script src="../js/libs/jquery-ui-1.12.1.min.js" type="text/javascript"></script>
+	<script src="../js/libs/tooltipster.bundle.min.js" type="text/javascript"></script>
+	<script src="../js/libs/jquery.ui.touch-punch.min.js" type="text/javascript"></script>
+	<script src="../js/libs/bootstrap-popover.js" type="text/javascript"></script>
+	<script src="../js/libs/slick.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/libs/jquery.textfill.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+		$(document).ready(function () {
+			InitComponents();
+		});
+	</script>
+</body>
+</html>
