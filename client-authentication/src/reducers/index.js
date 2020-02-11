@@ -4,4 +4,4 @@ import auth from './auth'
 export default combineReducers({
     auth,
     form: formReducer
-})
+}) 
