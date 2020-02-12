@@ -70,6 +70,7 @@ gulp.task('inject', [ 'scripts'], function () {
   var getWiredepOptions = function() {
     var isProduction = release;
     var options = {
+      //exclude: ['/Outlayer/'],
       directory: 'bower_components',
       //bowerJson: bowerJson,
       //ignorePath: '..',

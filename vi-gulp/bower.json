@@ -23,5 +23,15 @@
   "dependencies": {
     "jquery": "3.4.1",
     "masonry-layout": "4.2.1"
+  },
+  "overrides": {
+    "masonry-layout": {
+      "main": ["./dist/masonry.pkgd.js"],
+      "dependencies": {}
+    },
+    "jquery": {
+      "main": ["./dist/jquery.js"],
+      "dependencies": {}
+    }
   }
 }
