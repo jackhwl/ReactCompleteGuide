@@ -35,7 +35,7 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe(vendorJsFilter)
     .pipe($.if(release, $.sourcemaps.init()))
     .pipe($.ngAnnotate())
-    .pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
+    //.pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
     .pipe($.if(conf.userev, $.rev()))
     .pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(vendorJsFilter.restore)
