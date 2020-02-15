@@ -5,7 +5,7 @@ var gulp = require('gulp');
 var conf = require('./conf');
 
 var $ = require('gulp-load-plugins')({
-  pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del', 'minimist']
+  pattern: ['gulp-*', 'main-bower-files', 'uglify-save-license', 'del', 'minimist', 'lazypipe']
 });
 
 // Parse the arguments to check for 'release'
@@ -29,21 +29,36 @@ gulp.task('html', ['inject', 'partials'], function () {
   var cssFilter = $.filter('**/*.css', { restore: true });
 
 
+  gulp.task('compile', function () {
+    return gulp.src('index.html')
+        .pipe($.useref({}, $.lazypipe().pipe(function() {
+            return $.if(['**/*.js', '!**/*.min.js'], $.uglify());
+        })))
+        //.pipe(gulp.dest(paths.build));
+
+        .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
+        .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
+  });
+  
   return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
-    .pipe($.inject(partialsInjectFile, partialsInjectOptions))
-    .pipe($.useref())
+    // .pipe($.inject(partialsInjectFile, partialsInjectOptions))
+    .pipe($.useref({}, $.lazypipe().pipe(function() {
+      //$.if(release, $.sourcemaps.init());
+      return $.if(['**/*.js', '!**/*.min.js'], $.uglify({ preserveComments: $.uglifySaveLicense }));
+    })))
     .pipe(vendorJsFilter)
-    .pipe($.if(release, $.sourcemaps.init()))
+    //.pipe($.if(release, $.sourcemaps.init()))
     //.pipe($.ngAnnotate())
-    .pipe($.if(release, $.uglify({ mangle: false, compress: false, preserveComments: `license` }))).on('error', conf.errorHandler('Uglify'))
+    //.pipe($.if(release, $.uglify({ mangle: false, compress: false, preserveComments: `license` }))).on('error', conf.errorHandler('Uglify'))
+    //.pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
     .pipe($.if(conf.userev, $.rev()))
-    .pipe($.if(release, $.sourcemaps.write('.')))
+    //.pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(vendorJsFilter.restore)
     .pipe(appJsFilter)
     .pipe($.iife())
     .pipe($.if(release, $.sourcemaps.init()))
     .pipe($.ngAnnotate())
-    .pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
+    .pipe($.if(release, $.if(['**/*.js', '!**/*.min.js'], $.uglify({ preserveComments: $.uglifySaveLicense })))).on('error', conf.errorHandler('Uglify'))
     .pipe($.if(conf.userev, $.rev()))
     .pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(appJsFilter.restore)
