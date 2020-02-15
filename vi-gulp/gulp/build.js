@@ -42,17 +42,18 @@ gulp.task('html', ['inject', 'partials'], function () {
   
   return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
     // .pipe($.inject(partialsInjectFile, partialsInjectOptions))
-    .pipe($.useref({}, $.lazypipe().pipe(function() {
-      //$.if(release, $.sourcemaps.init());
-      return $.if(['**/*.js', '!**/*.min.js'], $.uglify({ preserveComments: $.uglifySaveLicense }));
-    })))
+    .pipe($.useref())
+    // .pipe($.useref({}, $.lazypipe().pipe(function() {
+    //   //$.if(release, $.sourcemaps.init());
+    //   return $.if(['**/*.js', '!**/*.min.js'], $.nop());
+    // })))
     .pipe(vendorJsFilter)
-    //.pipe($.if(release, $.sourcemaps.init()))
+    .pipe($.if(release, $.sourcemaps.init()))
     //.pipe($.ngAnnotate())
     //.pipe($.if(release, $.uglify({ mangle: false, compress: false, preserveComments: `license` }))).on('error', conf.errorHandler('Uglify'))
     //.pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
     .pipe($.if(conf.userev, $.rev()))
-    //.pipe($.if(release, $.sourcemaps.write('.')))
+    .pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(vendorJsFilter.restore)
     .pipe(appJsFilter)
     .pipe($.iife())

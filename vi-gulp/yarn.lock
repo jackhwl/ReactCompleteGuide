@@ -3993,6 +3993,14 @@ gulp-ng-annotate@^2.0.0:
     through2 "^2.0.1"
     vinyl-sourcemaps-apply "^0.2.1"
 
+gulp-nop@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/gulp-nop/-/gulp-nop-0.0.3.tgz#e9ecd8b994d55817ab5ce16ba18f614d7810ecbe"
+  integrity sha1-6ezYuZTVWBerXOFroY9hTXgQ7L4=
+  dependencies:
+    gulp-util "~2.2.14"
+    through "~2.3.4"
+
 gulp-notify@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/gulp-notify/-/gulp-notify-2.2.0.tgz#046c8285c292e97eed4e15a009c26cbbe5cef135"
@@ -4226,7 +4234,7 @@ gulp-util@3.0.7:
     through2 "^2.0.0"
     vinyl "^0.5.0"
 
-gulp-util@~2.2.0:
+gulp-util@~2.2.0, gulp-util@~2.2.14:
   version "2.2.20"
   resolved "https://registry.yarnpkg.com/gulp-util/-/gulp-util-2.2.20.tgz#d7146e5728910bd8f047a6b0b1e549bc22dbd64c"
   integrity sha1-1xRuVyiRC9jwR6awseVJvCLb1kw=
