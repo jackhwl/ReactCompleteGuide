@@ -29,21 +29,19 @@ gulp.task('html', ['inject', 'partials'], function () {
   var cssFilter = $.filter('**/*.css', { restore: true });
 
 
-  gulp.task('compile', function () {
-    return gulp.src('index.html')
-        .pipe($.useref({}, $.lazypipe().pipe(function() {
-            return $.if(['**/*.js', '!**/*.min.js'], $.uglify());
-        })))
-        //.pipe(gulp.dest(paths.build));
+  // gulp.task('compile', function () {
+  //   return gulp.src('index.html')
+  //       .pipe($.useref({}, $.lazypipe().pipe(function() {
+  //           return $.if(['**/*.js', '!**/*.min.js'], $.uglify());
+  //       })))
+  //       //.pipe(gulp.dest(paths.build));
 
-        .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
-        .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
-  });
+  //       .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
+  //       .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
+  // });
   
   function minCondition(type) {
-
     return function (file) {
-
         var fileData = path.parse(file.path),
             fileExt = fileData.ext.replace('.', ''),
             minRegexp = new RegExp('\.min$');
@@ -56,11 +54,10 @@ gulp.task('html', ['inject', 'partials'], function () {
     // .pipe($.inject(partialsInjectFile, partialsInjectOptions))
     //.pipe($.useref())
     .pipe($.useref({}, $.lazypipe().pipe(function() {
-      //$.size({showFiles: true })
-      return $.if(minCondition('js'), $.size({title: path.join(conf.paths.partials, '/'), showFiles: true }), $.size({title: path.join(conf.paths.dist, '/'), showFiles: true }));
+      //return $.if(minCondition('js'), $.size({title: path.join(conf.paths.partials, '/'), showFiles: true }), $.size({title: path.join(conf.paths.dist, '/'), showFiles: true }));
+      return $.if(minCondition('js'), $.if(release, $.uglify({ preserveComments: $.uglifySaveLicense })));
     })))
-
-    //.pipe(vendorJsFilter)
+    .pipe(vendorJsFilter)
     .pipe($.if(release, $.sourcemaps.init()))
     //.pipe($.ngAnnotate())
     //.pipe($.if(release, $.uglify({ mangle: false, compress: false, preserveComments: `license` }))).on('error', conf.errorHandler('Uglify'))
@@ -69,10 +66,8 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(vendorJsFilter.restore)
     .pipe(appJsFilter)
-    .pipe($.iife())
     .pipe($.if(release, $.sourcemaps.init()))
-    .pipe($.ngAnnotate())
-    .pipe($.if(release, $.if(['**/*.js', '!**/*.min.js'], $.uglify({ preserveComments: $.uglifySaveLicense })))).on('error', conf.errorHandler('Uglify'))
+    .pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
     .pipe($.if(conf.userev, $.rev()))
     .pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(appJsFilter.restore)
