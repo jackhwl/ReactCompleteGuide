@@ -21,15 +21,8 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "3.4.1",
-    "masonry-layout": "4.2.1",
-    "bootstrap": "3.4.1",
-    "toastr": "2.1.3",
-    "metisMenu": "metismenu#2.6.3",
-    "jquery-slimscroll": "1.3.8",
-    "eqcss": "1.8.0",
-    "moment": "2.22.0",
-    "eonasdan-bootstrap-datetimepicker": "4.17.47"
+    "jquery-validation": "1.19.0",
+    "jQuery.scrollBar": "falkmueller/jQuery.scrollBar"
   },
   "overrides": {
     "masonry-layout": {
@@ -41,6 +34,31 @@
     "moment": {
       "main": [
         "./min/moment.min.js"
+      ],
+      "dependencies": {}
+    },
+    "inputmask": {
+      "main": [
+        "./dist/min/jquery.inputmask.bundle.min.js"
+      ],
+      "dependencies": {}
+    },
+    "numeral": {
+      "main": [
+        "./min/numeral.min.js"
+      ],
+      "dependencies": {}
+    },
+    "jquery-validation": {
+      "main": [
+        "./dist/jquery.validate.min.js",
+        "./dist/additional-methods.min.js"
+      ],
+      "dependencies": {}
+    },
+    "jQuery.scrollBar": {
+      "main": [
+        "./scrollBar.js"
       ],
       "dependencies": {}
     }

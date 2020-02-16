@@ -40,14 +40,27 @@ gulp.task('html', ['inject', 'partials'], function () {
         .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
   });
   
+  function minCondition(type) {
+
+    return function (file) {
+
+        var fileData = path.parse(file.path),
+            fileExt = fileData.ext.replace('.', ''),
+            minRegexp = new RegExp('\.min$');
+
+        return !!(fileExt === type && !minRegexp.test(fileData.name));
+    };
+  }
+
   return gulp.src(path.join(conf.paths.tmp, '/serve/*.html'))
     // .pipe($.inject(partialsInjectFile, partialsInjectOptions))
-    .pipe($.useref())
-    // .pipe($.useref({}, $.lazypipe().pipe(function() {
-    //   //$.if(release, $.sourcemaps.init());
-    //   return $.if(['**/*.js', '!**/*.min.js'], $.nop());
-    // })))
-    .pipe(vendorJsFilter)
+    //.pipe($.useref())
+    .pipe($.useref({}, $.lazypipe().pipe(function() {
+      //$.size({showFiles: true })
+      return $.if(minCondition('js'), $.size({title: path.join(conf.paths.partials, '/'), showFiles: true }), $.size({title: path.join(conf.paths.dist, '/'), showFiles: true }));
+    })))
+
+    //.pipe(vendorJsFilter)
     .pipe($.if(release, $.sourcemaps.init()))
     //.pipe($.ngAnnotate())
     //.pipe($.if(release, $.uglify({ mangle: false, compress: false, preserveComments: `license` }))).on('error', conf.errorHandler('Uglify'))
