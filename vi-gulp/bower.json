@@ -35,7 +35,18 @@
     "numeral": "1.4.5",
     "jquery-form-validator": "2.3.26",
     "jquery-validation": "1.19.0",
-    "jQuery.scrollBar": "falkmueller/jQuery.scrollBar"
+    "jQuery.scrollBar": "falkmueller/jQuery.scrollBar",
+    "datatables.net": "1.10.18",
+    "datatables-responsive": "2.2.2",
+    "mark.js": "julmot/mark.js#master",
+    "datatables.mark.js": "2.0.0",
+    "rowGroup": "datatables/rowGroup#1.1.1",
+    "jstree": "3.3.8",
+    "jquery-ui": "1.12.1",
+    "tooltipster": "4.2.7",
+    "jqueryui-touch-punch": "furf/jquery-ui-touch-punch",
+    "slick-carousel": "1.8.0",
+    "jquery-textfill": "master"
   },
   "overrides": {
     "masonry-layout": {
@@ -72,6 +83,25 @@
     "jQuery.scrollBar": {
       "main": [
         "./scrollBar.js"
+      ],
+      "dependencies": {}
+    },
+    "mark.js": {
+      "main": [
+        "./dist/jquery.mark.js"
+      ],
+      "dependencies": {}
+    },
+    "rowGroup": {
+      "main": [
+        "./js/dataTables.rowGroup.js"
+      ],
+      "dependencies": {}
+    },
+    "tooltipster": {
+      "main": [
+        "./dist/js/tooltipster.bundle.js",
+        "./dist/css/tooltipster.bundle.css"
       ],
       "dependencies": {}
     }
