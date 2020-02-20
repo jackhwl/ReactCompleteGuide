@@ -55,6 +55,18 @@
       ],
       "dependencies": {}
     },
+    "metisMenu": {
+      "main": [
+        "./dist/metisMenu.js", "!./dist/metisMenu.css"
+      ],
+      "dependencies": {}
+    },
+    "select2": {
+      "main": [
+        "./dist/js/select2.js", "./dist/css/select2.css"
+      ],
+      "dependencies": {}
+    },
     "moment": {
       "main": [
         "./min/moment.min.js"

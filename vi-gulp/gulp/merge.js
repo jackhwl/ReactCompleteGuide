@@ -126,7 +126,7 @@ gulp.task('merge', [], function () {
 		gulp.start('copyimages');	
 	}
 	else {
-		gulp.start('copy2mvc');	
+		//gulp.start('copy2mvc');	
 	}
 //  var fileFilter = $.filter(function (file) {
 //    return file.stat.isFile();
