@@ -31,6 +31,12 @@ gulp.task('less', [], function () {
     .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve')));
 });
 
+gulp.task('sass', [], function () {
+  return gulp.src([path.join(conf.paths.src, '/app/**/*.scss')], { read: true })
+    .pipe($.sass({paths: [ path.join(conf.paths.src, '/app/styles') ]}))
+    .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve')));
+});
+
 gulp.task('inject', [ 'scripts'], function () {
   var injectStyles = gulp.src([
     path.join(conf.paths.src, '/app/**/*.css'),

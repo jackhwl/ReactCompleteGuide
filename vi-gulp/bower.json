@@ -46,7 +46,8 @@
     "tooltipster": "4.2.7",
     "jqueryui-touch-punch": "furf/jquery-ui-touch-punch",
     "slick-carousel": "1.8.0",
-    "jquery-textfill": "master"
+    "jquery-textfill": "master",
+    "css-ripple-effect": "1.0.9"
   },
   "overrides": {
     "masonry-layout": {
@@ -57,13 +58,15 @@
     },
     "metisMenu": {
       "main": [
-        "./dist/metisMenu.js", "!./dist/metisMenu.css"
+        "./dist/metisMenu.js",
+        "!./dist/metisMenu.css"
       ],
       "dependencies": {}
     },
     "select2": {
       "main": [
-        "./dist/js/select2.js", "./dist/css/select2.css"
+        "./dist/js/select2.js",
+        "./dist/css/select2.css"
       ],
       "dependencies": {}
     },
@@ -94,7 +97,8 @@
     },
     "jQuery.scrollBar": {
       "main": [
-        "./scrollBar.js"
+        "./scrollBar.js",
+        "./scrollBar.css"
       ],
       "dependencies": {}
     },
@@ -120,7 +124,36 @@
     },
     "datatables": {
       "main": [
-        "./media/js/jquery.dataTables.js", "!./media/css/jquery.dataTables.css"
+        "./media/js/jquery.dataTables.js",
+        "!./media/css/jquery.dataTables.css"
+      ],
+      "dependencies": {}
+    },
+    "slick-carousel": {
+      "main": [
+        "./slick/slick.js",
+        "./slick/slick.css",
+        "./slick/slick-theme.css"
+      ],
+      "dependencies": {}
+    },
+    "jquery-ui": {
+      "main": [
+        "./jquery-ui.js",
+        "./themes/base/jquery-ui.css"
+      ],
+      "dependencies": {}
+    },
+    "css-ripple-effect": {
+      "main": [
+        "./dist/ripple.css"
+      ],
+      "dependencies": {}
+    },
+    "datatables-responsive": {
+      "main": [
+        "./js/dataTables.responsive.js",
+        "css/responsive.dataTables.scss"
       ],
       "dependencies": {}
     }
