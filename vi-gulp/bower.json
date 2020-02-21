@@ -113,7 +113,14 @@
     "tooltipster": {
       "main": [
         "./dist/js/tooltipster.bundle.js",
-        "./dist/css/tooltipster.bundle.css"
+        "./dist/css/tooltipster.bundle.css",
+        "./dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css"
+      ],
+      "dependencies": {}
+    },
+    "datatables": {
+      "main": [
+        "./media/js/jquery.dataTables.js", "!./media/css/jquery.dataTables.css"
       ],
       "dependencies": {}
     }
