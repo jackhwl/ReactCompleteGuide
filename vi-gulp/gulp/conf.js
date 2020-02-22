@@ -15,6 +15,7 @@ exports.paths = {
   src: 'src',
   dist: 'dist',
   tmp: '.tmp',
+  scss: 'scss',
   e2e: 'e2e',
   partials: 'partials',
   mvc: 'dist/..',
