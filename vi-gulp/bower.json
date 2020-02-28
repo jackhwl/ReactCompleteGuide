@@ -63,6 +63,12 @@
       ],
       "dependencies": {}
     },
+    "jquery-slimscroll": {
+      "main": [
+        "jquery.slimscroll.js"
+      ],
+      "dependencies": {}
+    },
     "select2": {
       "main": [
         "./dist/js/select2.js",

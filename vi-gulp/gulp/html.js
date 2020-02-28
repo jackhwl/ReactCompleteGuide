@@ -77,17 +77,26 @@ gulp.task('html', ['inject', 'partials'], function () {
     //.pipe($.if(release, $.uglify({ mangle: false, compress: false, preserveComments: `license` }))).on('error', conf.errorHandler('Uglify'))
     //.pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
     .pipe($.if(conf.userev, $.rev()))
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
+    .pipe($.if(conf.userev, $.rev.manifest('dist/rev-manifest.json', {base: process.cwd() + '/dist', merge: true})))
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
     .pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(vendorJsFilter.restore)
     .pipe(appJsFilter)
     .pipe($.if(release, $.sourcemaps.init()))
     .pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
     .pipe($.if(conf.userev, $.rev()))
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
+    .pipe($.if(conf.userev, $.rev.manifest('dist/rev-manifest.json', {base: process.cwd() + '/dist', merge: true})))
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
     .pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(appJsFilter.restore)
     .pipe(envJsFilter)
     .pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
     .pipe($.if(conf.userev, $.rev()))
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
+    .pipe($.if(conf.userev, $.rev.manifest('dist/rev-manifest.json', {base: process.cwd() + '/dist', merge: true})))
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
     .pipe(envJsFilter.restore)
     .pipe(scssFilter)
     .pipe($.if(release, $.sourcemaps.init()))
@@ -99,6 +108,9 @@ gulp.task('html', ['inject', 'partials'], function () {
     .pipe($.if(release, $.sourcemaps.init()))
     .pipe($.if(release, $.cssnano()))
     .pipe($.if(conf.userev, $.rev()))
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
+    .pipe($.if(conf.userev, $.rev.manifest('dist/rev-manifest.json', {base: process.cwd() + '/dist', merge: true})))
+    .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
     .pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(cssFilter.restore)
     .pipe($.if(conf.userev, $.revReplace()))
@@ -111,6 +123,13 @@ gulp.task('html', ['inject', 'partials'], function () {
       collapseWhitespace: true
     })))
     .pipe(htmlFilter.restore)
+    // .pipe($.filerevReplace({
+    //   filerev: ['scripts/vendor.js'], // Select the files to filerev
+    //   replace: [path.join(conf.paths.dist, '/**/*')],  // Select the files to replace
+    //   base:    'scripts'         // Filerevved files are served from the assets directory by the web server
+    // }))
+    // .pipe($.filerevReplace.addManifest({path: path.join(conf.paths.dist, '/filerev.json')}))
+  
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
     .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
   });
