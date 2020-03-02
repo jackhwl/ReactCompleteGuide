@@ -1,5 +1,6 @@
 
 var fs = require('fs');
+var path = require('path');
 var gulp = require('gulp'), 
     plugins		= require('gulp-load-plugins')();
 
@@ -8,24 +9,12 @@ var gulp = require('gulp'),
  *  This will load all js or coffee files in the gulp directory
  *  in order to load all gulp tasks
  */
-fs.readdirSync('./tasks').filter(function(file) {
+fs.readdirSync('./gulp/tasks').filter(function(file) {
   return (/\.(js|coffee)$/i).test(file);
 }).map(function(file) {
-  require('./tasks/' + file);
+  gulp.task(path.parse(file).name, require('./gulp/tasks/' + file)());
 });
-
-function getTask(task) {
-	return require('./tasks/' + task)(gulp, plugins);
-}
-
-gulp.task('clean',      getTask('clean'));
 
 gulp.task('default', gulp.series(
 	 'clean')
 );
-
-function defaultTask(cb) {
-    cb();
-}
-
-//exports.default = defaultTask
