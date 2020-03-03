@@ -8,7 +8,7 @@ var path = require('path')
 var conf = require('../conf')
 var gulp = require('gulp')
 var wiredep = require('wiredep').stream
-var _ = require('lodash')
+//var _ = require('lodash')
 
 var $ = require('gulp-load-plugins')({
         pattern: ['gulp-*', 'minimist']
@@ -98,7 +98,7 @@ module.exports = function() {
         var stream = 
         // -------------------------------------------- Start Task
         gulp.src(path.join(conf.paths.src, '/*.scss'))
-        .pipe(wiredep(_.extend({}, getWiredepOptions()))).on('error', conf.errorHandler('wiredep'))
+        .pipe(wiredep(Object.assign({}, getWiredepOptions()))).on('error', conf.errorHandler('wiredep'))
         .pipe($.sass())
         .pipe(gulp.dest(path.join(conf.paths.tmp, '/serve')))
         // ---------------------------------------------- End Task
