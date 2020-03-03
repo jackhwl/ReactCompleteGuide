@@ -40,7 +40,7 @@ if (release) {
     $.util.log( $.util.colors.green('RUNNING IN DEBUG MODE'))
 }
 
-gulp.task('build', gulp.series('clean', 'sass'));
+gulp.task('build', gulp.series('clean', 'sass', 'scripts'));
 
 gulp.task('release', gulp.series('build'));
   
