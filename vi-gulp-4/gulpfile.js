@@ -25,17 +25,22 @@ fs.readdirSync('./gulp/tasks')
         gulp.task(path.parse(file).name, require('./gulp/tasks/' + file)())
     })
 
-gulp.task('mode', async function () {
-    if (release) {
-        $.util.log( $.util.colors.red('RUNNING IN RELEASE MODE') );
-    } else {
-        $.util.log( $.util.colors.green('RUNNING IN DEBUG MODE') );
-    }
-});
+// gulp.task('mode', async function () {
+//     return function(cb) {
+//         if (release) {
+//             return $.util.log( $.util.colors.red('RUNNING IN RELEASE MODE'), cb );
+//         } else {
+//             return $.util.log( $.util.colors.green('RUNNING IN DEBUG MODE'), cb );
+//         }
+//     }
+// });
+if (release) {
+    $.util.log( $.util.colors.red('RUNNING IN RELEASE MODE')) 
+} else {
+    $.util.log( $.util.colors.green('RUNNING IN DEBUG MODE'))
+}
 
-gulp.task('buildapp', gulp.series('mode'));
-
-gulp.task('build', gulp.series('clean', 'buildapp'));
+gulp.task('build', gulp.series('clean', 'sass'));
 
 gulp.task('release', gulp.series('build'));
   

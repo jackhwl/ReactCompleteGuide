@@ -1,0 +1,167 @@
+{
+  "name": "vi-global-portal",
+  "version": "0.0.1",
+  "description": "VI GLOBAL DESKTOP ",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "VI",
+    "BI"
+  ],
+  "authors": [
+    "Wenlin Huang"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "3.4.1",
+    "masonry-layout": "4.2.1",
+    "bootstrap": "3.4.1",
+    "toastr": "2.1.3",
+    "metisMenu": "metismenu#2.6.3",
+    "jquery-slimscroll": "1.3.8",
+    "eqcss": "1.8.0",
+    "moment": "2.22.0",
+    "eonasdan-bootstrap-datetimepicker": "4.17.47",
+    "select2": "4.0.6",
+    "inputmask": "4.0.0",
+    "numeral": "1.4.5",
+    "jquery-form-validator": "2.3.26",
+    "jquery-validation": "1.19.0",
+    "jQuery.scrollBar": "falkmueller/jQuery.scrollBar",
+    "datatables.net": "1.10.18",
+    "datatables-responsive": "2.2.2",
+    "mark.js": "julmot/mark.js#master",
+    "datatables.mark.js": "2.0.0",
+    "rowGroup": "datatables/rowGroup#1.1.1",
+    "jstree": "3.3.8",
+    "jquery-ui": "1.12.1",
+    "tooltipster": "4.2.7",
+    "jqueryui-touch-punch": "furf/jquery-ui-touch-punch",
+    "slick-carousel": "1.8.0",
+    "jquery-textfill": "master",
+    "css-ripple-effect": "1.0.9"
+  },
+  "overrides": {
+    "masonry-layout": {
+      "main": [
+        "./dist/masonry.pkgd.js"
+      ],
+      "dependencies": {}
+    },
+    "metisMenu": {
+      "main": [
+        "./dist/metisMenu.js",
+        "!./dist/metisMenu.css"
+      ],
+      "dependencies": {}
+    },
+    "jquery-slimscroll": {
+      "main": [
+        "jquery.slimscroll.js"
+      ],
+      "dependencies": {}
+    },
+    "select2": {
+      "main": [
+        "./dist/js/select2.js",
+        "./dist/css/select2.css"
+      ],
+      "dependencies": {}
+    },
+    "moment": {
+      "main": [
+        "./min/moment.min.js"
+      ],
+      "dependencies": {}
+    },
+    "inputmask": {
+      "main": [
+        "./dist/min/jquery.inputmask.bundle.min.js"
+      ],
+      "dependencies": {}
+    },
+    "numeral": {
+      "main": [
+        "./min/numeral.min.js"
+      ],
+      "dependencies": {}
+    },
+    "jquery-validation": {
+      "main": [
+        "./dist/jquery.validate.min.js",
+        "./dist/additional-methods.min.js"
+      ],
+      "dependencies": {}
+    },
+    "jQuery.scrollBar": {
+      "main": [
+        "./scrollBar.js",
+        "./scrollBar.css"
+      ],
+      "dependencies": {}
+    },
+    "mark.js": {
+      "main": [
+        "./dist/jquery.mark.js"
+      ],
+      "dependencies": {}
+    },
+    "rowGroup": {
+      "main": [
+        "./js/dataTables.rowGroup.js"
+      ],
+      "dependencies": {}
+    },
+    "tooltipster": {
+      "main": [
+        "./dist/js/tooltipster.bundle.js",
+        "./dist/css/tooltipster.bundle.css",
+        "./dist/css/plugins/tooltipster/sideTip/themes/tooltipster-sideTip-shadow.min.css"
+      ],
+      "dependencies": {}
+    },
+    "datatables": {
+      "main": [
+        "./media/js/jquery.dataTables.js",
+        "!./media/css/jquery.dataTables.css"
+      ],
+      "dependencies": {}
+    },
+    "slick-carousel": {
+      "main": [
+        "./slick/slick.js",
+        "./slick/slick.css",
+        "./slick/slick-theme.css"
+      ],
+      "dependencies": {}
+    },
+    "jquery-ui": {
+      "main": [
+        "./jquery-ui.js",
+        "./themes/base/jquery-ui.css"
+      ],
+      "dependencies": {}
+    },
+    "css-ripple-effect": {
+      "main": [
+        "./dist/ripple.css"
+      ],
+      "dependencies": {}
+    },
+    "datatables-responsive": {
+      "main": [
+        "./js/dataTables.responsive.js",
+        "css/responsive.dataTables.scss"
+      ],
+      "dependencies": {}
+    }
+  }
+}
