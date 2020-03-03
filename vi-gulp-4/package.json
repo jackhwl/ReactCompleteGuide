@@ -13,6 +13,7 @@
     "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-load-plugins": "^2.0.2",
-    "gulp-util": "^3.0.8"
+    "gulp-util": "^3.0.8",
+    "minimist": "^1.2.0"
   }
 }
