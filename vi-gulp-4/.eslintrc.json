@@ -2,16 +2,17 @@
   "extends": "eslint:recommended",
   "rules": {
     "no-console": "off",
-	"no-mixed-spaces-and-tabs": "off"
+    "no-mixed-spaces-and-tabs": "off"
   },
   "plugins": [],
   "env": {
-  	"es6": true,
+    "es6": true,
     "browser": true,
     "jasmine": true
   },
   "globals": {
-    "angular": false,
+    "require": true,
+    "process": true,
     "module": true,
     "inject": true
   }

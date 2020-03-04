@@ -2,8 +2,7 @@
 /*eslint-env node*/
 var fs = require("fs")
 var path = require("path")
-var gulp = require("gulp"),
-  plugins = require("gulp-load-plugins")()
+var gulp = require("gulp")
 
 var $ = require("gulp-load-plugins")({
   pattern: ["gulp-*", "minimist"]
