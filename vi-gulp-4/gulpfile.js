@@ -3,7 +3,7 @@
 var fs = require("fs")
 var path = require("path")
 var gulp = require("gulp")
-
+const { series, parallel } = require("gulp")
 var $ = require("gulp-load-plugins")({
   pattern: ["gulp-*", "minimist"]
 })
@@ -25,28 +25,16 @@ fs.readdirSync("./gulp/tasks")
     gulp.task(path.parse(file).name, require("./gulp/tasks/" + file)())
   })
 
-// gulp.task('mode', async function () {
-//     return function(cb) {
-//         if (release) {
-//             return $.util.log( $.util.colors.red('RUNNING IN RELEASE MODE'), cb );
-//         } else {
-//             return $.util.log( $.util.colors.green('RUNNING IN DEBUG MODE'), cb );
-//         }
-//     }
-// });
 if (release) {
   $.util.log($.util.colors.red("RUNNING IN RELEASE MODE"))
 } else {
   $.util.log($.util.colors.green("RUNNING IN DEBUG MODE"))
 }
 
-gulp.task(
-  "build",
-  gulp.series("clean", gulp.parallel("sass", "scripts"), "inject")
-)
+gulp.task("build", series("clean", parallel("sass", "scripts"), "inject"))
 
-gulp.task("release", gulp.series("build"))
+gulp.task("release", series("build"))
 
-gulp.task("debug", gulp.series("build"))
+gulp.task("debug", series("build"))
 
-gulp.task("default", gulp.series("debug"))
+gulp.task("default", series("debug"))
