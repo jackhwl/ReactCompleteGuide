@@ -13,7 +13,6 @@ var argv = $.minimist(process.argv.slice(2))
 var release = argv._.indexOf("release") == -1 ? false : true
 var debug = argv._.indexOf("debug") == -1 ? false : true
 
-// prettier-ignore
 module.exports = function() {
   return function() {
     // prettier-ignore
@@ -38,7 +37,7 @@ module.exports = function() {
     //   root: 'app'
     // }))
     .pipe(gulp.dest(path.join(conf.paths.tmp, conf.paths.partials)));
-        // ---------------------------------------------- End Task
+    // ---------------------------------------------- End Task
     return stream
   }
 }
