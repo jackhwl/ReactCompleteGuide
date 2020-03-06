@@ -1,12 +1,12 @@
-#!/usr/bin/env groovy
 // https://blog.dangl.me/archive/configure-git-hooks-on-bonobo-git-server-in-windows/
+#!/usr/bin/env groovy
 pipeline {
     agent any
-    //parameters {
-    //    string(name: 'BranchPath', defaultValue: 'master', description: '')
-    //    choice(name: 'BuildType', choices: 'test\nrelease', description: 'test=build and run tests, release=build and create installer')
-    //    string(name: 'OverrideVersion', defaultValue: '', description: '')
-    //}
+    parameters {
+        string(name: 'BranchPath', defaultValue: 'master', description: '')
+        choice(name: 'BuildType', choices: 'test\nrelease', description: 'test=build and run tests, release=build and create package.zip')
+        //    string(name: 'OverrideVersion', defaultValue: '', description: '')
+    }
 	environment { 
 		//scriptDir = "${WORKSPACE}\\_jenkins"
         //msbuild0 = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\MSBuild\\Current\\Bin\\msbuild.exe"
@@ -19,39 +19,71 @@ pipeline {
                 echo ("Checking out source code")
                 //checkout([$class: 'TeamFoundationServerScm', credentialsConfigurer: [$class: 'AutomaticCredentialsConfigurer'], projectPath: '$/SassConverter', serverUrl: 'http://videvsql001:8080/tfs/viDesktop/', useOverwrite: true, useUpdate: true, workspaceName: 'Hudson-${JOB_NAME}'])
 	            git(
-                   url: 'http://videvsql001/GitMoved/viDesktopDev.git',
+                   url: 'http://videvc001/Git/viDesktopDev.git',
                    credentialsId: 'a32b6345-33c8-46df-bfde-7af65312bf8a',
-                   branch: "v2032"
+                   branch: "dev01"
                 )
 	            
 	        }
 	    }
-
-		stage('Build') {
+// 		stage('Build All') {
+// 			when {
+// 				expression {params.BuildType == 'test'}
+// 			}
+// 			steps {			
+// 		        echo "Building entire solution for testing"
+// 				bat "\"${env.msbuild}\" ${WORKSPACE}\\Xcelerate.sln /t:Clean;Build;ResolveReferences /p:Configuration=Debug"
+//             }
+// 		}
+		
+		stage('Build Debug') {
+			when {
+				expression {params.BuildType == 'test'}
+			}
 			steps {
-				echo "Building entire solution for testing"
-			    // echo env.msbuild
-				// bat "\"${env.msbuild}\" \"${WORKSPACE}\\viDesktop.sln\" /t:Build;ResolveReferences /p:Configuration=Release"   /p:DeployOnBuild=true,PublishProfile=\"${WORKSPACE}\\publish.pubxml\"
-				bat "\"${env.msbuild}\" \"${WORKSPACE}\\viDesktop.sln\" /t:Clean;Build;ResolveReferences /p:Configuration=Release "
+				echo "Building entire solution in Debug Mode for testing"
+				bat "\"${env.msbuild}\" \"${WORKSPACE}\\viDesktop.sln\" /t:Clean;Build;ResolveReferences /p:Configuration=Debug "
 				
 				echo "copy license files"
 				bat "xcopy \"${WORKSPACE}\\lib\\*.lic\" \"${WORKSPACE}\\bin\" /Y"
-				//bat "xcopy \"${WORKSPACE}\\lib\\*.lic\" \"${WORKSPACE}\\viDesktopService.Test\\bin\\Release\" /Y"
 				
 				echo "remove stuff that should not be published"
 				bat "if exist \"${WORKSPACE}\\FederationMetadata\" rmdir \"${WORKSPACE}\\FederationMetadata\" /s /q"
 			}
 		}
- 		stage('Run unit tests') {
+ 		stage('Run Unit Tests') {
  			environment { 
  				nunit = "C:\\Program Files (x86)\\NUnit.org\\nunit-console\\nunit3-console.exe" 
  			}
- 			steps {
- 				echo "running tests"
- 				//format as nunit2 so xUnit plugin can display results
- 				bat "xcopy \"${WORKSPACE}\\lib\\*.lic\" \"${WORKSPACE}\\viDesktopService.Test\\bin\\Release\" /Y"
- 				bat "\"${env.nunit}\" \"${WORKSPACE}\\viDesktopService.Test\\bin\\Release\\viDesktopService.Test.dll\"  -result:TestResult.xml;format=nunit2"
-             }
+			when {
+				expression {params.BuildType == 'test'}
+			}
+			steps {
+			    parallel nunit: {
+     				echo "running tests"
+     				//format as nunit2 so xUnit plugin can display results
+     				bat "xcopy \"${WORKSPACE}\\lib\\*.lic\" \"${WORKSPACE}\\viDesktopService.Test\\bin\\Debug\" /Y"
+     				bat "\"${env.nunit}\" \"${WORKSPACE}\\viDesktopService.Test\\bin\\Debug\\viDesktopService.Test.dll\"  -result:TestResult.xml;format=nunit2"
+			    }
+		    }
  		}
+		stage('Build Release') {
+			environment { 
+				publishDir = "D:\\PublishBuilds\\${params.Version}" 
+			}
+			when {
+				expression {params.BuildType == 'release'}
+			}
+			steps {
+				echo "Building entire solution in Release Mode for publish"
+				bat "\"${env.msbuild}\" \"${WORKSPACE}\\viDesktop.sln\" /t:Build;ResolveReferences /p:Configuration=Release /p:DeployOnBuild=true,PublishProfile=\"${WORKSPACE}\\publish.pubxml\""
+				
+				echo "copy license files"
+				bat "xcopy \"${WORKSPACE}\\lib\\*.lic\" \"${WORKSPACE}\\bin\" /Y"
+				
+				echo "remove stuff that should not be published"
+				bat "if exist \"${WORKSPACE}\\FederationMetadata\" rmdir \"${WORKSPACE}\\FederationMetadata\" /s /q"
+			}
+		}
 	}
 }
