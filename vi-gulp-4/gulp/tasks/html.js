@@ -60,8 +60,8 @@ module.exports = function() {
     // prettier-ignore
     var stream =
       // -------------------------------------------- Start Task
-      gulp.src([path.join(conf.paths.tmp, '/serve/*.html'), 
-                  path.join(conf.paths.tmp, '/serve/*.scss')])
+      gulp.src([path.join(conf.paths.tmp, '/serve/src/*.html'), 
+                  path.join(conf.paths.tmp, '/serve/src/*.scss')])
     // .pipe($.inject(partialsInjectFile, partialsInjectOptions))
   //  .pipe(scssFilter)
   //  .pipe($.sass())

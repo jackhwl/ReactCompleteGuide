@@ -35,7 +35,7 @@ gulp.task('local', [], function () {
   gulp.start('build');
 });
 
-gulp.task('buildapp', ['mode', 'html', 'merge']);
+gulp.task('buildapp', ['mode', 'html']);
 
 gulp.task('build', ['clean'], function () {
   gulp.start('buildapp');

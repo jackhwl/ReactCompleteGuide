@@ -19,7 +19,7 @@ fs.readdirSync("./gulp/tasks")
 
 gulp.task(
   "build",
-  series("clean", parallel("sass", "scripts"), "inject", "partials", "html")
+  series("clean", parallel("sass"), "inject", "html") //, "partials", "html"
 )
 
 gulp.task("release", parallel("mode", "build"))

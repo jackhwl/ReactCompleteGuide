@@ -1,4 +1,5 @@
 #!/usr/bin/env groovy
+// https://blog.dangl.me/archive/configure-git-hooks-on-bonobo-git-server-in-windows/
 pipeline {
     agent any
     //parameters {
