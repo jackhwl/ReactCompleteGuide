@@ -29,7 +29,7 @@ var release = argv._.indexOf("release") == -1 ? false : true
 // }
 
 var htmlFilter = $.filter("*.html", { restore: true })
-var vendorJsFilter = $.filter("**/vendor.js", { restore: true })
+var vendorJsFilter = $.filter('**/vendor.js', { restore: true })
 var appJsFilter = $.filter("**/app.js", { restore: true })
 var envJsFilter = $.filter("**/env.js", { restore: true })
 var cssFilter = $.filter("**/*.css", { restore: true })
@@ -48,6 +48,7 @@ var scssFilter = $.filter("**/*.scss", { restore: true })
 
 function minCondition(type) {
   return function(file) {
+    //$.util.log(file.path)
     var fileData = path.parse(file.path),
       fileExt = fileData.ext.replace(".", ""),
       minRegexp = new RegExp(".min$")
@@ -80,23 +81,26 @@ module.exports = function() {
       //   $.size({title: path.join(conf.paths.dist, '/'), showFiles: true }));
       return $.if(minCondition('js'), $.if(release, $.uglify({output: {comments: $.uglifySaveLicense }})), $.nop());
     })))
+    .pipe($.size({title: 'before vendor filter', showFiles: true }))
     .pipe(vendorJsFilter)
-    .pipe($.if(release, $.sourcemaps.init()))
+    .pipe($.size({title: path.join(conf.paths.partials, '/aaaa/'), showFiles: true }))
+    //.pipe($.if(release, $.sourcemaps.init()))
     //.pipe($.ngAnnotate())
     //.pipe($.if(release, $.uglify({ mangle: false, compress: false, preserveComments: `license` }))).on('error', conf.errorHandler('Uglify'))
-    //.pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
+    //.pipe($.if(release, $.uglify({ output: {comments: $.uglifySaveLicense  }}))).on('error', conf.errorHandler('Uglify'))
+    
     .pipe($.if(conf.userev, $.rev()))
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
-    .pipe($.if(conf.userev, $.rev.manifest('dist/rev-manifest.json', {base: process.cwd() + '/dist', merge: true})))
+    .pipe($.if(conf.userev, $.rev.manifest(process.cwd() + '/dist/rev-manifest.json', {base: process.cwd() + '/dist', merge: true})))
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
-    .pipe($.if(release, $.sourcemaps.write('.')))
+    //.pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(vendorJsFilter.restore)
     .pipe(appJsFilter)
     .pipe($.if(release, $.sourcemaps.init()))
     .pipe($.if(release, $.uglify({ preserveComments: $.uglifySaveLicense }))).on('error', conf.errorHandler('Uglify'))
     .pipe($.if(conf.userev, $.rev()))
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
-    .pipe($.if(conf.userev, $.rev.manifest('dist/rev-manifest.json', {base: process.cwd() + '/dist', merge: true})))
+    .pipe($.if(conf.userev, $.rev.manifest(process.cwd() + '/dist/rev-manifest.json', {base: process.cwd() + '/dist', merge: true})))
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
     .pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(appJsFilter.restore)
@@ -108,6 +112,7 @@ module.exports = function() {
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
     .pipe(envJsFilter.restore)
     .pipe(scssFilter)
+    .pipe($.size({title: path.join(conf.paths.partials, '/bbbb/'), showFiles: true }))
     .pipe($.if(release, $.sourcemaps.init()))
     .pipe($.if(release, $.cssnano()))
     .pipe($.if(conf.userev, $.rev()))
@@ -124,6 +129,7 @@ module.exports = function() {
     .pipe(cssFilter.restore)
     .pipe($.if(conf.userev, $.revReplace()))
     .pipe(htmlFilter)
+    .pipe($.size({title: path.join(conf.paths.partials, '/dddd/'), showFiles: true }))
     .pipe($.if(release, $.htmlmin({
       removeEmptyAttributes: true,
       removeAttributeQuotes: true,

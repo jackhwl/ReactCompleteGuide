@@ -78,7 +78,7 @@ module.exports = function() {
         .pipe($.inject(injectEnviormentScript, injectEnvOptions))
         .pipe($.inject(injectScripts, injectOptions))
 
-        .pipe(wiredep(Object.assign({}, config.wiredepOptions(!debug))))
+        .pipe(wiredep(Object.assign({}, config.wiredepOptions(true))))
         .on("error", conf.errorHandler("wiredep"))
         // .pipe($.replace(/<ov-app-loading>/, function(s){
         //     return fs.readFileSync(path.join(conf.paths.src, '/app/components/loading/loading.htm'), 'utf8');
