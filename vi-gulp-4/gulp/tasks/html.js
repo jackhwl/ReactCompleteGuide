@@ -78,7 +78,7 @@ module.exports = function() {
       // return $.if(minCondition('js'), 
       //   $.size({title: path.join(conf.paths.partials, '/'), showFiles: true }), 
       //   $.size({title: path.join(conf.paths.dist, '/'), showFiles: true }));
-      return $.if(minCondition('js'), $.if(release, $.uglify({ preserveComments: $.uglifySaveLicense })), $.nop());
+      return $.if(minCondition('js'), $.if(release, $.uglify({output: {comments: $.uglifySaveLicense }})), $.nop());
     })))
     .pipe(vendorJsFilter)
     .pipe($.if(release, $.sourcemaps.init()))
