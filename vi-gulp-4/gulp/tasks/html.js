@@ -39,7 +39,7 @@ var release = argv._.indexOf("release") == -1 ? false : true
 //       .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
 // });
 
-var htmlFilter = $.filter("*.html", { restore: true })
+var htmlFilter = $.filter(["**/*", "!**/index.html"], { restore: true })
 //var manifestFilter = $.filter("**/manifest.json", { restore: true })
 var vendorJsFilter = $.filter("**/vendor.js", { restore: true })
 var appJsFilter = $.filter("**/app.js", { restore: true })
@@ -142,7 +142,6 @@ module.exports = function() {
     .pipe($.if(release, $.sourcemaps.write('.')))
     .pipe(cssFilter.restore)
     
-    .pipe($.if(conf.userev, $.revReplace()))
     .pipe(htmlFilter)
     .pipe($.if(release, $.htmlmin({
       removeEmptyAttributes: true,
@@ -152,6 +151,7 @@ module.exports = function() {
       collapseWhitespace: true
     })))
     .pipe(htmlFilter.restore)
+    .pipe($.if(conf.userev, $.revReplace()))
     // .pipe($.filerevReplace({
     //   filerev: ['scripts/vendor.js'], // Select the files to filerev
     //   replace: [path.join(conf.paths.dist, '/**/*')],  // Select the files to replace

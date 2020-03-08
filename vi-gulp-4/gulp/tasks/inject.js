@@ -66,7 +66,7 @@ module.exports = function() {
       gulp
         .src([
           path.join(conf.paths.src, "/*.html"),
-          path.join(conf.paths.src, "/*.scss")
+          //path.join(conf.paths.src, "/*.scss")
         ])
         .pipe($.if(!debug, $.stripCode(conf.stripCodePattern("start spa css", "end spa css"))))
         .pipe($.if(debug, $.stripCode(conf.stripCodePattern("start mvc css", "end mvc css"))))
