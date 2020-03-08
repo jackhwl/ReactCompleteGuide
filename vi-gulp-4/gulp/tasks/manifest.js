@@ -88,11 +88,11 @@ module.exports = function() {
     })))
     //.pipe($.size({title: 'before vendor filter', showFiles: true }))
     .pipe($.if(conf.userev, $.rev()))
-    // .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
-    // .pipe($.if(conf.userev, $.rev.manifest('rev-manifest.json', {merge: true})))
-    // .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
-    .pipe($.if(release, $.sourcemaps.init({loadMaps: true})))
-    .pipe($.if(release, $.sourcemaps.write('.')))
+    //.pipe(gulp.dest(path.join(conf.paths.dist, '/')))
+    .pipe($.if(conf.userev, $.rev.manifest('rev-manifest.json', {merge: true})))
+    //.pipe(gulp.dest(path.join(conf.paths.dist, '/')))
+    // .pipe($.if(release, $.sourcemaps.init({loadMaps: true})))
+    // .pipe($.if(release, $.sourcemaps.write('.')))
     // .pipe(scssFilter)
     //.pipe($.if(conf.userev, $.rev()))
     // .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
@@ -179,9 +179,9 @@ module.exports = function() {
     //   base:    'scripts'         // Filerevved files are served from the assets directory by the web server
     // }))
     // .pipe($.filerevReplace.addManifest({path: path.join(conf.paths.dist, '/filerev.json')}))
-  
+
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
-    .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
+    //.pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
     // ---------------------------------------------- End Task
     return stream
   }
