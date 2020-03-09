@@ -30,18 +30,18 @@ module.exports = function() {
         .pipe($.sass())
         .pipe($.if(release, $.sourcemaps.write(".")))
         // comment below to generate file
-        // .pipe(
-        //   $.if(
-        //     conf.userev,
-        //     $.rev.manifest("../../dist/rev2-manifest.json", {
-        //       //base: ".",
-        //       // cwd: ".",
-        //       merge: true
-        //     })
-        //   )
-        // )
+        .pipe(
+          $.if(
+            conf.userev,
+            $.rev.manifest("../../dist/rev2-manifest.json", {
+              //base: ".",
+              // cwd: ".",
+              merge: true
+            })
+          )
+        )
         // .pipe(gulp.dest(path.join(conf.paths.dist, "/")))
-        .pipe(gulp.dest(path.join(conf.paths.tmp, "/")))
+        .pipe(gulp.dest(path.join(conf.paths.tmp, "/serve")))
     //.pipe(gulp.dest(conf.paths.tmp, "/serve"))
     // ---------------------------------------------- End Task
     return stream
