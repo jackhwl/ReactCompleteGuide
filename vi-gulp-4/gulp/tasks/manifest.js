@@ -62,7 +62,7 @@ module.exports = function() {
     // prettier-ignore
     var stream =
       // -------------------------------------------- Start Task
-      gulp.src([path.join(conf.paths.tmp, '/serve/src/index.html'), 
+      gulp.src([path.join(conf.paths.tmp, '/dist/src/index.html'), 
                   //  path.join(conf.paths.tmp, '/serve/src/*.scss'),
                   //  path.join(conf.paths.tmp, '/scripts/*.js')
                 ])

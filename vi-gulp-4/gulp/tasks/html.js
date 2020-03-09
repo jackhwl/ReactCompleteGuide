@@ -62,7 +62,7 @@ module.exports = function() {
     // prettier-ignore
     var stream =
       // -------------------------------------------- Start Task
-      gulp.src([path.join(conf.paths.tmp, '/serve/src/index.html'), 
+      gulp.src([path.join(conf.paths.tmp, '/dist/src/index.html'), 
                   //  path.join(conf.paths.tmp, '/serve/src/*.scss'),
                   //  path.join(conf.paths.tmp, '/scripts/*.js')
                 ])
@@ -179,7 +179,7 @@ module.exports = function() {
     //   base:    'scripts'         // Filerevved files are served from the assets directory by the web server
     // }))
     // .pipe($.filerevReplace.addManifest({path: path.join(conf.paths.dist, '/filerev.json')}))
-  
+    .pipe($.flatten({ subPath: [0, 1]}))
     .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
     .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
     // ---------------------------------------------- End Task

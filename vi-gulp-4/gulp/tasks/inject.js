@@ -83,7 +83,7 @@ module.exports = function() {
         // .pipe($.replace(/<ov-app-loading>/, function(s){
         //     return fs.readFileSync(path.join(conf.paths.src, '/app/components/loading/loading.htm'), 'utf8');
         // }))
-        .pipe(gulp.dest(path.join(conf.paths.tmp, "/serve")))
+        .pipe(gulp.dest(path.join(conf.paths.tmp, "/dist")))
     // ---------------------------------------------- End Task
     return stream
   }

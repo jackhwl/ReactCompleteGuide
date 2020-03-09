@@ -24,24 +24,22 @@ module.exports = function() {
         ])
         .pipe(wiredep(Object.assign({}, config.wiredepOptions(release))))
         .on("error", conf.errorHandler("wiredep"))
+
         .pipe($.if(conf.userev, $.rev()))
-        //.pipe(gulp.dest(path.join(conf.paths.dist, "/")))
         .pipe($.if(release, $.sourcemaps.init({ loadMaps: true })))
         .pipe($.sass())
         .pipe($.if(release, $.sourcemaps.write(".")))
-        // comment below to generate file
+        .pipe($.flatten())
+        .pipe(gulp.dest(path.join(conf.paths.dist, "/styles")))
         .pipe(
           $.if(
             conf.userev,
-            $.rev.manifest("../../dist/rev2-manifest.json", {
-              //base: ".",
-              // cwd: ".",
+            $.rev.manifest("rev2-manifest.json", {
               merge: true
             })
           )
         )
-        // .pipe(gulp.dest(path.join(conf.paths.dist, "/")))
-        .pipe(gulp.dest(path.join(conf.paths.tmp, "/serve")))
+        .pipe(gulp.dest(path.join(conf.paths.dist, "/")))
     //.pipe(gulp.dest(conf.paths.tmp, "/serve"))
     // ---------------------------------------------- End Task
     return stream
