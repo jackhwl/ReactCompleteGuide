@@ -1,4 +1,3 @@
-// https://blog.dangl.me/archive/configure-git-hooks-on-bonobo-git-server-in-windows/
 #!/usr/bin/env groovy
 pipeline {
     agent any
@@ -21,7 +20,7 @@ pipeline {
 	            git(
                    url: 'http://videvc001/Git/viDesktopDev.git',
                    credentialsId: 'a32b6345-33c8-46df-bfde-7af65312bf8a',
-                   branch: "dev01"
+                   branch: "dev02"
                 )
 	            
 	        }
@@ -76,13 +75,87 @@ pipeline {
 			}
 			steps {
 				echo "Building entire solution in Release Mode for publish"
-				bat "\"${env.msbuild}\" \"${WORKSPACE}\\viDesktop.sln\" /t:Build;ResolveReferences /p:Configuration=Release /p:DeployOnBuild=true,PublishProfile=\"${WORKSPACE}\\publish.pubxml\""
+				bat "\"${env.msbuild}\" \"${WORKSPACE}\\viDesktop.sln\" /t:Build;ResolveReferences /p:Configuration=Release /p:DeployOnBuild=true,PublishProfile=\"${WORKSPACE}\\lib\\publish.pubxml\""
 				
 				echo "copy license files"
 				bat "xcopy \"${WORKSPACE}\\lib\\*.lic\" \"${WORKSPACE}\\bin\" /Y"
 				
 				echo "remove stuff that should not be published"
 				bat "if exist \"${WORKSPACE}\\FederationMetadata\" rmdir \"${WORKSPACE}\\FederationMetadata\" /s /q"
+			}
+		}
+		stage('Package and deploy') {
+			environment { 
+				publishDir = "D:\\PublishBuilds\\${params.Version}" 
+				packageDir = "D:\\Ready Build Packages\\${params.Version}-Build" 
+				versionLabel = getVersionLabel("${params.Version}", "${currentBuild.number}")
+			}
+			when {
+				expression {params.BuildType == 'releasea'}
+			}
+			steps {
+				
+				echo "Clean up build folder, delete previous build:"
+				bat "if exist \"${env.packageDir}\\\" rmdir \"${env.packageDir}\" /s /q"
+				bat "mkdir \"${env.packageDir}\""
+
+				echo "Copy built files, remove un-needed files:"
+				bat "xcopy \"${env.publishDir}\" \"${env.packageDir}\" /e"
+				bat "if exist \"${env.packageDir}\\sqlclr\\*.dacpac\" del \"${env.packageDir}\\sqlclr\\*.dacpac\""
+				bat "if exist \"${env.packageDir}\\sqlclr\\*.sql\" del \"${env.packageDir}\\sqlclr\\*.sql\""
+				bat "if exist \"${env.packageDir}\\service\\XcelerateUploadDir\\\" rmdir \"${env.packageDir}\\service\\XcelerateUploadDir\" /s /q"
+
+				echo "Copy xcelerate add-in MSI, builder MSI, and How-to documents:"
+				bat "if exist \"${env.packageDir}\\Addin\\\" rmdir \"${env.packageDir}\\Addin\" /s /q"
+				bat "if exist \"${env.packageDir}\\Builder\\\" rmdir \"${env.packageDir}\\Builder\" /s /q"
+				bat "mkdir \"${env.packageDir}\\Addins\""
+				bat "xcopy \"D:\\PublishingTools\\XcelerateInstaller\\XcelerateInstaller\\XcelerateMachineInstaller64Bit\\bin\\Release\\*Addin*${env.versionLabel}*msi\" \"${env.packageDir}\\Addins\""
+				bat "xcopy \"D:\\PublishingTools\\XcelerateInstaller\\XcelerateInstaller\\XcelerateMachineInstaller64Bit\\bin\\Release\\*Builder*${env.versionLabel}*msi\" \"${env.packageDir}\\Addins\""
+				bat "xcopy \"D:\\xcelerate\\How to Install Add-ins Silently.txt\" \"${env.packageDir}\\Addins\""
+				bat "xcopy \"D:\\xcelerate\\How to Install Add-ins.pdf\" \"${env.packageDir}\\Addins\""
+				bat "if exist \"${env.packageDir}\\Addins\\*.wixpdb\" del \"${env.packageDir}\\Addins\\*.wixpdb\""
+
+				echo "Copy Tools - ADExplorer, URL Rewrite MSI, xcelerate Encryption Tool:"
+				bat "if exist \"${env.packageDir}\\Tools\\\" rmdir \"${env.packageDir}\\Tools\" /s /q"
+				bat "mkdir \"${env.packageDir}\\Tools\""
+				bat "xcopy \"D:\\xcelerate\\tools\\*\" \"${env.packageDir}\\Tools\""
+
+				echo "Remove all web.config files:"
+				bat "if exist \"${env.packageDir}\\Adminportal\\Web*config\" del \"${env.packageDir}\\Adminportal\\Web*config\""
+				bat "if exist \"${env.packageDir}\\service\\Web*config\" del \"${env.packageDir}\\service\\Web*config\""
+				bat "if exist \"${env.packageDir}\\webapi\\Web*config\" del \"${env.packageDir}\\webapi\\Web*config\""
+				bat "if exist \"${env.packageDir}\\filesync\\FileSynchronizer.exe.config\" del \"${env.packageDir}\\filesync\\FileSynchronizer.exe.config\""
+
+				echo "Copy ConfigTemplates, WorksheetsReports, and Packages:"
+				bat "xcopy \"%WORKSPACE%\\XcelerateInstaller\\ConfigTemplates\" \"${env.packageDir}\\ConfigTemplates\\*\" /s"
+				bat "xcopy \"%WORKSPACE%\\XcelerateInstaller\\WorksheetsReports\" \"${env.packageDir}\\WorksheetsReports\\*\" /s"
+				bat "xcopy \"%WORKSPACE%\\XcelerateInstaller\\Scripts\\Processes\\Packages\\*.zip\" \"${env.packageDir}\\Processes\\Packages\\*\" /s"
+
+				echo "copy licence text file"
+				bat "copy \"D:\\xcelerate\\ThirdPartyLicenses.txt\" \"${env.packageDir}\\Adminportal\\ThirdPartyLicenses.txt\" "
+				bat "copy \"D:\\xcelerate\\ThirdPartyLicenses.txt\" \"${env.packageDir}\\webapi\\ThirdPartyLicenses.txt\" "
+				bat "copy \"D:\\xcelerate\\ThirdPartyLicenses.txt\" \"${env.packageDir}\\service\\ThirdPartyLicenses.txt\" "
+
+				echo "Copy missing DLLs:"
+				bat "copy \"D:\\PublishingTools\\MakeAutomatedPackage_files\\dsofile.dll\" \"${env.packageDir}\\filesync\\dsofile.dll\" "
+				bat "xcopy \"D:\\PublishingTools\\MakeAutomatedPackage_files\\network_dll\" \"${env.packageDir}\\Adminportal\\bin\" /s /y"
+				bat "xcopy \"D:\\PublishingTools\\MakeAutomatedPackage_files\\network_dll\" \"${env.packageDir}\\service\\bin\" /s /y"
+				bat "xcopy \"D:\\PublishingTools\\MakeAutomatedPackage_files\\network_dll\" \"${env.packageDir}\\webapi\\bin\" /s /y"
+				
+				echo "Digital Sign the installer:"
+				bat "\"C:\\Program Files (x86)\\Windows Kits\\8.0\\bin\\x86\\signtool.exe\" sign /f \"D:\\code signing\\sign_SHA1.pfx\" /p x!r8PWD /tr http://tsa.starfieldtech.com /td SHA256 /d \"xcelerate Installer\" \"${env.packageDir}\\installer\\Xcelerate.Installer.exe\""
+
+				echo "Create Shortcut to the installer:"
+				dir ("${WORKSPACE}\\_jenkins") {
+					bat "cscript.exe /nologo createShortcut.vbs \"${env.packageDir}\" \"D:\\Ready Build Packages\\Setup-${env.packageName}\" "
+				}
+				echo "Zip:"
+				bat "powershell.exe -nologo -noprofile -command \"& { Add-Type -A 'System.IO.Compression.FileSystem'; [IO.Compression.ZipFile]::CreateFromDirectory('${env.packageDir}', 'D:\\Ready Build Packages\\Setup-${env.PackageName}.zip') }\""
+
+				echo "Copy to Network Share:"
+				bat "REM copy \"D:\\Ready Build Packages\\Setup-${env.PackageName}.zip\" \"\\\\192.168.2.222\\d\$\\Setup-${env.PackageName}.zip\""
+				bat "copy \"D:\\Ready Build Packages\\Setup-${env.PackageName}.zip\" \"\\\\fs01\\shares\\departments\\development\\builds\\Setup-${env.PackageName}.zip\""
+				bat "REM copy \"D:\\Ready Build Packages\\Setup-${env.PackageName}.zip\" \"\\\\QA-01\\xcelerate_WIP\\Setup-${env.PackageName}.zip\""
 			}
 		}
 	}
