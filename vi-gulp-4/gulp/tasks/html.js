@@ -49,6 +49,21 @@ function minCondition(type) {
     return !!(fileExt === type && !minRegexp.test(fileData.name))
   }
 }
+
+function minifyJsCss(type) {
+  return function() {
+    if (type === "js") {
+      return $.if(
+        minCondition(type),
+        $.if(release, $.uglify({ output: { comments: $.uglifySaveLicense } }))
+      )
+    }
+    if (type === "css") {
+      return $.if(minCondition(type), $.if(release, $.cssnano()))
+    }
+  }
+}
+
 module.exports = function() {
   var htmlFilter = $.filter(["**/index.html"], { restore: true })
   //var manifestFilter = $.filter("**/manifest.json", { restore: true })
@@ -78,15 +93,9 @@ module.exports = function() {
   //                 $.size({title: path.join(conf.paths.partials, '/'), showFiles: true }), 
   //                 $.size({title: path.join(conf.paths.dist, '/'), showFiles: true })))
   //.pipe($.size({title: 'before ========= useref ', showFiles: true }))
-  .pipe($.useref({}, $.lazypipe()
-                        .pipe(function() {
-      // return $.if(minCondition('js'), 
-      //   $.size({title: path.join(conf.paths.partials, '/'), showFiles: true }), 
-      //   $.size({title: path.join(conf.paths.dist, '/'), showFiles: true }));
-      return $.if(minCondition('js'), $.if(release, $.uglify({output: {comments: $.uglifySaveLicense }})));
-    })))
+  .pipe($.useref({}, $.lazypipe().pipe(minifyJsCss('js')).pipe(minifyJsCss('css'))))
     //.pipe($.if(release, $.if(/\.css$/,$.size({title: 'after ----- useref ', showFiles: true }))))
-    .pipe($.if(release, $.if(/(videsktop|vendor|app)\.css$/,$.cssnano())))
+    //.pipe($.if(release, $.if(/(videsktop|vendor|app)\.css$/,$.cssnano())))
     //.pipe($.filter('**/*.css'))
     //.pipe($.if(release, $.cssnano()))
     // .pipe(cssFilter)
