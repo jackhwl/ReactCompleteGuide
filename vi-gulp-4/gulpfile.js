@@ -17,10 +17,7 @@ fs.readdirSync("./gulp/tasks")
     gulp.task(path.parse(file).name, require("./gulp/tasks/" + file)())
   })
 
-gulp.task(
-  "build",
-  series("clean", "sass", "inject", "manifest", "html") //, "partials", "html"
-)
+gulp.task("build", series("clean", "sass", "inject", "html"))
 
 gulp.task("release", parallel("mode", "build"))
 gulp.task("debug", parallel("mode", "build"))

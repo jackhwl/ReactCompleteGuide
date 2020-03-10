@@ -7,6 +7,8 @@ var wiredep = require("wiredep").stream
 var $ = require("gulp-load-plugins")({
   pattern: ["gulp-*", "minimist"]
 })
+var videsktopScssFilter = $.filter("**/sass/videsktop.scss", { restore: true })
+var appScssFilter = $.filter("**/vendor-list.scss", { restore: true })
 
 $.sass.compiler = require("dart-sass")
 
@@ -24,22 +26,33 @@ module.exports = function() {
         ])
         .pipe(wiredep(Object.assign({}, config.wiredepOptions(release))))
         .on("error", conf.errorHandler("wiredep"))
-
-        .pipe($.if(conf.userev, $.rev()))
+        .pipe(videsktopScssFilter)
         .pipe($.if(release, $.sourcemaps.init({ loadMaps: true })))
         .pipe($.sass())
+        //.pipe($.if(conf.userev, $.rev()))
         .pipe($.if(release, $.sourcemaps.write(".")))
-        .pipe($.flatten())
-        .pipe(gulp.dest(path.join(conf.paths.dist, "/styles")))
-        .pipe(
-          $.if(
-            conf.userev,
-            $.rev.manifest("rev2-manifest.json", {
-              merge: true
-            })
-          )
-        )
-        .pipe(gulp.dest(path.join(conf.paths.dist, "/")))
+        //.pipe($.flatten({ subPath: [1, 2] }))
+        .pipe(gulp.dest(path.join(conf.paths.tmp, "dist")))
+        // .pipe(
+        //   $.if(
+        //     conf.userev,
+        //     $.rev.manifest("rev2-manifest.json", {
+        //       base: ".",
+        //       merge: true
+        //     })
+        //   )
+        // )
+        //.pipe($.if(release, $.cssnano()))
+        //.pipe(gulp.dest(path.join(conf.paths.dist, "/")))
+        .pipe(videsktopScssFilter.restore)
+        .pipe(appScssFilter)
+        //.pipe($.if(release, $.sourcemaps.init({ loadMaps: true })))
+        .pipe($.sass())
+        //.pipe($.if(release, $.cssnano()))
+        //.pipe($.if(release, $.sourcemaps.write(".")))
+        .pipe(gulp.dest(path.join(conf.paths.tmp, "dist")))
+        .pipe(appScssFilter.restore)
+
     //.pipe(gulp.dest(conf.paths.tmp, "/serve"))
     // ---------------------------------------------- End Task
     return stream
