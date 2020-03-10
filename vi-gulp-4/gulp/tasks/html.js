@@ -1,6 +1,6 @@
-var path = require("path");
-var gulp = require("gulp");
-var conf = require("../conf");
+var path = require("path")
+var gulp = require("gulp")
+var conf = require("../conf")
 
 var $ = require("gulp-load-plugins")({
   pattern: [
@@ -11,11 +11,11 @@ var $ = require("gulp-load-plugins")({
     "minimist",
     "lazypipe"
   ]
-});
+})
 
 // Parse the arguments to check for 'release'
-var argv = $.minimist(process.argv.slice(2));
-var release = argv._.indexOf("release") == -1 ? false : true;
+var argv = $.minimist(process.argv.slice(2))
+var release = argv._.indexOf("release") == -1 ? false : true
 
 //gulp.task("html", ["inject", "partials"], function() {
 // var partialsInjectFile = gulp.src(
@@ -44,19 +44,19 @@ function minCondition(type) {
     //$.util.log(file.path)
     var fileData = path.parse(file.path),
       fileExt = fileData.ext.replace(".", ""),
-      minRegexp = new RegExp(".min$");
+      minRegexp = new RegExp(".min$")
 
-    return !!(fileExt === type && !minRegexp.test(fileData.name));
-  };
+    return !!(fileExt === type && !minRegexp.test(fileData.name))
+  }
 }
 module.exports = function() {
-  var htmlFilter = $.filter(["**/index.html"], { restore: true });
+  var htmlFilter = $.filter(["**/index.html"], { restore: true })
   //var manifestFilter = $.filter("**/manifest.json", { restore: true })
-  var vendorJsFilter = $.filter("**/vendor.js", { restore: true });
-  var appJsFilter = $.filter("**/app.js", { restore: true });
-  var envJsFilter = $.filter("**/env.js", { restore: true });
-  var cssFilter = $.filter(["*", "!**/*.js"], { restore: true });
-  var scssFilter = $.filter("**/*.scss", { restore: true });
+  var vendorJsFilter = $.filter("**/vendor.js", { restore: true })
+  var appJsFilter = $.filter("**/app.js", { restore: true })
+  var envJsFilter = $.filter("**/env.js", { restore: true })
+  var cssFilter = $.filter(["*", "!**/*.js"], { restore: true })
+  var scssFilter = $.filter("**/*.scss", { restore: true })
   return function() {
     // prettier-ignore
     var stream =
@@ -86,13 +86,15 @@ module.exports = function() {
       return $.if(minCondition('js'), $.if(release, $.uglify({output: {comments: $.uglifySaveLicense }})));
     })))
     //.pipe($.if(release, $.if(/\.css$/,$.size({title: 'after ----- useref ', showFiles: true }))))
-    .pipe($.if(release, $.if(/\.css$/,$.cssnano())))
+    .pipe($.if(release, $.if(/(videsktop|vendor|app)\.css$/,$.cssnano())))
+    //.pipe($.filter('**/*.css'))
+    //.pipe($.if(release, $.cssnano()))
     // .pipe(cssFilter)
     // .pipe($.size({title: 'after -----1------- cssFilter ', showFiles: true }))
     // .pipe(cssFilter.restore)
     //.pipe($.size({title: 'after ----- useref ', showFiles: true }))
     //.pipe($.size({title: 'before vendor filter', showFiles: true }))
-    .pipe($.if(conf.userev, $.rev()))
+    .pipe($.if(conf.userev, $.if(/((vendor|app)\.js|(videsktop|vendor|app)\.css)$/, $.rev())))
     // .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
     // .pipe($.if(conf.userev, $.rev.manifest('rev-manifest.json', {merge: true})))
     // .pipe(gulp.dest(path.join(conf.paths.dist, '/')))
@@ -201,6 +203,6 @@ module.exports = function() {
     .pipe($.size({ title: path.join(conf.paths.dist, '/'), showFiles: true }));
 
     // ---------------------------------------------- End Task
-    return stream;
-  };
-};
+    return stream
+  }
+}
