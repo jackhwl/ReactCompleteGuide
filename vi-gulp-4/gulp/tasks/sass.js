@@ -28,7 +28,7 @@ module.exports = function() {
         .on("error", conf.errorHandler("wiredep"))
         .pipe(videsktopScssFilter)
         .pipe($.if(release, $.sourcemaps.init({ loadMaps: true })))
-        .pipe($.sass({ outputStyle: "compressed" }))
+        .pipe($.sass({ outputStyle: "compressed", sourceMap: true }))
         //.pipe($.if(conf.userev, $.rev()))
         .pipe($.if(release, $.sourcemaps.write(".")))
         //.pipe($.flatten({ subPath: [1, 2] }))

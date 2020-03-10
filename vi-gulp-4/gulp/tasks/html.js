@@ -17,6 +17,14 @@ var $ = require("gulp-load-plugins")({
 var argv = $.minimist(process.argv.slice(2))
 var release = argv._.indexOf("release") == -1 ? false : true
 
+// var htmlFilter = $.filter(["**/index.html"], { restore: true })
+// var manifestFilter = $.filter("**/manifest.json", { restore: true })
+// var vendorJsFilter = $.filter("**/vendor.js", { restore: true })
+// var appJsFilter = $.filter("**/app.js", { restore: true })
+// var envJsFilter = $.filter("**/env.js", { restore: true })
+// var cssFilter = $.filter(["*", "!**/*.js"], { restore: true })
+// var scssFilter = $.filter("**/*.scss", { restore: true })
+
 //gulp.task("html", ["inject", "partials"], function() {
 // var partialsInjectFile = gulp.src(
 //   path.join(conf.paths.tmp, conf.paths.partials, conf.files.templateCacheHtml),
@@ -50,7 +58,7 @@ function minCondition(type) {
   }
 }
 
-function minifyJsCss(type) {
+function minify(type) {
   return function() {
     if (type === "js") {
       return $.if(
@@ -65,20 +73,14 @@ function minifyJsCss(type) {
 }
 
 module.exports = function() {
-  var htmlFilter = $.filter(["**/index.html"], { restore: true })
-  //var manifestFilter = $.filter("**/manifest.json", { restore: true })
-  var vendorJsFilter = $.filter("**/vendor.js", { restore: true })
-  var appJsFilter = $.filter("**/app.js", { restore: true })
-  var envJsFilter = $.filter("**/env.js", { restore: true })
-  var cssFilter = $.filter(["*", "!**/*.js"], { restore: true })
-  var scssFilter = $.filter("**/*.scss", { restore: true })
   return function() {
     // prettier-ignore
     var stream =
       // -------------------------------------------- Start Task
       gulp.src([path.join(conf.paths.tmp, '/dist/src/index.html'), 
                    path.join(conf.paths.tmp, '/**/*.css'),
-                  //  path.join(conf.paths.tmp, '/scripts/*.js')
+                   //path.join(conf.paths.src, '/fonts/*.css'),
+                   // path.join(conf.paths.src, '/js/*.js')
                 ])
     // .pipe($.inject(partialsInjectFile, partialsInjectOptions))
   //  .pipe(scssFilter)
@@ -93,8 +95,8 @@ module.exports = function() {
   //                 $.size({title: path.join(conf.paths.partials, '/'), showFiles: true }), 
   //                 $.size({title: path.join(conf.paths.dist, '/'), showFiles: true })))
   //.pipe($.size({title: 'before ========= useref ', showFiles: true }))
-  .pipe($.useref({}, $.lazypipe().pipe(minifyJsCss('js')).pipe(minifyJsCss('css'))))
-    //.pipe($.if(release, $.if(/\.css$/,$.size({title: 'after ----- useref ', showFiles: true }))))
+  .pipe($.useref({}, $.lazypipe().pipe(minify('js')).pipe(minify('css'))))
+  //.pipe($.if(release, $.if(/\.css$/,$.size({title: 'after ----- useref ', showFiles: true }))))
     //.pipe($.if(release, $.if(/(videsktop|vendor|app)\.css$/,$.cssnano())))
     //.pipe($.filter('**/*.css'))
     //.pipe($.if(release, $.cssnano()))

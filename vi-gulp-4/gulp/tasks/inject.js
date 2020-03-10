@@ -13,7 +13,7 @@ var debug = argv._.indexOf("debug") == -1 ? false : true
 
 var injectStyles = gulp.src(
   [
-    path.join(conf.paths.src, "/app/**/*.css")
+    path.join(conf.paths.src, "/fonts/*.css")
     //path.join(conf.paths.tmp, '/serve/**/*.css')
     //path.join(conf.paths.tmp, '/serve/**/*.scss')
   ],
@@ -43,8 +43,8 @@ var injectEnvOptions = {
 
 var injectScripts = gulp
   .src([
-    path.join(conf.paths.src, "/app/**/*.module.js"),
-    path.join(conf.paths.src, "/app/**/*.js"),
+    path.join(conf.paths.src, "/js/common.js"),
+    path.join(conf.paths.src, "/js/application.js"),
     path.join("!" + conf.paths.src, "/app/**/env.js"),
     path.join("!" + conf.paths.src, "/app/**/devenv.js"),
     path.join("!" + conf.paths.src, "/app/**/*.spec.js"),
