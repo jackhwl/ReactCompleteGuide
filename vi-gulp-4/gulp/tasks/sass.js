@@ -32,6 +32,7 @@ module.exports = function() {
         //.pipe($.if(conf.userev, $.rev()))
         .pipe($.if(release, $.sourcemaps.write(".")))
         //.pipe($.flatten({ subPath: [1, 2] }))
+        //.pipe($.flatten())
         .pipe(gulp.dest(path.join(conf.paths.tmp, "dist")))
         // .pipe(
         //   $.if(

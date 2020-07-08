@@ -1,0 +1,654 @@
+﻿@charset "UTF-8";
+
+@font-face {
+  font-family: "viglobal";
+  src: url("../fonts/viglobal.eot");
+  src: url("../fonts/viglobal.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/viglobal.woff") format("woff"),
+    url("../fonts/viglobal.ttf") format("truetype"),
+    url("../fonts/viglobal.svg#viglobal") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+[data-icon]:before {
+  font-family: "viglobal" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="vi-"]:before,
+[class*=" vi-"]:before {
+  font-family: "viglobal" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.vi-account:before {
+  content: "\67";
+}
+.vi-accounts:before {
+  content: "\68";
+}
+.vi-account-o:before {
+  content: "\69";
+}
+.vi-account-add:before {
+  content: "\6b";
+}
+.vi-alert-circle:before {
+  content: "\6c";
+}
+.vi-alert-triangle:before {
+  content: "\6d";
+}
+.vi-apps:before {
+  content: "\6e";
+}
+.vi-arrow-right:before {
+  content: "\6f";
+}
+.vi-arrow-left:before {
+  content: "\70";
+}
+.vi-block:before {
+  content: "\71";
+}
+.vi-blur:before {
+  content: "\72";
+}
+.vi-calendar:before {
+  content: "\73";
+}
+.vi-calendar-note:before {
+  content: "\74";
+}
+.vi-chart:before {
+  content: "\75";
+}
+.vi-check:before {
+  content: "\76";
+}
+.vi-check-all:before {
+  content: "\77";
+}
+.vi-check-circle:before {
+  content: "\78";
+}
+.vi-chevron-right:before {
+  content: "\79";
+}
+.vi-chevron-down:before {
+  content: "\7a";
+}
+.vi-circle-o:before {
+  content: "\41";
+}
+.vi-circle:before {
+  content: "\42";
+}
+.vi-close:before {
+  content: "\43";
+}
+.vi-close-circle:before {
+  content: "\44";
+}
+.vi-comment-more:before {
+  content: "\45";
+}
+.vi-copy:before {
+  content: "\46";
+}
+.vi-delete:before {
+  content: "\47";
+}
+.vi-edit:before {
+  content: "\48";
+}
+.vi-email:before {
+  content: "\49";
+}
+.vi-eye:before {
+  content: "\4a";
+}
+.vi-file-text:before {
+  content: "\4b";
+}
+.vi-filter-list:before {
+  content: "\4c";
+}
+.vi-grid:before {
+  content: "\4d";
+}
+.vi-help:before {
+  content: "\4e";
+}
+.vi-home:before {
+  content: "\4f";
+}
+.vi-hourglass-alt:before {
+  content: "\50";
+}
+.vi-key:before {
+  content: "\51";
+}
+.vi-lock:before {
+  content: "\52";
+}
+.vi-lock-open:before {
+  content: "\53";
+}
+.vi-long-arrow-down:before {
+  content: "\54";
+}
+.vi-long-arrow-right:before {
+  content: "\55";
+}
+.vi-long-arrow-up:before {
+  content: "\56";
+}
+.vi-mail-send:before {
+  content: "\57";
+}
+.vi-menu:before {
+  content: "\58";
+}
+.vi-minus-circle-outline:before {
+  content: "\59";
+}
+.vi-minus-circle:before {
+  content: "\5a";
+}
+.vi-notifications-active:before {
+  content: "\30";
+}
+.vi-play:before {
+  content: "\31";
+}
+.vi-plus:before {
+  content: "\32";
+}
+.vi-plus-circle-o:before {
+  content: "\33";
+}
+.vi-print:before {
+  content: "\34";
+}
+.vi-refresh:before {
+  content: "\35";
+}
+.vi-refresh-alt:before {
+  content: "\36";
+}
+.vi-search:before {
+  content: "\37";
+}
+.vi-search-replace:before {
+  content: "\38";
+}
+.vi-skip-next:before {
+  content: "\39";
+}
+.vi-sort-asc:before {
+  content: "\21";
+}
+.vi-sort-desc:before {
+  content: "\22";
+}
+.vi-skip-previous:before {
+  content: "\23";
+}
+.vi-storage:before {
+  content: "\24";
+}
+.vi-swap-vertical:before {
+  content: "\25";
+}
+.vi-thumb-up:before {
+  content: "\26";
+}
+.vi-time-restore-setting:before {
+  content: "\27";
+}
+.vi-timer:before {
+  content: "\28";
+}
+.vi-triangle-down:before {
+  content: "\29";
+}
+.vi-triangle-up:before {
+  content: "\2a";
+}
+.vi-trending-down:before {
+  content: "\2b";
+}
+.vi-trending-flat:before {
+  content: "\2c";
+}
+.vi-trending-up:before {
+  content: "\2d";
+}
+.vi-unfold-less:before {
+  content: "\2e";
+}
+.vi-unfold-more:before {
+  content: "\2f";
+}
+.vi-settings:before {
+  content: "\3a";
+}
+.vi-wrench:before {
+  content: "\3b";
+}
+.vi-view-list:before {
+  content: "\3c";
+}
+.vi-view-list-alt:before {
+  content: "\3d";
+}
+.vi-time:before {
+  content: "\3e";
+}
+.vi-pin:before {
+  content: "\3f";
+}
+.vi-http:before {
+  content: "\40";
+}
+.vi-male-female:before {
+  content: "\5b";
+}
+.vi-collection-text:before {
+  content: "\5d";
+}
+.vi-label-alt-outline:before {
+  content: "\5e";
+}
+.vi-long-arrow-return:before {
+  content: "\5f";
+}
+.vi-case:before {
+  content: "\60";
+}
+.vi-toys:before {
+  content: "\7b";
+}
+.vi-chart-donut:before {
+  content: "\7d";
+}
+.vi-assignment-check:before {
+  content: "\7c";
+}
+.vi-puzzle-piece:before {
+  content: "\7e";
+}
+.vi-pin-account:before {
+  content: "\5c";
+}
+.vi-graduation-cap:before {
+  content: "\e000";
+}
+.vi-arrow-split:before {
+  content: "\e001";
+}
+.vi-view-dashboard:before {
+  content: "\e002";
+}
+.vi-long-arrow-left:before {
+  content: "\e003";
+}
+.vi-arrow-connected:before {
+  content: "\62";
+}
+.vi-arrow-disconnected:before {
+  content: "\63";
+}
+.vi-department:before {
+  content: "\64";
+}
+.vi-pin-alt:before {
+  content: "\66";
+}
+.vi-account-alt:before {
+  content: "\61";
+}
+.vi-arrow-right-thick:before {
+  content: "\e004";
+}
+.vi-file-excel-o:before {
+  content: "\e005";
+}
+.vi-file-pdf-o:before {
+  content: "\e006";
+}
+.vi-file-word-o:before {
+  content: "\e007";
+}
+.vi-chevron-up:before {
+  content: "\e008";
+}
+.vi-chevron-left:before {
+  content: "\e009";
+}
+.vi-info-circle:before {
+  content: "\e00a";
+}
+.vi-caret-down:before {
+  content: "\e00b";
+}
+.vi-caret-left:before {
+  content: "\e00c";
+}
+.vi-caret-right:before {
+  content: "\e00d";
+}
+.vi-caret-up:before {
+  content: "\e00e";
+}
+.vi-dot-circle:before {
+  content: "\e00f";
+}
+.vi-info-circle-o:before {
+  content: "\e010";
+}
+.vi-alert-circle-o:before {
+  content: "\e011";
+}
+.vi-help-outline:before {
+  content: "\e012";
+}
+.vi-dictionary:before {
+  content: "\e013";
+}
+.vi-accounts-list:before {
+  content: "\6a";
+}
+.vi-log-out:before {
+  content: "\e014";
+}
+.vi-database:before {
+  content: "\e019";
+}
+.vi-sort-order:before {
+  content: "\e01e";
+}
+.vi-bulk-update:before {
+  content: "\e015";
+}
+.vi-share:before {
+  content: "\e016";
+}
+.vi-accounts-alt:before {
+  content: "\e017";
+}
+.vi-forward:before {
+  content: "\e018";
+}
+.vi-team-leaders:before {
+  content: "\e01b";
+}
+.vi-team-members:before {
+  content: "\e01c";
+}
+.vi-required:before {
+  content: "\e01d";
+}
+.vi-star-o:before {
+  content: "\e01f";
+}
+.vi-star:before {
+  content: "\e020";
+}
+.vi-approve:before {
+  content: "\e022";
+}
+.vi-courses-trained:before {
+  content: "\e024";
+}
+.vi-courses-training:before {
+  content: "\e025";
+}
+.vi-curriculum:before {
+  content: "\e027";
+}
+.vi-file-type:before {
+  content: "\e028";
+}
+.vi-file-type-media:before {
+  content: "\e029";
+}
+.vi-thumb-up-alt:before {
+  content: "\e02b";
+}
+.vi-notifications-active-alt:before {
+  content: "\e02c";
+}
+.vi-calendar-alt:before {
+  content: "\e02d";
+}
+.vi-success:before {
+  content: "\e02e";
+}
+.vi-classroom:before {
+  content: "\e02f";
+}
+.vi-elearning:before {
+  content: "\e030";
+}
+.vi-trainers:before {
+  content: "\e031";
+}
+.vi-user-mapping:before {
+  content: "\e032";
+}
+.vi-dashboard-user:before {
+  content: "\e034";
+}
+.vi-save:before {
+  content: "\e035";
+}
+.vi-floppy:before {
+  content: "\e035";
+}
+.vi-lock-alt:before {
+  content: "\65";
+}
+.vi-event-info:before {
+  content: "\e03a";
+}
+.vi-status:before {
+  content: "\e03c";
+}
+.vi-courses-merge:before {
+  content: "\e03b";
+}
+.vi-topics:before {
+  content: "\e040";
+}
+.vi-learning-paths:before {
+  content: "\e03d";
+}
+.vi-courses-requested:before {
+  content: "\e037";
+}
+.vi-thumb-down-alt:before {
+  content: "\e03e";
+}
+.vi-registered:before {
+  content: "\e03f";
+}
+.vi-registration-cancelled:before {
+  content: "\e041";
+}
+.vi-courses:before {
+  content: "\e038";
+}
+.vi-registered-events:before {
+  content: "\e023";
+}
+.vi-events:before {
+  content: "\e036";
+}
+.vi-email-log:before {
+  content: "\e039";
+}
+.vi-pending-approval:before {
+  content: "\e044";
+}
+.vi-viewed:before {
+  content: "\e043";
+}
+.vi-external-link:before {
+  content: "\e045";
+}
+.vi-popup:before {
+  content: "\e046";
+}
+.vi-book:before {
+  content: "\e047";
+}
+.vi-change:before {
+  content: "\e048";
+}
+.vi-received:before {
+  content: "\e01a";
+}
+.vi-calendar-background:before {
+  content: "\e054";
+}
+.vi-add-user:before {
+  content: "\e021";
+}
+.vi-certificate:before {
+  content: "\e026";
+}
+.vi-credits:before {
+  content: "\e02a";
+}
+.vi-export-csv:before {
+  content: "\e049";
+}
+.vi-import-csv:before {
+  content: "\e04a";
+}
+.vi-import-user:before {
+  content: "\e04b";
+}
+.vi-sync-with-webex:before {
+  content: "\e04f";
+}
+.vi-sync-with-csv:before {
+  content: "\e050";
+}
+.vi-roster:before {
+  content: "\e051";
+}
+.vi-waitlisted:before {
+  content: "\e058";
+}
+.vi-webcast:before {
+  content: "\e059";
+}
+.vi-print-feedback:before {
+  content: "\e05a";
+}
+.vi-feedback:before {
+  content: "\e05b";
+}
+.vi-view-feedback:before {
+  content: "\e05c";
+}
+.vi-edit-certificate:before {
+  content: "\e033";
+}
+.vi-edit-roster:before {
+  content: "\e042";
+}
+.vi-print-certificates:before {
+  content: "\e04c";
+}
+.vi-print-credits:before {
+  content: "\e04d";
+}
+.vi-view-roster:before {
+  content: "\e04e";
+}
+.vi-view-credits:before {
+  content: "\e053";
+}
+.vi-view-certificate:before {
+  content: "\e055";
+}
+.vi-update-credits:before {
+  content: "\e056";
+}
+.vi-print-roster:before {
+  content: "\e057";
+}
+.vi-refine:before {
+  content: "\e05d";
+}
+.vi-delete-o:before {
+  content: "\e05f";
+}
+.vi-email-scheduled:before {
+  content: "\e05e";
+}
+.vi-delete-certificate:before {
+  content: "\e060";
+}
+.vi-permissions:before {
+  content: "\e062";
+}
+.vi-remove-user:before {
+  content: "\e052";
+}
+.vi-delete-credits:before {
+  content: "\e061";
+}
+.vi-email-link:before {
+  content: "\e063";
+}
+.vi-email-certificates:before {
+  content: "\e064";
+}
+.vi-information:before {
+  content: "\e066";
+}
+.vi-information-alt:before {
+  content: "\e067";
+}
+.vi-reciprocal-credits:before {
+  content: "\e068";
+}
+.vi-room-schedule:before {
+  content: "\e069";
+}
+.vi-apply-credits:before {
+  content: "\e06a";
+}
+.vi-create-certificate:before {
+  content: "\e06b";
+}
+.vi-infinity:before {
+  content: "\e065";
+}
+.vi-more:before {
+  content: "\e06c";
+}
+.vi-star-half-o:before {
+  content: "\e06d";
+}
